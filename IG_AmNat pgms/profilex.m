@@ -1,3 +1,4 @@
+function profilex
 profile on
 IG_AmNat;
 profile off
