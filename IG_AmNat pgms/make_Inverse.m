@@ -15,4 +15,4 @@ Vh=Vh./det(Vh)^(1/p);
 Vp=Vp./det(Vp)^(1/q);
 V=kron(Vp,Vh);
 
-invV=V\eye(n);
+invV=V\eye(n)
