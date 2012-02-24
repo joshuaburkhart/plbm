@@ -5,9 +5,6 @@ global initVh initVp n p q X tau1 tau2
 d1=abs(parameter(1));
 d2=abs(parameter(2));
 
-first_param=d1
-second_param=d2
-
 % calculate the covariance matrices under the OU process (eq A.1)
 Vh=(d1.^tau1).*(1-d1.^(2*initVh))./(1-d1^2);
 Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);

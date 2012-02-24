@@ -2,7 +2,7 @@ function MSE=make_MSE(parameter)
 
 global initVh initVp n p q X tau1 tau2
 
-invV=parameter(1);
+invV=parameter;
 
 % compute the phylogenetic mean (eq. A.2)
 U=ones(length(X),1);
