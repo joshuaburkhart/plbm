@@ -57,6 +57,7 @@ int main(void){
   return 0;
 }
 
+//reference: http://cboard.cprogramming.com/cplusplus-programming/30001-determinant-calculation.html
 double matrx_det(double *A,int n){
   int i, j, k;
   double **m;
