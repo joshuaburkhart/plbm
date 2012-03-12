@@ -15,8 +15,10 @@ double* kron(double *A,int ma,int na,double *B,int mb,int nb);
 double* tran(double *A,int m,int n);
 double* ones(int m,int n);
 double matrx_det(double *A,int n);
-//reference: http://www.netlib.org/lapack/double/dgesv.f
+//reference: http://www.netlib.org/lapack/double
 void dgesv_(const int *N, const int *nrhs,double *A,const int *lda,int *ipiv,double *b,const int *ldb,int *info);
+void dgetrf_(int* M, int *N, double* A, int* lda, int* IPIV, int* INFO);
+void dgetri_(int* N, double* A, int* lda, int* IPIV, double* WORK, int* lwork, int* INFO);
 double* array_pow(double d,double *A,int m,int n);
 double* array_mlt(double *A,int m,int n,double *B);
 double* matrx_mlt(double d,double *A,int ma,int na);
