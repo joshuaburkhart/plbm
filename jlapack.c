@@ -9,13 +9,13 @@
 void output(double *matrix,int m,int n);
 double* eye(int n);
 double* kron(double *A,int ma,int na,double *B,int mb,int nb);
-double* tran(double *A,int ma,int na);
+double* tran(double *A,int m,int n);
 double* ones(int m,int n);
 double matrx_det(double *A,int n);
 void dgesv_(const int *N, const int *nrhs,double *A,const int *lda,int *ipiv,double *b,const int *ldb,int *info);
 void dgels_(const char *trans,const int *M,const int *N,const int *nrhs,double *A,const int *lda,double *b,const int *ldb,double *work,const int * lwork,int *info);
-double* array_pow(double d,double *A,int ma,int na);
-double* array_mlt(double *A,int ma,int na,double *B,int mb,int nb);
+double* array_pow(double d,double *A,int m,int n);
+double* array_mlt(double *A,int m,int n,double *B);
 double* matrx_mlt(double d,double *A,int ma,int na);
 double* matrx_mlt2(double *A,int ma,int na,double *B,int mb,int nb);
 double* matrx_sub(double d,double *A,int ma,int na);
@@ -59,23 +59,42 @@ int main(void){
   result=array_pow(5.00,A,2,2);
   output(result,2,2);
 
+  printf("---------------array_mlt\n");
+
+  result=array_mlt(A,2,2,B);
+  output(result,2,2);
+
   free(result);
   return 0;
 }
 
-double* array_pow(double d,double *A,int ma,int na){
+double* array_mlt(double *A,int m,int n,double *B){
 
   double *pdct;
-  pdct=(double *) malloc(ma*na*sizeof(double));
+  pdct=(double *) malloc(m*n*sizeof(double));
   int i;
   int j;
-  for(i=0;i<ma;i++){
-    for(j=0;j<na;j++){
+  for(i=0;i<m;i++){
+    for(j=0;j<n;j++){
+        *(pdct+(i*n+j))=*(A+(i*n+j)) * *(B+(i*n+j));
+    }
+  }
+  return pdct;
+}
+
+double* array_pow(double d,double *A,int m,int n){
+
+  double *pdct;
+  pdct=(double *) malloc(m*n*sizeof(double));
+  int i;
+  int j;
+  for(i=0;i<m;i++){
+    for(j=0;j<n;j++){
       if(d>0){
-        *(pdct+(i*na+j))=pow(d,*(A+(i*na+j)));
+        *(pdct+(i*n+j))=pow(d,*(A+(i*n+j)));
       }
       else{
-        *(pdct+(i*na+j))=-1 * pow(abs(d),*(A+(i*na+j)));
+        *(pdct+(i*n+j))=-1 * pow(abs(d),*(A+(i*n+j)));
       }
     }
   }
@@ -168,15 +187,15 @@ double* kron(double *A,int ma,int na,double *B,int mb,int nb){
   return k;
 }
 
-double* tran(double *A,int ma,int na){
+double* tran(double *A,int m,int n){
 
   double* t;
-  t = (double *) malloc(ma*na*sizeof(double));
+  t = (double *) malloc(m*n*sizeof(double));
   int i;
   int j;
-  for(i=0;i<ma;i++){
-    for(j=0;j<na;j++){
-      *(t+(i+j*ma))=*(A+(i*na+j));
+  for(i=0;i<m;i++){
+    for(j=0;j<n;j++){
+      *(t+(i+j*m))=*(A+(i*n+j));
     }
   }
   return t;
