@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "jlapack.h"
@@ -51,6 +52,8 @@ int funct(double d1,double d2){
   printf("d1: %f\nd2: %f\n",d1,d2);
   */
 
+//Vh=(d1.^tau1).*(1-d1.^(2*initVh))./(1-d1^2);--------------------------------------Vh
+
   double *A = array_pow(d1,a_tau1,p,p);
   double *B = matrx_mlt(2,a_initVh,p,p);
   double *C = array_pow(d1,B,p,p);
@@ -71,7 +74,9 @@ int funct(double d1,double d2){
   printf("omd1: %f\n",omd1);
   output(Vh,p,p);
   */
-  
+
+//Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);-------------------------------------Vp
+
   A = array_pow(d2,a_tau2,q,q);
   B = matrx_mlt(2,a_initVp,q,q);
   C = array_pow(d2,B,q,q);
@@ -82,6 +87,7 @@ int funct(double d1,double d2){
 
   double *Vp = array_rdv(E,q,q,omd1);
 
+  /*
   output(A,q,q);
   output(B,q,q);
   output(C,q,q);
@@ -90,6 +96,23 @@ int funct(double d1,double d2){
   printf("d2sq: %f\n",d2sq);
   printf("omd2: %f\n",omd2);
   output(Vp,q,q);
+  */
+
+//Vh=Vh./det(Vh)^(1/p);-----------------------------------Vh
+
+  double dtm = matrx_det(Vh,p);
+  double dtm21op = pow(dtm,(1/p));
+  Vh = array_rdv(Vh,p,p,dtm21op);
+
+  output(Vh,p,p);
+
+//Vp=Vp./det(Vp)^(1/q);-----------------------------------Vp
+//V=kron(Vp,Vh);-----------------------------------V
+//invV=V\eye(n);-----------------------------------invV
+//U=ones(length(X),1);-----------------------------------U
+//b=(U'*invV*U)\(U'*invV*X);-----------------------------------b
+//H=X-b;-----------------------------------H
+//MSE=(H'*invV*H)/(n-1);-----------------------------------MSE
 
   free(A);
   free(B);
