@@ -16,7 +16,7 @@ int main(int argc,char *argv[]){
   double d2;
   int i;
   if(argc!=3){
-    printf("argument mismatch: you must supply d1 and d2 as doubles...aborting\n");
+    printf("argument mismatch: you must supply d1 and d2 as doubles...aborting\n\n");
     return -1;
   }
   if(sizeof(double)==sizeof(argv[1])){
@@ -29,7 +29,6 @@ int main(int argc,char *argv[]){
   }else{
     return -3;
   }
-  printf("d1: %f\nd2: %f\n",d1,d2);
   
   output(a_initVh,p,p);
   output(a_initVp,q,q);
@@ -39,6 +38,25 @@ int main(int argc,char *argv[]){
   output(a_X,n,1);
   output(a_tau1,p,p);
   output(a_tau2,q,q);
+  printf("d1: %f\nd2: %f\n",d1,d2);
+ 
+  double *A = array_pow(d1,a_tau1,p,p);
+  double *B = matrx_mlt(2,a_initVh,p,p);
+  double *C = array_pow(d1,B,p,p);
+  double *D = matrx_sub(1,C,p,p);
+  double *E = array_mlt(A,p,p,D);
+  double d1sq = d1*d1;
+  double omd1 = 1 - d1;
 
+  double *Vh = array_rdv(E,p,p,omd1);
+
+  output(Vh,p,p);
+
+  free(A);
+  free(B);
+  free(C);
+  free(D);
+  free(E);
+  free(Vh);  
   return 0;
 }
