@@ -10,16 +10,16 @@ double* eye(int n);
 double* kron(double *A,int ma,int na,double *B,int mb,int nb);
 double* tran(double *A,int ma,int na);
 double* ones(int m,int n);
-double* array_pow(double *A,int ma,int na,int p);
-double* matrx_pow(double *A,int ma,int na,int p);
-double* array_mlt(double *A,int ma,int na,double *B,int mb,int nb);
-double* matrx_mlt(double *A,int ma,int na,double *B,int mb,int nb);
-double* matrx_sub(double *A,int ma,int na);
-double* array_rdv(double *A,int ma,int na,int d);
-double* matrx_rdv(double *A,int ma,int na,int d);
 double matrx_det(double *A,int n);
 void dgesv_(const int *N, const int *nrhs,double *A,const int *lda,int *ipiv,double *b,const int *ldb,int *info);
 void dgels_(const char *trans,const int *M,const int *N,const int *nrhs,double *A,const int *lda,double *b,const int *ldb,double *work,const int * lwork,int *info);
+double* array_pow(double d,double *A,int ma,int na);
+double* array_mlt(double *A,int ma,int na,double *B,int mb,int nb);
+double* matrx_mlt(double d,double *A,int ma,int na);
+double* matrx_mlt(double *A,int ma,int na,double *B,int mb,int nb);
+double* matrx_sub(double d,double *A,int ma,int na);
+double* matrx_sub(double *A,int ma,int na,double *B,int mb,int nb);
+double* array_rdv(double *A,int ma,int na,double d);
 
 int main(void){
 
