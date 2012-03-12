@@ -20,7 +20,7 @@ double* matrx_mlt(double d,double *A,int ma,int na);
 double* matrx_mlt2(double *A,int ma,int na,double *B,int mb,int nb);
 double* matrx_sub(double d,double *A,int m,int n);
 double* matrx_sub2(double *A,int m,int n,double *B);
-double* array_rdv(double *A,int ma,int na,double d);
+double* array_rdv(double *A,int m,int n,double d);
 
 int main(void){
 
@@ -58,7 +58,7 @@ int main(void){
 
   result=array_pow(5.00,A,2,2);
   output(result,2,2);
-
+  
   printf("---------------array_mlt\n");
 
   result=array_mlt(A,2,2,B);
@@ -79,13 +79,32 @@ int main(void){
   result=matrx_sub(5.00,A,2,2);
   output(result,2,2);
 
-  printf("---------------matrx_sub\n");
+  printf("---------------matrx_sub2\n");
 
   result=matrx_sub2(A,2,2,B);
   output(result,2,2);
 
+  printf("---------------array_rdv\n");
+
+  result=array_rdv(A,2,2,5.00);
+  output(result,2,2);
+
   free(result);
   return 0;
+}
+
+double* array_rdv(double *A,int m,int n,double d){
+
+  double *diff;
+  diff=(double *) malloc(m*n*sizeof(double));
+  int i;
+  int j;
+  for(i=0;i<m;i++){
+    for(j=0;j<n;j++){
+        *(diff+(i*n+j))=*(A+(i*n+j)) / d;
+    }
+  }
+  return diff;
 }
 
 double* matrx_sub2(double *A,int m,int n,double *B){
