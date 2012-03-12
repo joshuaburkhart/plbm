@@ -64,8 +64,51 @@ int main(void){
   result=array_mlt(A,2,2,B);
   output(result,2,2);
 
+  printf("---------------matrx_mlt\n");
+
+  result=matrx_mlt(5.00,A,2,2);
+  output(result,2,2);
+
+  printf("---------------matrx_mlt2\n");
+
+  result=matrx_mlt2(A,2,2,B,2,2);
+  output(result,2,2);
+
   free(result);
   return 0;
+}
+
+double* matrx_mlt2(double *A,int ma,int na,double *B,int mb,int nb){
+
+  double *pdct;
+  pdct=(double *) malloc(ma*nb*sizeof(double));
+  int i;
+  int j;
+  int k;
+  for(i=0;i<ma;i++){
+    for(j=0;j<nb;j++){
+      double sum=0;
+      for(k=0;k<na;k++){
+        sum+=*(A+(i*na+k)) * *(B+(j+k*mb));
+      }
+      *(pdct+(i*nb+j))=sum;
+    }
+  }
+  return pdct; 
+}
+
+double* matrx_mlt(double d,double *A,int m,int n){
+
+  double *pdct;
+  pdct=(double *) malloc(m*n*sizeof(double));
+  int i;
+  int j;
+  for(i=0;i<m;i++){
+    for(j=0;j<n;j++){
+        *(pdct+(i*n+j))=*(A+(i*n+j)) * d;
+    }
+  }
+  return pdct;
 }
 
 double* array_mlt(double *A,int m,int n,double *B){
