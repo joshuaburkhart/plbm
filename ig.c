@@ -46,10 +46,17 @@ int main(int argc,char *argv[]){
   double *D = matrx_sub(1,C,p,p);
   double *E = array_mlt(A,p,p,D);
   double d1sq = d1*d1;
-  double omd1 = 1 - d1;
+  double omd1 = 1 - d1sq;
 
   double *Vh = array_rdv(E,p,p,omd1);
 
+  output(A,p,p);
+  output(B,p,p);
+  output(C,p,p);
+  output(D,p,p);
+  output(E,p,p);
+  printf("d1sq: %f\n",d1sq);
+  printf("omd1: %f\n",omd1);
   output(Vh,p,p);
 
   free(A);
