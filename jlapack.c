@@ -1,3 +1,4 @@
+#include <math.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,9 +17,9 @@ void dgels_(const char *trans,const int *M,const int *N,const int *nrhs,double *
 double* array_pow(double d,double *A,int ma,int na);
 double* array_mlt(double *A,int ma,int na,double *B,int mb,int nb);
 double* matrx_mlt(double d,double *A,int ma,int na);
-double* matrx_mlt(double *A,int ma,int na,double *B,int mb,int nb);
+double* matrx_mlt2(double *A,int ma,int na,double *B,int mb,int nb);
 double* matrx_sub(double d,double *A,int ma,int na);
-double* matrx_sub(double *A,int ma,int na,double *B,int mb,int nb);
+double* matrx_sub2(double *A,int ma,int na,double *B,int mb,int nb);
 double* array_rdv(double *A,int ma,int na,double d);
 
 int main(void){
@@ -53,8 +54,32 @@ int main(void){
   double d=matrx_det(A,2);
   printf("%f\n",d);
 
+  printf("---------------array_pow\n");
+
+  result=array_pow(5.00,A,2,2);
+  output(result,2,2);
+
   free(result);
   return 0;
+}
+
+double* array_pow(double d,double *A,int ma,int na){
+
+  double *pdct;
+  pdct=(double *) malloc(ma*na*sizeof(double));
+  int i;
+  int j;
+  for(i=0;i<ma;i++){
+    for(j=0;j<na;j++){
+      if(d>0){
+        *(pdct+(i*na+j))=pow(d,*(A+(i*na+j)));
+      }
+      else{
+        *(pdct+(i*na+j))=-1 * pow(abs(d),*(A+(i*na+j)));
+      }
+    }
+  }
+  return pdct;
 }
 
 //reference: http://cboard.cprogramming.com/cplusplus-programming/30001-determinant-calculation.html
