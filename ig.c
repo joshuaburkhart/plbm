@@ -84,7 +84,6 @@ int funct(double d1,double d2){
   E = array_mlt(A,q,q,D);
   double d2sq = d2*d2;
   double omd2 = 1 - d2sq;
-
   double *Vp = array_rdv(E,q,q,omd1);
 
   /*
@@ -104,16 +103,50 @@ int funct(double d1,double d2){
   double dtm21op = pow(dtm,(1/p));
   Vh = array_rdv(Vh,p,p,dtm21op);
 
+  /*
   output(Vh,p,p);
+  */
 
 //Vp=Vp./det(Vp)^(1/q);-----------------------------------Vp
+
+  dtm = matrx_det(Vp,q);
+  double dtm21oq = pow(dtm,(1/q));
+  Vp = array_rdv(Vp,q,q,dtm21oq);
+
+  /*
+  output(Vp,q,q);
+  */
+
 //V=kron(Vp,Vh);-----------------------------------V
+
+  double *V = kron(Vp,q,q,Vh,p,p);
+
+  /*
+  output(V,p*q,p*q);
+  */
+
 //invV=V\eye(n);-----------------------------------invV
+//reference: http://www.netlib.org/lapack/double/dgesv.f
+
+  double *invV = eye(n); //goes in as 'b' ... comes out as 'X'
+  int N = n;
+  int nrhs = n;
+  int lda = n;
+  int ipiv[(int) n];
+  int ldb = n;
+  int info;
+  dgesv_(&N,&nrhs,V,&lda,ipiv,invV,&ldb,&info);
+
+  output(invV,n,n);
+
 //U=ones(length(X),1);-----------------------------------U
 //b=(U'*invV*U)\(U'*invV*X);-----------------------------------b
 //H=X-b;-----------------------------------H
 //MSE=(H'*invV*H)/(n-1);-----------------------------------MSE
 
+  free(invV);
+  free(Vp);
+  free(V);
   free(A);
   free(B);
   free(C);
