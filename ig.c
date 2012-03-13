@@ -180,14 +180,33 @@ int funct(double d1,double d2){
   double c = *(C);//C should be a 1 x 1 matrix
   double d = *(D);//D should be a 1 x 1 matrix
   double b = d/c;
-  
+ 
+  /* 
   printf("c = %f\n",c);
   printf("d = %f\n",d);
   printf("b = %f\n",b);
+  */
 
 //H=X-b;-----------------------------------H
+
+  double *H = matrx_sub3(a_X,n,1,b);
+
+  /*
+  output(H,n,1);
+  */
+
 //MSE=(H'*invV*H)/(n-1);-----------------------------------MSE
 
+  A = tran(H,n,1);
+  B = matrx_mlt2(A,1,n,invV,n,n);
+  C = matrx_mlt2(B,1,n,H,n,1);
+  c = *(C);//C should be a 1 x 1 matrix
+  double MSE = c/(n -1);
+
+  printf("MSE = %f\n",MSE);
+
+//freeing up space
+  free(H);
   free(invV);
   free(Vp);
   free(V);
