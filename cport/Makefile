@@ -9,4 +9,4 @@ ig: asa047.o jlapack.o ig.o
 	$(LINK.cc) -o a.ig.out asa047.o jlapack.o ig.o -lm -llapack -lblas
 
 clean:
-	rm -rf *.out *.o
+	rm -rf *.out *.o *.orig

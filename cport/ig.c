@@ -12,36 +12,48 @@ extern double n;
 extern double p;
 extern double q;
 
-double funct(double d1, double d2);
+double funct(double *d1_d2);
 
 int main(int argc,char *argv[]) {
-    double d1;
-    double d2;
+    double *d1_d2;
     int i;
+    d1_d2 = (double *) malloc(2 * sizeof(double));
     if(argc!=3) {
         printf("argument mismatch: you must supply d1 and d2 as doubles...aborting\n\n");
         return -1;
     }
     if(sizeof(double)==sizeof(argv[1])) {
-        d1 = atof(argv[1]);
+        *(d1_d2) = atof(argv[1]);
     } else {
         return -2;
     }
     if(sizeof(double)==sizeof(argv[2])) {
-        d2 = atof(argv[2]);
+        *(d1_d2+1) = atof(argv[2]);
     } else {
         return -3;
     }
 
-    printf("funct returns %f\n",funct(d1,d2));
+    printf("funct returns %f\n",funct(d1_d2));
 
     //reference: http://people.sc.fsu.edu/~jburkardt/cpp_src/asa047/asa047.html
-    //nelmin(;
-
+    double XMIN[2];
+    double YNEWLO;
+    double REQMIN = 1; // This is an epsilon value .... ? what should it be?
+    double STEP[2]; //size and shape of initial simplex.... what should it be?
+    int KONVGE = 100; //convergence check carried out every KONVGE iteration..sqrt of max iterations should be optimal
+    int *ICOUNT; //number of evaluations. how much space to allocate?
+    int *NUMRES; //number of restarts. how much space to allocate?
+    int *IFAULT; //error indicator. how much space to allocate?
+    //nelmin(funct,2,d1_d2,XMIN,YNEWLO,REQMIN,STEP,KONVGE,ICOUNT,NUMRES,IFAULT);
+    
+    free(d1_d2);
     return 0;
 }
 
-double funct(double d1,double d2) {
+double funct(double *d1_d2) {
+    
+    double d1 = *(d1_d2);
+    double d2 = *(d1_d2+1);
 
     /*
     output(a_initVh,p,p);
