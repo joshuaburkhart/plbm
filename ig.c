@@ -121,7 +121,9 @@ int funct(double d1,double d2){
 
   double *V = kron(Vp,q,q,Vh,p,p);
 
+  /*
   output(V,n,n);
+  */
 
 //invV=V\eye(n);-----------------------------------invV
 //reference: http://www.netlib.org/lapack/double
@@ -134,9 +136,15 @@ int funct(double d1,double d2){
   int lwork=N*N;
   double work[lwork];
   dgetrf_(&N,&N,A,&lda,ipiv,&info);
-  info = 0;
+  if(info!=0){
+    printf("dgetrf returns info code %i\n",info);
+    info = 0;
+  }
   dgetri_(&N,A,&lda,ipiv,work,&lwork,&info);
- 
+  if(info!=0){
+    printf("dgetri returns info code %i\n",info);
+  }
+
   /* 
   int nrhs=N;
   B = eye(n);
