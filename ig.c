@@ -129,6 +129,7 @@ int funct(double d1,double d2){
 //reference: http://www.netlib.org/lapack/double
   
   A = tran(V,n,n); //row major -> column major
+  double *invV;
   int N=n;
   int lda=N;
   int ipiv[N];
@@ -154,24 +155,41 @@ int funct(double d1,double d2){
   */
 
   if(info==0){
-    V = tran(A,n,n); //column major -> row major
+    invV = tran(A,n,n); //column major -> row major
    
     /*
-    output(V,n,n);
+    output(invV,n,n);
     */
   }
 
 //U=ones(length(X),1);-----------------------------------U
 
   double *U = ones(n,1);
-  
+ 
+  /*
   output(U,n,1);
+  */
 
 //b=(U'*invV*U)\(U'*invV*X);-----------------------------------b
+
+  A = tran(U,n,1);
+  B = matrx_mlt2(A,1,n,invV,n,n);
+
+  output(B,1,n);
+
+  //C = matrx_mlt2(B,1,n,U,n,1);
+  //D = matrx_mlt2(B,1,n,a_X,n,1);
+  
+  //double c = *(C);//C should be a 1 x 1 matrix
+  //double d = *(D);//D should be a 1 x 1 matrix
+  //double b = c/d;
+  
+  //printf("b = %f\n",b);
+
 //H=X-b;-----------------------------------H
 //MSE=(H'*invV*H)/(n-1);-----------------------------------MSE
 
-  //free(invV);
+  free(invV);
   free(Vp);
   free(V);
   free(A);
