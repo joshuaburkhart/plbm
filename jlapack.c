@@ -145,7 +145,7 @@ double* matrx_mlt2(double *A,int ma,int na,double *B,int mb,int nb){
     for(j=0;j<nb;j++){
       double sum=0;
       for(k=0;k<na;k++){
-        sum+=*(A+(i*na+k)) * *(B+(j+k*mb));
+        sum+=*(A+(i*na+k)) * *(B+(j+k*nb));
       }
       *(pdct+(i*nb+j))=sum;
     }
