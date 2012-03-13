@@ -155,10 +155,18 @@ int funct(double d1,double d2){
 
   if(info==0){
     V = tran(A,n,n); //column major -> row major
+   
+    /*
     output(V,n,n);
+    */
   }
 
 //U=ones(length(X),1);-----------------------------------U
+
+  double *U = ones(n,1);
+  
+  output(U,n,1);
+
 //b=(U'*invV*U)\(U'*invV*X);-----------------------------------b
 //H=X-b;-----------------------------------H
 //MSE=(H'*invV*H)/(n-1);-----------------------------------MSE
