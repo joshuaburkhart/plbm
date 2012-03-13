@@ -121,30 +121,41 @@ int funct(double d1,double d2){
 
   double *V = kron(Vp,q,q,Vh,p,p);
 
-  /*
-  output(V,p*q,p*q);
-  */
+  output(V,n,n);
 
 //invV=V\eye(n);-----------------------------------invV
-//reference: http://www.netlib.org/lapack/double/dgesv.f
-
-  double *invV = eye(n); //goes in as 'b' ... comes out as 'X'
-  int N = n;
-  int nrhs = n;
-  int lda = n;
-  int ipiv[(int) n];
-  int ldb = n;
+//reference: http://www.netlib.org/lapack/double
+  
+  A = tran(V,n,n); //row major -> column major
+  int N=n;
+  int lda=N;
+  int ipiv[N];
   int info;
-  dgesv_(&N,&nrhs,V,&lda,ipiv,invV,&ldb,&info);
+  int lwork=N*N;
+  double work[lwork];
+  dgetrf_(&N,&N,A,&lda,ipiv,&info);
+  info = 0;
+  dgetri_(&N,A,&lda,ipiv,work,&lwork,&info);
+ 
+  /* 
+  int nrhs=N;
+  B = eye(n);
+  int ldb=N;
+  dgesv_(&N,&nrhs,A,&lda,ipiv,B,&ldb,&info);
+  printf("dgesv returns info status %i\n",info);
+  */
 
-  output(invV,n,n);
+  if(info==0){
+    V = tran(A,n,n); //column major -> row major
+    output(V,n,n);
+  }
 
 //U=ones(length(X),1);-----------------------------------U
 //b=(U'*invV*U)\(U'*invV*X);-----------------------------------b
 //H=X-b;-----------------------------------H
 //MSE=(H'*invV*H)/(n-1);-----------------------------------MSE
 
-  free(invV);
+  //free(invV);
   free(Vp);
   free(V);
   free(A);

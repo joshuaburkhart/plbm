@@ -277,11 +277,19 @@ double* kron(double *A,int ma,int na,double *B,int mb,int nb){
   k = (double *) malloc(ma*mb*na*nb*sizeof(double));
   int i;
   int j;
+  int min_m = ma < mb ? ma : mb;
+  int min_n = na < nb ? na : nb;
   for(i=0;i<ma*mb;i++){
     for(j=0;j<na*nb;j++){
-      double val=*(A+((i/ma)*na+j/na)) * *(B+((i%mb)*nb+j%nb));
+      int a_row = i/min_m;
+      int a_col = j/min_n;
+      int b_row = i%min_m;
+      int b_col = j%min_n;
+      //printf("A[%i][%i],B[%i][%i] ",a_row,a_col,b_row,b_col);
+      double val=*(A+(a_row*na+a_col)) * *(B+(b_row*nb+b_col));
       *(k+((i*na*nb)+j))=val;
     }
+    //printf("\n");
   }
   return k;
 }
