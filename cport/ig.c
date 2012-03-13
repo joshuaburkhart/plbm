@@ -33,7 +33,10 @@ int main(int argc,char *argv[]){
     return -3;
   }
  
-  funct(d1,d2);   
+  //funct(d1,d2);   
+  
+  //reference: http://people.sc.fsu.edu/~jburkardt/cpp_src/asa047/asa047.html  
+  //nelmin(.... options ...); 
 
   return 0;
 }
