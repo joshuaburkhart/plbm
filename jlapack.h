@@ -25,4 +25,5 @@ double* matrx_mlt(double d,double *A,int ma,int na);
 double* matrx_mlt2(double *A,int ma,int na,double *B,int mb,int nb);
 double* matrx_sub(double d,double *A,int m,int n);
 double* matrx_sub2(double *A,int m,int n,double *B);
+double* matrx_sub3(double *A,int m,int n,double d);
 double* array_rdv(double *A,int m,int n,double d);

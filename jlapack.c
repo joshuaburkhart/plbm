@@ -106,6 +106,21 @@ double* array_rdv(double *A,int m,int n,double d){
   return diff;
 }
 
+double* matrx_sub3(double *A,int m,int n,double d){
+
+  double *diff;
+  diff=(double *) malloc(m*n*sizeof(double));
+  int i;
+  int j;
+  for(i=0;i<m;i++){
+    for(j=0;j<n;j++){
+        *(diff+(i*n+j))=*(A+(i*n+j)) - d;
+    }
+  }
+  return diff;
+}
+
+
 double* matrx_sub2(double *A,int m,int n,double *B){
 
   double *diff;
