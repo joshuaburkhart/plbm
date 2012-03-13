@@ -174,17 +174,16 @@ int funct(double d1,double d2){
 
   A = tran(U,n,1);
   B = matrx_mlt2(A,1,n,invV,n,n);
-
-  output(B,1,n);
-
-  //C = matrx_mlt2(B,1,n,U,n,1);
-  //D = matrx_mlt2(B,1,n,a_X,n,1);
+  C = matrx_mlt2(B,1,n,U,n,1);
+  D = matrx_mlt2(B,1,n,a_X,n,1);
   
-  //double c = *(C);//C should be a 1 x 1 matrix
-  //double d = *(D);//D should be a 1 x 1 matrix
-  //double b = c/d;
+  double c = *(C);//C should be a 1 x 1 matrix
+  double d = *(D);//D should be a 1 x 1 matrix
+  double b = d/c;
   
-  //printf("b = %f\n",b);
+  printf("c = %f\n",c);
+  printf("d = %f\n",d);
+  printf("b = %f\n",b);
 
 //H=X-b;-----------------------------------H
 //MSE=(H'*invV*H)/(n-1);-----------------------------------MSE
