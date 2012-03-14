@@ -164,12 +164,10 @@ double funct(double *d1_d2) {
     dgetrf_(&N,&N,A,&lda,ipiv,&info);
     if(info!=0) {
         printf("dgetrf returns info code %i\n",info);
-	return 1/0;
     }
     dgetri_(&N,A,&lda,ipiv,work,&lwork,&info);
     if(info!=0) {
         printf("dgetri returns info code %i\n",info);
-	return 1/0;
     }
 
     /*
