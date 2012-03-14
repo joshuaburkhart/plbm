@@ -148,7 +148,7 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
         return;
     }
     //p = new double[n*(n+1)];
-    p = (double *) malloc(n * (n-1) * sizeof(double));
+    p = (double *) malloc(n * (n+1) * sizeof(double));
     //pstar = new double[n];
     pstar = (double *) malloc(n * sizeof(double));
     //p2star = new double[n];
