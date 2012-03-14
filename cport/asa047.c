@@ -168,6 +168,7 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
     //
     //  Initial or restarted loop.
     //
+    printf("beginning initial for loop\n");
     for ( ; ; )
     {
         for ( i = 0; i < n; i++ )
@@ -480,6 +481,7 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
         del = eps;
         *numres = *numres + 1;
     }
+    printf("freeing allocated memory\n");
     free(p);
     free(pstar);
     free(p2star);
