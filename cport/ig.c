@@ -89,7 +89,6 @@ double funct(double *d1_d2) {
     double omd1 = 1 - d1sq;
     double *Vh = array_rdv(E,p,p,omd1);
 
-    /*
     output(A,p,p);
     output(B,p,p);
     output(C,p,p);
@@ -98,7 +97,6 @@ double funct(double *d1_d2) {
     printf("d1sq: %f\n",d1sq);
     printf("omd1: %f\n",omd1);
     output(Vh,p,p);
-    */
 
 //Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);-------------------------------------Vp
 
@@ -111,7 +109,6 @@ double funct(double *d1_d2) {
     double omd2 = 1 - d2sq;
     double *Vp = array_rdv(E,q,q,omd2);
 
-    /*
     output(A,q,q);
     output(B,q,q);
     output(C,q,q);
@@ -120,7 +117,6 @@ double funct(double *d1_d2) {
     printf("d2sq: %f\n",d2sq);
     printf("omd2: %f\n",omd2);
     output(Vp,q,q);
-    */
 
 //Vh=Vh./det(Vh)^(1/p);-----------------------------------Vh
     double dtm = matrx_det(Vh,p);
