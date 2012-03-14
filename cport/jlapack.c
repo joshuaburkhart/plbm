@@ -216,6 +216,8 @@ double* array_pow(double d,double *A,int m,int n) {
 }
 
 double matrx_det(double *A,int n) {
+    output(A,n,n);
+    printf("\n");
     A = tran(A,n,n); //row major -> column major
     int N=n;
     int lda=N;
@@ -228,12 +230,13 @@ double matrx_det(double *A,int n) {
         printf("dgetrf returns info code %i\n",info);
     }
     A = tran(A,n,n);
+    output(A,n,n);
     double diag=1;
     int i;
     for(i = 0; i < n; i++) {
         double multiplier =  *(A + (i * n + i));
+	printf("mult: %f\n",multiplier);
         diag *= multiplier;
-	printf("diag: %f\n",diag);
     }
     for(i = 0; i < n; i++) {
         *(A + (i *  n + i)) = 1;
