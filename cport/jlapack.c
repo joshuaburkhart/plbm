@@ -204,12 +204,7 @@ double* array_pow(double d,double *A,int m,int n) {
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            if(d>0) {
-                *(pdct+(i*n+j))=pow(d,*(A+(i*n+j)));
-            }
-            else {
-                *(pdct+(i*n+j))=-1 * pow(abs(d),*(A+(i*n+j)));
-            }
+          *(pdct+(i*n+j))=pow(d,*(A+(i*n+j)));
         }
     }
     return pdct;
