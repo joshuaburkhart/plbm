@@ -176,6 +176,7 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
         {
             printf("002\n");
             p[i+n*n] = start[i];
+	    printf("0021\n");
         }
         y[n] = fn ( start );
         *icount = *icount + 1;
