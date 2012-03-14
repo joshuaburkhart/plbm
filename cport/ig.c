@@ -162,11 +162,12 @@ double funct(double *d1_d2) {
     dgetrf_(&N,&N,A,&lda,ipiv,&info);
     if(info!=0) {
         printf("dgetrf returns info code %i\n",info);
-        info = 0;
+	return ((double) d1*d1 + d2*d2);
     }
     dgetri_(&N,A,&lda,ipiv,work,&lwork,&info);
     if(info!=0) {
         printf("dgetri returns info code %i\n",info);
+	return ((double) d1*d1 + d2*d2);
     }
 
     /*
@@ -177,13 +178,11 @@ double funct(double *d1_d2) {
     printf("dgesv returns info status %i\n",info);
     */
 
-    if(info==0) {
-        invV = tran(A,n,n); //column major -> row major
+    invV = tran(A,n,n); //column major -> row major
 
-        /*
-        output(invV,n,n);
-        */
-    }
+    /*
+    output(invV,n,n);
+    */
 
 //U=ones(length(X),1);-----------------------------------U
 
