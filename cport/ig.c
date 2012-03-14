@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "jlapack.h"
+#include "asa047.h"
 
 extern double a_initVh[];
 extern double a_initVp[];
