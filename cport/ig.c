@@ -203,11 +203,11 @@ double funct(double *d1_d2) {
     double d = *(D);//D should be a 1 x 1 matrix
     double b = d/c;
 
-    /*
+    
     printf("c = %f\n",c);
     printf("d = %f\n",d);
     printf("b = %f\n",b);
-    */
+    
 
 //H=X-b;-----------------------------------H
 
