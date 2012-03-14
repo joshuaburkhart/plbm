@@ -125,6 +125,7 @@ double funct(double *d1_d2) {
 //Vh=Vh./det(Vh)^(1/p);-----------------------------------Vh
 
     double dtm = matrx_det(Vh,p);
+    printf("dtm = %f\n",dtm);
     double dtm21op = pow(dtm,(1/p));
     Vh = array_rdv(Vh,p,p,dtm21op);
 
@@ -135,7 +136,7 @@ double funct(double *d1_d2) {
 //Vp=Vp./det(Vp)^(1/q);-----------------------------------Vp
 
     dtm = matrx_det(Vp,q);
-    printf("dtm = %f\n");
+    printf("dtm = %f\n",dtm);
     double dtm21oq = pow(dtm,(1/q));
     Vp = array_rdv(Vp,q,q,dtm21oq);
 
