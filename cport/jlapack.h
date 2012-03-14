@@ -15,6 +15,7 @@ double* kron(double *A,int ma,int na,double *B,int mb,int nb);
 double* tran(double *A,int m,int n);
 double* ones(int m,int n);
 double matrx_det(double *A,int n);
+static double det_l(double *A,int n);
 //reference: http://www.netlib.org/lapack/double
 void dgesv_(const int *N, const int *nrhs,double *A,const int *lda,int *ipiv,double *b,const int *ldb,int *info);
 void dgetrf_(int* M, int *N, double* A, int* lda, int* IPIV, int* INFO);

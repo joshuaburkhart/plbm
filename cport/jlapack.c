@@ -215,8 +215,41 @@ double* array_pow(double d,double *A,int m,int n) {
     return pdct;
 }
 
-//reference: http://cboard.cprogramming.com/cplusplus-programming/30001-determinant-calculation.html
 double matrx_det(double *A,int n) {
+    A = tran(A,n,n); //row major -> column major
+    int N=n;
+    int lda=N;
+    int ipiv[N];
+    int info;
+    int lwork=N*N;
+    double work[lwork];
+    dgetrf_(&N,&N,A,&lda,ipiv,&info);
+    if(info!=0) {
+        printf("dgetrf returns info code %i\n",info);
+    }
+    A = tran(A,n,n);
+    double diag=1;
+    int i;
+    for(i = 0; i < n; i++) {
+        double multiplier =  *(A + (i * n + i));
+        diag *= multiplier;
+	printf("diag: %f\n",diag);
+    }
+    for(i = 0; i < n; i++) {
+        *(A + (i *  n + i)) = 1;
+        int j;
+        for(j = i+1; j < n; j++) {
+            *(A + ( i *  n + j)) = 0;
+        }
+    }
+    double dtm=det_l(A,n);
+    printf("dtm from internal: %f\n",dtm);
+    return(dtm * diag);
+}
+
+
+//reference: http://cboard.cprogramming.com/cplusplus-programming/30001-determinant-calculation.html
+static double det_l(double *A,int n) {
     int i, j, k;
     double **m;
     double det = 1;
