@@ -35,6 +35,8 @@ int main(int argc,char *argv[]) {
     }
 
     printf("funct returns %f\n",funct(d1_d2));
+    
+return 0;
 
     //reference: http://people.sc.fsu.edu/~jburkardt/cpp_src/asa047/asa047.html
     //reference: www.scholarpedia.org/article/Nelder-Mead_algorithm
