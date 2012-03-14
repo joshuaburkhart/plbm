@@ -1,3 +1,4 @@
+#include <string.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -134,7 +135,31 @@ double funct(double *d1_d2) {
         printf("dgetrf returns info code %i\n",info0);
     }
     A = tran(A,p,p);
+    output(A,p,p); // this is LU
+
+printf("\n");
+memcpy(B,A,p * p * sizeof(double)); //now B is LU... we will split A into L
+    int i;
+    for(i = 0; i < p; i++){
+      *(A + (i * (int) p + i)) = 1;
+      int j;
+      for(j = i+1; j < p; j++){
+        *(A + ( i * (int) p + j)) = 0;
+      }
+    }
     output(A,p,p);
+    double L_det=matrx_det(A,p);
+    printf("s: %f\n",L_det);
+
+double diag=1;
+for(i = 0; i < p; i++){
+  double multiplier =  *(B + (i * (int) p + i));
+  diag *= multiplier;
+  printf("multiplier: %f\n",multiplier);
+}
+printf("diag: %f\n",L_det * diag);
+
+
     printf("\n");
     output(Vh,p,p);
     printf("p = %f\n",p);
