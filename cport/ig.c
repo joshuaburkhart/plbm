@@ -122,7 +122,20 @@ double funct(double *d1_d2) {
     */
 
 //Vh=Vh./det(Vh)^(1/p);-----------------------------------Vh
-
+    A = tran(Vh,p,p); //row major -> column major
+    int N0=p;
+    int lda0=N0;
+    int ipiv0[N0];
+    int info0;
+    int lwork0=N0*N0;
+    double work0[lwork0];
+    dgetrf_(&N0,&N0,A,&lda0,ipiv0,&info0);
+    if(info0!=0) {
+        printf("dgetrf returns info code %i\n",info0);
+    }
+    A = tran(A,p,p);
+    output(A,p,p);
+    printf("\n");
     output(Vh,p,p);
     printf("p = %f\n",p);
     double dtm = matrx_det(Vh,p);
