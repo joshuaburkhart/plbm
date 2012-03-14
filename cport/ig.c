@@ -86,7 +86,6 @@ double funct(double *d1_d2) {
     double *E = array_mlt(A,p,p,D);
     double d1sq = d1*d1;
     double omd1 = 1 - d1sq;
-
     double *Vh = array_rdv(E,p,p,omd1);
 
     /*
@@ -109,7 +108,7 @@ double funct(double *d1_d2) {
     E = array_mlt(A,q,q,D);
     double d2sq = d2*d2;
     double omd2 = 1 - d2sq;
-    double *Vp = array_rdv(E,q,q,omd1);
+    double *Vp = array_rdv(E,q,q,omd2);
 
     /*
     output(A,q,q);
@@ -124,6 +123,7 @@ double funct(double *d1_d2) {
 
 //Vh=Vh./det(Vh)^(1/p);-----------------------------------Vh
 
+    output(Vh,p,p);
     double dtm = matrx_det(Vh,p);
     printf("dtm = %f\n",dtm);
     double dtm21op = pow(dtm,(1/p));
