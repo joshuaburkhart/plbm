@@ -37,8 +37,6 @@ int main(int argc,char *argv[]) {
 
     printf("funct returns %f\n",funct(d1_d2));
     
-return 0;
-
     //reference: http://people.sc.fsu.edu/~jburkardt/cpp_src/asa047/asa047.html
     //reference: www.scholarpedia.org/article/Nelder-Mead_algorithm
     //reference: http://tolstoy.newcastle.edu.au/R/help/06/06/28963.html
@@ -89,6 +87,7 @@ double funct(double *d1_d2) {
     double omd1 = 1 - d1sq;
     double *Vh = array_rdv(E,p,p,omd1);
 
+    /*
     printf("array_pow(d1,a_tau1,p,p);\n");
     output(A,p,p);
     printf("matrx_mlt(2,a_initVh,p,p);\n");
@@ -103,6 +102,7 @@ double funct(double *d1_d2) {
     printf("omd1: %f\n",omd1);
     printf("array_rdv(E,p,p,omd1);\n");
     output(Vh,p,p);
+    */
 
 //Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);-------------------------------------Vp
 
@@ -115,6 +115,7 @@ double funct(double *d1_d2) {
     double omd2 = 1 - d2sq;
     double *Vp = array_rdv(E,q,q,omd2);
 
+    /*
     printf("array_pow(d2,a_tau2,q,q);\n");
     output(A,q,q);
     printf("matrx_mlt(2,a_initVp,q,q);\n");
@@ -129,10 +130,11 @@ double funct(double *d1_d2) {
     printf("omd2: %f\n",omd2);
     printf("array_rdv(E,q,q,omd2);\n");
     output(Vp,q,q);    
+    */
 
 //Vh=Vh./det(Vh)^(1/p);-----------------------------------Vh
     double dtm = matrx_det(Vh,p);
-    printf("dtm = %f\n",dtm);
+    //printf("dtm = %f\n",dtm);
     double dtm21op = pow(dtm,(1/p));
     Vh = array_rdv(Vh,p,p,dtm21op);
 
@@ -143,7 +145,7 @@ double funct(double *d1_d2) {
 //Vp=Vp./det(Vp)^(1/q);-----------------------------------Vp
 
     dtm = matrx_det(Vp,q);
-    printf("dtm = %f\n",dtm);
+    //printf("dtm = %f\n",dtm);
     double dtm21oq = pow(dtm,(1/q));
     Vp = array_rdv(Vp,q,q,dtm21oq);
 
@@ -213,9 +215,9 @@ double funct(double *d1_d2) {
     double b = d/c;
 
     
-    printf("c = %f\n",c);
-    printf("d = %f\n",d);
-    printf("b = %f\n",b);
+    //printf("c = %f\n",c);
+    //printf("d = %f\n",d);
+    //printf("b = %f\n",b);
     
 
 //H=X-b;-----------------------------------H
