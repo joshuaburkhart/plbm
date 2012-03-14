@@ -124,6 +124,7 @@ double funct(double *d1_d2) {
 //Vh=Vh./det(Vh)^(1/p);-----------------------------------Vh
 
     output(Vh,p,p);
+    printf("p = %f\n",p);
     double dtm = matrx_det(Vh,p);
     printf("dtm = %f\n",dtm);
     double dtm21op = pow(dtm,(1/p));
