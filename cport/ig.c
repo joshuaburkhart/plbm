@@ -89,13 +89,19 @@ double funct(double *d1_d2) {
     double omd1 = 1 - d1sq;
     double *Vh = array_rdv(E,p,p,omd1);
 
+    printf("array_pow(d1,a_tau1,p,p);\n");
     output(A,p,p);
+    printf("matrx_mlt(2,a_initVh,p,p);\n");
     output(B,p,p);
+    printf("array_pow(d1,B,p,p);\n");
     output(C,p,p);
+    printf("matrx_sub(1,C,p,p);\n");
     output(D,p,p);
+    printf("array_mlt(A,p,p,D);\n");
     output(E,p,p);
     printf("d1sq: %f\n",d1sq);
     printf("omd1: %f\n",omd1);
+    printf("array_rdv(E,p,p,omd1);\n");
     output(Vh,p,p);
 
 //Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);-------------------------------------Vp
@@ -109,14 +115,20 @@ double funct(double *d1_d2) {
     double omd2 = 1 - d2sq;
     double *Vp = array_rdv(E,q,q,omd2);
 
+    printf("array_pow(d2,a_tau2,q,q);\n");
     output(A,q,q);
+    printf("matrx_mlt(2,a_initVp,q,q);\n");
     output(B,q,q);
+    printf("array_pow(d2,B,q,q);\n");
     output(C,q,q);
+    printf("matrx_sub(1,C,q,q);\n");
     output(D,q,q);
+    printf("array_mlt(A,q,q,D);\n");
     output(E,q,q);
     printf("d2sq: %f\n",d2sq);
     printf("omd2: %f\n",omd2);
-    output(Vp,q,q);
+    printf("array_rdv(E,q,q,omd2);\n");
+    output(Vp,q,q);    
 
 //Vh=Vh./det(Vh)^(1/p);-----------------------------------Vh
     double dtm = matrx_det(Vh,p);
