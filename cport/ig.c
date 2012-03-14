@@ -36,16 +36,24 @@ int main(int argc,char *argv[]) {
     printf("funct returns %f\n",funct(d1_d2));
 
     //reference: http://people.sc.fsu.edu/~jburkardt/cpp_src/asa047/asa047.html
-    double XMIN[2];
-    double YNEWLO;
-    double REQMIN = 1; // This is an epsilon value .... ? what should it be?
-    double STEP[2]; //size and shape of initial simplex.... what should it be?
-    int KONVGE = 100; //convergence check carried out every KONVGE iteration..sqrt of max iterations should be optimal
-    int *ICOUNT; //number of evaluations. how much space to allocate?
-    int *NUMRES; //number of restarts. how much space to allocate?
-    int *IFAULT; //error indicator. how much space to allocate?
-    //nelmin(funct,2,d1_d2,XMIN,YNEWLO,REQMIN,STEP,KONVGE,ICOUNT,NUMRES,IFAULT);
-    
+    //reference: www.scholarpedia.org/article/Nelder-Mead_algorithm
+    //reference: http://tolstoy.newcastle.edu.au/R/help/06/06/28963.html
+    double XMIN[2]; //coordinates of minimum value
+    double YNEWLO; //minimum value
+    double REQMIN = 0.0001; //termination variance limit
+    int KONVGE = 100; //frequency of convergence tests
+    int KCOUNT = 10000; //max number of iterations
+    int ICOUNT; //number of evaluations
+    int NUMRES; //number of restarts
+    int IFAULT; //error indicator
+    printf("0\n");
+    nelmin(funct,2,d1_d2,XMIN,&YNEWLO,REQMIN,d1_d2,KONVGE,&ICOUNT,&NUMRES,&IFAULT);
+   
+    printf("finished nelmin\n");
+
+    printf("minimization coordinates: %f %f\n",*(XMIN),*(XMIN+1));
+    printf("minimum value: %f\n",YNEWLO);
+
     free(d1_d2);
     return 0;
 }

@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include "asa047.h"
@@ -146,7 +147,6 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
         *ifault = 1;
         return;
     }
-
     //p = new double[n*(n+1)];
     p = (double *) malloc(n * (n-1) * sizeof(double));
     //pstar = new double[n];
@@ -157,10 +157,8 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
     pbar = (double *) malloc(n * sizeof(double));
     //y = new double[n+1];
     y = (double *) malloc((n+1) * sizeof(double));
-
     *icount = 0;
     *numres = 0;
-
     jcount = konvge;
     dn = ( double ) ( n );
     nn = n + 1;
@@ -199,7 +197,6 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
         //
         ylo = y[0];
         ilo = 0;
-
         for ( i = 1; i < nn; i++ )
         {
             if ( y[i] < ylo )
