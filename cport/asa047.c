@@ -171,8 +171,10 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
     printf("beginning initial for loop\n");
     for ( ; ; )
     {
+	printf("001\n");
         for ( i = 0; i < n; i++ )
         {
+            printf("002\n");
             p[i+n*n] = start[i];
         }
         y[n] = fn ( start );
@@ -180,6 +182,7 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
 
         for ( j = 0; j < n; j++ )
         {
+            printf("003\n");
             x = start[j];
             start[j] = start[j] + step[j] * del;
             for ( i = 0; i < n; i++ )
@@ -200,6 +203,7 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
         ilo = 0;
         for ( i = 1; i < nn; i++ )
         {
+            printf("004\n");
             if ( y[i] < ylo )
             {
                 ylo = y[i];
@@ -211,6 +215,7 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
         //
         for ( ; ; )
         {
+	    printf("005\n");
             if ( kcount <= *icount )
             {
                 break;
@@ -391,6 +396,7 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
             //
             //  Check if YLO improved.
             //
+	    printf("006\n");
             if ( y[ihi] < ylo )
             {
                 ylo = y[ihi];
@@ -431,6 +437,7 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],
         //
         //  Factorial tests to check that YNEWLO is a local minimum.
         //
+	printf("007\n");
         for ( i = 0; i < n; i++ )
         {
             xmin[i] = p[i+ilo*n];

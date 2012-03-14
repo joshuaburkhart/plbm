@@ -47,7 +47,6 @@ int main(int argc,char *argv[]) {
     int ICOUNT; //number of evaluations
     int NUMRES; //number of restarts
     int IFAULT; //error indicator
-    printf("0\n");
     nelmin(funct,2,d1_d2,XMIN,&YNEWLO,REQMIN,d1_d2,KONVGE,KCOUNT,&ICOUNT,&NUMRES,&IFAULT);
    
     printf("finished nelmin\n");
