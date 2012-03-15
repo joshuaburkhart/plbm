@@ -245,6 +245,7 @@ double matrx_det(double *A,int n) {
     }
     double dtm=det_l(lu,n);
     //printf("dtm from internal: %f\n",dtm);
+    free(lu);
     return(dtm * diag);
 }
 
