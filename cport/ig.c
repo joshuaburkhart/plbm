@@ -175,10 +175,15 @@ double funct(double *d1_d2) {
     dgetrf_(&N,&N,A,&lda,ipiv,&info);
     if(info!=0) {
         printf("dgetrf returns info code %i\n",info);
+	printf("d1: %f\n",d1);
+	printf("d2: %f\n",d2);
+	info=0;
     }
     dgetri_(&N,A,&lda,ipiv,work,&lwork,&info);
     if(info!=0) {
         printf("dgetri returns info code %i\n",info);
+	printf("d1: %f\n",d1);
+	printf("d2: %f\n",d2);
     }
 
     /*

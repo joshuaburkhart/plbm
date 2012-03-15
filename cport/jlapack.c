@@ -213,34 +213,37 @@ double* array_pow(double d,double *A,int m,int n) {
 double matrx_det(double *A,int n) {
     //output(A,n,n);
     //printf("\n");
-    A = tran(A,n,n); //row major -> column major
+    double *lu;
+    lu = malloc(n*n*sizeof(double));
+    lu = tran(A,n,n); //row major -> column major
     int N=n;
     int lda=N;
     int ipiv[N];
     int info;
     int lwork=N*N;
     double work[lwork];
-    dgetrf_(&N,&N,A,&lda,ipiv,&info);
+    dgetrf_(&N,&N,lu,&lda,ipiv,&info);
     if(info!=0) {
         printf("dgetrf returns info code %i\n",info);
+	output(A,n,n);
     }
-    A = tran(A,n,n);
+    lu = tran(lu,n,n);
     //output(A,n,n);
     double diag=1;
     int i;
     for(i = 0; i < n; i++) {
-        double multiplier =  *(A + (i * n + i));
+        double multiplier =  *(lu + (i * n + i));
 	//printf("mult: %f\n",multiplier);
         diag *= multiplier;
     }
     for(i = 0; i < n; i++) {
-        *(A + (i *  n + i)) = 1;
+        *(lu + (i *  n + i)) = 1;
         int j;
         for(j = i+1; j < n; j++) {
-            *(A + ( i *  n + j)) = 0;
+            *(lu + ( i *  n + j)) = 0;
         }
     }
-    double dtm=det_l(A,n);
+    double dtm=det_l(lu,n);
     //printf("dtm from internal: %f\n",dtm);
     return(dtm * diag);
 }
