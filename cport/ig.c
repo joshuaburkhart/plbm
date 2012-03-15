@@ -40,6 +40,18 @@ int main(int argc,char *argv[]) {
     //reference: http://people.sc.fsu.edu/~jburkardt/cpp_src/asa047/asa047.html
     //reference: www.scholarpedia.org/article/Nelder-Mead_algorithm
     //reference: http://tolstoy.newcastle.edu.au/R/help/06/06/28963.html
+    //reference: http://www.mathworks.com/help/techdoc/math/bsotu2d.html#bsgpq6p-11
+    double STEP[2];
+    if(*(d1_d2)==0){
+      STEP[0]=0.00025;
+    }else{
+      STEP[0]=0.05 * *(d1_d2);
+    }
+    if(*(d1_d2+1)==0){
+      STEP[1]=0.00025;
+    }else{
+      STEP[1]=0.05 * *(d1_d2+1);
+    }
     double XMIN[2]; //coordinates of minimum value
     double YNEWLO; //minimum value
     double REQMIN = 0.0001; //termination variance limit
@@ -48,7 +60,7 @@ int main(int argc,char *argv[]) {
     int ICOUNT; //number of evaluations
     int NUMRES; //number of restarts
     int IFAULT; //error indicator
-    nelmin(funct,2,d1_d2,XMIN,&YNEWLO,REQMIN,d1_d2,KONVGE,KCOUNT,&ICOUNT,&NUMRES,&IFAULT);
+    nelmin(funct,2,d1_d2,XMIN,&YNEWLO,REQMIN,STEP,KONVGE,KCOUNT,&ICOUNT,&NUMRES,&IFAULT);
    
     printf("finished nelmin\n");
 
