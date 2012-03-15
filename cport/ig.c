@@ -34,7 +34,7 @@ int main(int argc,char *argv[]) {
     } else {
         return -3;
     }
-
+    printf("input d1: %f\ninput d2: %f\n",*(d1_d2),*(d1_d2+1));  
     printf("funct returns %f\n",funct(d1_d2));
     
     //reference: http://people.sc.fsu.edu/~jburkardt/cpp_src/asa047/asa047.html
@@ -42,6 +42,7 @@ int main(int argc,char *argv[]) {
     //reference: http://tolstoy.newcastle.edu.au/R/help/06/06/28963.html
     //reference: http://www.mathworks.com/help/techdoc/math/bsotu2d.html#bsgpq6p-11
     double STEP[2];
+    /*
     if(*(d1_d2)==0){
       STEP[0]=0.00025;
     }else{
@@ -52,10 +53,13 @@ int main(int argc,char *argv[]) {
     }else{
       STEP[1]=0.05 * *(d1_d2+1);
     }
+    */
+    STEP[0] = 0.5; // just testing --------------------
+    STEP[1] = 0.5; // just testing --------------------
     double XMIN[2]; //coordinates of minimum value
     double YNEWLO; //minimum value
     double REQMIN = 0.0001; //termination variance limit
-    int KONVGE = 100; //frequency of convergence tests
+    int KONVGE = 1; //frequency of convergence tests
     int KCOUNT = 10000; //max number of iterations
     int ICOUNT; //number of evaluations
     int NUMRES; //number of restarts
@@ -72,9 +76,10 @@ int main(int argc,char *argv[]) {
 }
 
 double funct(double *d1_d2) {
-    
-    double d1 = *(d1_d2);
-    double d2 = *(d1_d2+1);
+   
+    double d1,d2;
+    d1 = (*(d1_d2) >= 0.0 ? *(d1_d2) : -1 * *(d1_d2));
+    d2 = (*(d1_d2+1) >= 0.0 ? *(d1_d2+1) : -1 * *(d1_d2+1));
 
     /*
     output(a_initVh,p,p);
@@ -85,8 +90,8 @@ double funct(double *d1_d2) {
     output(a_X,n,1);
     output(a_tau1,p,p);
     output(a_tau2,q,q);
-    printf("d1: %f\nd2: %f\n",d1,d2);
     */
+    printf("d1: %f\nd2: %f\n",d1,d2);
 
 //Vh=(d1.^tau1).*(1-d1.^(2*initVh))./(1-d1^2);--------------------------------------Vh
 
