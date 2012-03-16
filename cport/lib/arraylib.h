@@ -18,5 +18,6 @@ double* array_rdv(double *A,int m,int n,double d);
 
 void dgesv_(const int *N, const int *nrhs,double *A,const int *lda,int *ipiv,double *b,const int *ldb,int *info);
 void dgetrf_(int* M, int *N, double* A, int* lda, int* IPIV, int* INFO);
+void dgetrf(int* M, int *N, double* A, int* lda, int* IPIV, int* INFO);
 void dgetri_(int* N, double* A, int* lda, int* IPIV, double* WORK, int* lwork, int* INFO);
 

@@ -55,7 +55,7 @@
             CFLAGS="$CFLAGS -fPIC -pthread -m32"
             CFLAGS="$CFLAGS  -fexceptions"
             CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64" 
-            CLIBS="$RPATH $MLIBS -lm -llapack -lblas"
+            CLIBS="$RPATH $MLIBS -lm"
             COPTIMFLAGS='-O -DNDEBUG'
             CDEBUGFLAGS='-g'
             CLIBS="$CLIBS -lstdc++"
@@ -105,7 +105,7 @@
             CFLAGS='-ansi -D_GNU_SOURCE'
             CFLAGS="$CFLAGS  -fexceptions"
             CFLAGS="$CFLAGS -fPIC -fno-omit-frame-pointer -pthread"
-            CLIBS="$RPATH $MLIBS -lm"
+            CLIBS="$RPATH $MLIBS -lm -llapack -lblas"
             COPTIMFLAGS='-O -DNDEBUG'
             CDEBUGFLAGS='-g'
             CLIBS="$CLIBS -lstdc++"
