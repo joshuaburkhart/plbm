@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "arraylib.h"
+#include "./lib/arraylib.h"
 
 double* array_rdv(double *A,int m,int n,double d) {
 

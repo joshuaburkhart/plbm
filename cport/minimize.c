@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "arraylib.h"
-#include "mex.h"
+#include "./lib/arraylib.h"
+#include "./lib/mex.h"
 
 double *initVh;
 double *initVp;

@@ -49,13 +49,13 @@
             # CkeyManufacturer: GNU
             # CkeyLanguage: C
             # CkeyVersion:
-            #CC='gcc'
-            CC='/usr/local/packages/gcc/4.3.6/bin/gcc'
+            CC='gcc'
+            #CC='/usr/local/packages/gcc/4.3.6/bin/gcc'
 	    CFLAGS='-ansi -D_GNU_SOURCE'
             CFLAGS="$CFLAGS -fPIC -pthread -m32"
             CFLAGS="$CFLAGS  -fexceptions"
             CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64" 
-            CLIBS="$RPATH $MLIBS -lm"
+            CLIBS="$RPATH $MLIBS -lm -llapack -lblas"
             COPTIMFLAGS='-O -DNDEBUG'
             CDEBUGFLAGS='-g'
             CLIBS="$CLIBS -lstdc++"
