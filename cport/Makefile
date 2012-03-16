@@ -1,7 +1,7 @@
-CXX = gcc
+CC = mex
 
-minimize: arraylib.o minimize.o
-	$(LINK.cc) -o ./out/min arraylib.o minimize.o -lm -llapack -lblas
+minimize: arraylib.c minimize.c
+	$(CC)  minimize.c arraylib.c -f ./mexopts.sh
 
 clean:
 	rm -rf *.out *.o *.orig
