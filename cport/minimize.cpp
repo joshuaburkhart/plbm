@@ -74,9 +74,6 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     /* return results in matlab format */
     /* /////////////////////////////// */
 
-    printf("minimization coordinates: %f %f\n",*(XMIN),*(XMIN+1));
-    printf("minimum value: %f\n",YNEWLO);
-
     /*expects colLen, rowLen, data_type*/
     plhs[0]=mxCreateDoubleMatrix(1,2,mxREAL);
     plhs[1]=mxCreateDoubleMatrix(1,1,mxREAL);
@@ -87,12 +84,6 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     est[1]= *(XMIN+1);
     MSE[0]= YNEWLO;   
     
-    free(initVh);
-    free(initVp);
-    free(X);
-    free(tau1);
-    free(tau2);
-    free(d1_d2);
   return;
 }
 
