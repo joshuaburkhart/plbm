@@ -39,9 +39,9 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     tau1=mxGetPr(prhs[5]);
     tau2=mxGetPr(prhs[6]);
 
-    mxPrintf("n: %f\n",n);
-    mxPrintf("p: %f\n",p);
-    mxPrintf("q: %f\n",q);
+    mexPrintf("n: %f\n",n);
+    mexPrintf("p: %f\n",p);
+    mexPrintf("q: %f\n",q);
     
     double *d1_d2=mxGetPr(prhs[7]);
 
