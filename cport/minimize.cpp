@@ -47,22 +47,14 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     /* call nelmin on funct */
     /* //////////////////// */
   
-    /*TODO: convert these things to ternary*/
+    /*TODO: play with konvge settings for optimization*/
     double STEP[2];
-    if(*(d1_d2)==0) {
-        STEP[0]=0.00025;
-    } else {
-        STEP[0]=0.95 * *(d1_d2);
-    }
-    if(*(d1_d2+1)==0) {
-        STEP[1]=0.00025;
-    } else {
-        STEP[1]=0.95 * *(d1_d2+1);
-    }
+    STEP[0] = (*(d1_d2 )  == 0 ? 0.00025 : 0.95 * *(d1_d2));
+    STEP[1] = (*(d1_d2+1) == 0 ? 0.00025 : 0.95 * *(d1_d2+1));
     double XMIN[2];         /*coordinates of minimum value*/
     double YNEWLO;          /*minimum value*/
     double REQMIN = 0.0001; /*termination variance limit*/
-    int KONVGE = 10;        /*frequency of convergence tests*/
+    int KONVGE = 100;        /*frequency of convergence tests*/
     int KCOUNT = 10000;     /*max number of iterations*/
     int ICOUNT;             /*number of evaluations*/
     int NUMRES;             /*number of restarts*/
@@ -87,42 +79,6 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
   return;
 }
 
-int main(int argc,char *argv[]) {
-    double *d1_d2;
-    int i;
-    d1_d2 = (double *) malloc(2 * sizeof(double));
-    *(d1_d2) = atof(argv[1]);
-    *(d1_d2+1) = atof(argv[2]);
-
-    double STEP[2];
-    if(*(d1_d2)==0) {
-        STEP[0]=0.00025;
-    } else {
-        STEP[0]=0.95 * *(d1_d2);
-    }
-    if(*(d1_d2+1)==0) {
-        STEP[1]=0.00025;
-    } else {
-        STEP[1]=0.95 * *(d1_d2+1);
-    }
-    double XMIN[2];         
-    double YNEWLO;         
-    double REQMIN = 0.0001; 
-    int KONVGE = 10;       
-    int KCOUNT = 10000; 
-    int ICOUNT; 
-    int NUMRES; 
-    int IFAULT;
-
-    nelmin(funct,2,d1_d2,XMIN,&YNEWLO,REQMIN,STEP,KONVGE,KCOUNT,&ICOUNT,&NUMRES,&IFAULT);
-
-    printf("minimization coordinates: %f %f\n",*(XMIN),*(XMIN+1));
-    printf("minimum value: %f\n",YNEWLO);
-
-    free(d1_d2);
-    return 0;
-}
-
 double funct(double *d1_d2) {
 
     double d1,d2;
@@ -131,25 +87,11 @@ double funct(double *d1_d2) {
 
     /*Vh=(d1.^tau1).*(1-d1.^(2*initVh))./(1-d1^2);--------------------------------------*/
 
-    double *A = array_pow(d1,tau1,p,p);
-    double *B = matrx_mlt(2,initVh,p,p);
-    double *C = array_pow(d1,B,p,p);
-    double *D = matrx_sub(1,C,p,p);
-    double *E = array_mlt(A,p,p,D);
-    double d1sq = d1*d1;
-    double omd1 = 1 - d1sq;
-    double *Vh = array_rdv(E,p,p,omd1);
+    double *Vh = array_rdv(array_mlt(array_pow(d1,tau1,p,p),p,p,matrx_sub(1,array_pow(d1,matrx_mlt(2,initVh,p,p),p,p),p,p)),p,p,1 - d1*d1);
 
     /*Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);-------------------------------------*/
 
-    A = array_pow(d2,tau2,q,q);
-    B = matrx_mlt(2,initVp,q,q);
-    C = array_pow(d2,B,q,q);
-    D = matrx_sub(1,C,q,q);
-    E = array_mlt(A,q,q,D);
-    double d2sq = d2*d2;
-    double omd2 = 1 - d2sq;
-    double *Vp = array_rdv(E,q,q,omd2);
+    double *Vp = array_rdv(array_mlt(array_pow(d2,tau2,q,q),q,q,matrx_sub(1,array_pow(d2,matrx_mlt(2,initVp,q,q),q,q),q,q)),q,q,1 - d2*d2);
 
     /*Vh=Vh./det(Vh)^(1/p);-----------------------------------*/
 
@@ -169,7 +111,7 @@ double funct(double *d1_d2) {
 
     /*invV=V\eye(n);-----------------------------------*/
 
-    A = tran(V,n,n); /*row major -> column major*/
+    double *A = tran(V,n,n); /*row major -> column major*/
     double *invV;
 
     ptrdiff_t N=n;
@@ -186,8 +128,8 @@ double funct(double *d1_d2) {
         printf("M:   %i\n",M);
 	printf("N:   %i\n",N);
         printf("lda: %i\n",lda);
-        info=0;
-    }
+    double *    info=0;
+    double *}
 
     dgetri(&N,A,&lda,ipiv,work,&lwork,&info);
     if(info!=0) {
@@ -200,7 +142,7 @@ double funct(double *d1_d2) {
 
     /*U=ones(length(X),1);-----------------------------------*/
 
-    double *U = ones(n,1);
+    double *double *U = ones(n,1);
 
     /*b=(U'*invV*U)\(U'*invV*X);-----------------------------------*/
 
