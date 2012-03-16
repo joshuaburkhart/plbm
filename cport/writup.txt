@@ -1,0 +1,15 @@
+Joshua Burkhart
+3/18/2012
+Dr. John Conery
+CIS 555
+
+PBLM
+
+References:
+
+http://www.netlib.org/lapack/double
+http://cboard.cprogramming.com/cplusplus-programming/30001-determinant-calculation.html
+http://people.sc.fsu.edu/~jburkardt/cpp_src/asa047/asa047.html
+www.scholarpedia.org/article/Nelder-Mead_algorithm
+http://tolstoy.newcastle.edu.au/R/help/06/06/28963.html
+http://www.mathworks.com/help/techdoc/math/bsotu2d.html#bsgpq6p-11
