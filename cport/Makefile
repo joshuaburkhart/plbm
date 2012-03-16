@@ -1,12 +1,7 @@
-#to make jlapack, uncomment below lines and uncomment main function in jlapack.c
-
 CXX = gcc
 
-#jlapack: jlapack.o
-#	$(LINK.cc) -o a.jlapack.out jlapack.o
-
-ig: asa047.o jlapack.o ig.o
-	$(LINK.cc) -o a.ig.out asa047.o jlapack.o ig.o -lm -llapack -lblas
+minimize: arraylib.o minimize.o
+	$(LINK.cc) -o a.min.out arraylib.o minimize.o -lm -llapack -lblas
 
 clean:
 	rm -rf *.out *.o *.orig
