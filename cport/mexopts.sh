@@ -49,8 +49,9 @@
             # CkeyManufacturer: GNU
             # CkeyLanguage: C
             # CkeyVersion:
-            CC='gcc'
-            CFLAGS='-ansi -D_GNU_SOURCE'
+            #CC='gcc'
+            CC='/usr/local/packages/gcc/4.3.6/bin/gcc'
+	    CFLAGS='-ansi -D_GNU_SOURCE'
             CFLAGS="$CFLAGS -fPIC -pthread -m32"
             CFLAGS="$CFLAGS  -fexceptions"
             CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64" 
