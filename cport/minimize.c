@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "./lib/lapack.h"
+#include "./lib/blas.h"
 #include "./lib/arraylib.h"
 #include "./lib/mex.h"
 
