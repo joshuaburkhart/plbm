@@ -21,7 +21,7 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],dou
 void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]);
 
 void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
-    /*expect phrs-> 0=initVh, 1=initVp, 2=n, 3=p, 4=q, 5=tau1, 6=tau2, 7=d1_d2*/
+    /*expect phrs-> 0=initVh, 1=initVp, 2=n, 3=p, 4=q, 5=X, 6=tau1, 7=tau2, 8=d1_d2*/
     
     /*TODO: n, p, and q may not be necessary as they might already be included in dims of other vars..?*/
     /* http://cnx.org/content/m12348/latest/ */
@@ -36,14 +36,26 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     /*also try n=(int) mxGetScalar(prhs[2]); */
     p=*mxGetPr(prhs[3]); /* should be 1 x 1 matrix */
     q=*mxGetPr(prhs[4]); /* should be 1 x 1 matrix */
-    tau1=mxGetPr(prhs[5]);
-    tau2=mxGetPr(prhs[6]);
+    X=mexGetPr(prhs[5]);
+    tau1=mxGetPr(prhs[6]);
+    tau2=mxGetPr(prhs[7]);
 
     mexPrintf("n: %f\n",n);
     mexPrintf("p: %f\n",p);
     mexPrintf("q: %f\n",q);
-    
-    double *d1_d2=mxGetPr(prhs[7]);
+   
+    printf("initVh:\n");
+    output(initVh,p,p);
+    printf("initVp:\n");
+    output(initVp,q,q);
+    printf("X:\n");
+    output(X,n,1);
+    printf("tau1:\n");
+    output(tau1,p,p);
+    printf("tau2:\n");
+    output(tau2,q,q);
+
+    double *d1_d2=mxGetPr(prhs[8]);
 
     /* //////////////////// */
     /* call nelmin on funct */
