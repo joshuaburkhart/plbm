@@ -125,7 +125,7 @@ double* array_pow(double d,double *A,int m,int n) {
 double matrx_det(double *A,int n) {
     double *lu;
     lu = malloc(n*n*sizeof(double));
-    lu = tran(A,n,n); //row major -> column major
+    lu = tran(A,n,n); /*row major -> column major*/
     int N=n;
     int lda=N;
     int ipiv[N];
