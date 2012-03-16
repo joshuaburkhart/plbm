@@ -91,7 +91,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     printf("minimum value: %f\n",YNEWLO);
 
     /*expects colLen, rowLen, data_type*/
-    plhs[0]=mxCreateDoubleMatrix(2,1,mxREAL);
+    plhs[0]=mxCreateDoubleMatrix(1,2,mxREAL);
     plhs[1]=mxCreateDoubleMatrix(1,1,mxREAL);
     double *est = mxGetPr(plhs[0]);
     double *MSE = mxGetPr(plhs[1]);
