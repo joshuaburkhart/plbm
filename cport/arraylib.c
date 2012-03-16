@@ -132,7 +132,7 @@ double matrx_det(double *A,int n) {
     int info;
     int lwork=N*N;
     double work[lwork];
-    dgetrf_(&N,&N,lu,&lda,ipiv,&info);
+    dgetrf_(&N,&N,lu,&N,ipiv,&info);
     if(info!=0) {
         printf("dgetrf returns info code %i ... determinant cannot be calculated\n",info);
         printf("N:   %i\n",N);
