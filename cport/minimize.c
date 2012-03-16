@@ -44,15 +44,15 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     mexPrintf("p: %f\n",p);
     mexPrintf("q: %f\n",q);
    
-    printf("initVh:\n");
+    mexPrintf("initVh:\n");
     output(initVh,p,p);
-    printf("initVp:\n");
+    mexPrintf("initVp:\n");
     output(initVp,q,q);
-    printf("X:\n");
+    mexPrintf("X:\n");
     output(X,n,1);
-    printf("tau1:\n");
+    mexPrintf("tau1:\n");
     output(tau1,p,p);
-    printf("tau2:\n");
+    mexPrintf("tau2:\n");
     output(tau2,q,q);
 
     double *d1_d2=mxGetPr(prhs[8]);

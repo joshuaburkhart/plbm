@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "./lib/arraylib.h"
+#include "./lib/mex.h"
 
 double* array_rdv(double *A,int m,int n,double d) {
 
@@ -268,8 +269,8 @@ void output(double *matrix,int m,int n) {
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            printf("%f ",*(matrix+(i*n+j)));
+            mexPrintf("%f ",*(matrix+(i*n+j)));
         }
-        printf("\n");
+        mexPrintf("\n");
     }
 }
