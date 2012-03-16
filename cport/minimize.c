@@ -24,7 +24,7 @@ void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],dou
 void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]);
 
 void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
-    //expect phrs-> 0=initVh, 1=initVp, 2=n, 3=p, 4=q, 5=tau1, 6=tau2, 7=d1_d2
+    /*expect phrs-> 0=initVh, 1=initVp, 2=n, 3=p, 4=q, 5=tau1, 6=tau2, 7=d1_d2*/
     
     //TODO: n, p, and q may not be necessary as they might already be included in dims of other vars..?
     //http://cnx.org/content/m12348/latest/
