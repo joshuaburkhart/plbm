@@ -21,7 +21,7 @@ double q=27;
 
 double funct(double *d1_d2);
 void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],double *ynewlo, double reqmin, double step[], int konvge, int kcount,int *icount, int *numres, int *ifault );
-//void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]);
+void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]);
 
 void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     //expect phrs-> 0=initVh, 1=initVp, 2=n, 3=p, 4=q, 5=tau1, 6=tau2, 7=d1_d2
