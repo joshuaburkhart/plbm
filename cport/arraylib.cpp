@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <lapack.h>
+#include "./lib/lapack.h"
 #include "./lib/arraylib.h"
 #include "./lib/mex.h"
 

@@ -1,7 +1,7 @@
-CC = mex
+CXX = mex
 
-minimize: arraylib.c minimize.c
-	$(CC)  minimize.c arraylib.c -f ./mexopts.sh
+minimize: arraylib.cpp minimize.cpp
+	$(CXX)  minimize.cpp arraylib.cpp -f ./mexopts.sh
 
 clean:
 	rm -rf *.out *.o *.orig
