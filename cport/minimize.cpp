@@ -41,21 +41,6 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     tau1=mxGetPr(prhs[6]);
     tau2=mxGetPr(prhs[7]);
 
-    mexPrintf("n: %f\n",n);
-    mexPrintf("p: %f\n",p);
-    mexPrintf("q: %f\n",q);
-   
-    mexPrintf("initVh:\n");
-    output(initVh,p,p);
-    mexPrintf("initVp:\n");
-    output(initVp,q,q);
-    mexPrintf("X:\n");
-    output(X,n,1);
-    mexPrintf("tau1:\n");
-    output(tau1,p,p);
-    mexPrintf("tau2:\n");
-    output(tau2,q,q);
-
     double *d1_d2=mxGetPr(prhs[8]);
 
     /* //////////////////// */
@@ -102,6 +87,11 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     est[1]= *(XMIN+1);
     MSE[0]= YNEWLO;   
     
+    free(initVh);
+    free(initVp);
+    free(X);
+    free(tau1);
+    free(tau2);
     free(d1_d2);
   return;
 }
