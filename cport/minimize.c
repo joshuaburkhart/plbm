@@ -81,6 +81,9 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     plhs[0]=mxCreateDoubleMatrix(3,1,mxREAL);
     double *outArray = mxGetPr(plhs[0]);
     
+    outArray[0]= *(XMIN);
+    outArray[1]= *(XMIN+1);
+    outArray[2]= YNEWLO;   
 
     free(d1_d2);
   return;
