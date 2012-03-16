@@ -36,7 +36,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     /*also try n=(int) mxGetScalar(prhs[2]); */
     p=*mxGetPr(prhs[3]); /* should be 1 x 1 matrix */
     q=*mxGetPr(prhs[4]); /* should be 1 x 1 matrix */
-    X=*mexGetPr(prhs[5]);
+    X=*mxGetPr(prhs[5]);
     tau1=*mxGetPr(prhs[6]);
     tau2=*mxGetPr(prhs[7]);
 
