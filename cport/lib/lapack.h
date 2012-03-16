@@ -5,6 +5,8 @@
  *				//mathworks/hub/3rdparty/R2011b/280239/glnx86/LAPACK/include/lapack.h
  */
 
+#include <cstddef>
+
 #if defined(_MSC_VER)
 # pragma once
 #endif
