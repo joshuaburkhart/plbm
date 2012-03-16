@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <clapack.h>
-#include <cblas.h>
+#include <lapack.h>
 #include "./lib/arraylib.h"
 #include "./lib/mex.h"
 
@@ -188,20 +187,23 @@ double funct(double *d1_d2) {
     A = tran(V,n,n); /*row major -> column major*/
     double *invV;
     int N=n;
-    int lda=N;
+    int M=n
+    int lda=n;
     int ipiv[N];
     int info;
-    int lwork=N*N;
+    int lwork=n*n;
     double work[lwork];
 
-    dgetrf_(&N,&N,A,&lda,ipiv,&info);
+    dgetrf(&M,&N,A,&lda,ipiv,&info);
     if(info!=0) {
         printf("dgetrf returns info code %i ... inverse could not be calculated\n",info);
-        printf("N:   %i\n",N);
+        printf("M:   %i\n",M);
+	printf("N:   %i\n",N);
         printf("lda: %i\n",lda);
         info=0;
     }
-    dgetri_(&N,A,&lda,ipiv,work,&lwork,&info);
+
+    dgetri(&N,A,&lda,ipiv,work,&lwork,&info);
     if(info!=0) {
         printf("dgetri returns info code %i ... inverse could not be calculated\n",info);
         printf("N:   %i\n",N);

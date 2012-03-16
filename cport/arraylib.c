@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <lapack.h>
 #include "./lib/arraylib.h"
 #include "./lib/mex.h"
 
@@ -128,15 +129,17 @@ double matrx_det(double *A,int n) {
     lu = malloc(n*n*sizeof(double));
     lu = tran(A,n,n); /*row major -> column major*/
     int N=n;
+    int M=n;
     int lda=n;
     int ipiv[N];
     int info;
     int lwork=N*N;
     double work[lwork];
-    dgetrf_(&N,&N,lu,&N,ipiv,&info);
+    dgetrf(&M,&N,lu,&lda,ipiv,&info);
     if(info!=0) {
         printf("dgetrf returns info code %i ... determinant cannot be calculated\n",info);
-        printf("N:   %i\n",N);
+        printf("M:   %i\n",M);
+	printf("N:   %i\n",N);
 	printf("lda: %i\n",lda);
     }
     lu = tran(lu,n,n);
