@@ -167,7 +167,7 @@ double funct(double *d1_d2) {
 
     /*invV=V\eye(n);-----------------------------------*/
 
-    A = tran(V,n,n); //row major -> column major
+    A = tran(V,n,n); /*row major -> column major*/
     double *invV;
     int N=n;
     int lda=N;
