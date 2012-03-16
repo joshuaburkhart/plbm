@@ -3,7 +3,17 @@ Joshua Burkhart
 Dr. John Conery
 CIS 555
 
-PBLM
+##########
+#  PBLM  #
+##########
+
+Next Steps:
+
+address all 'TODO' statements in source code
+optimize memory allocations
+use performance analysis tools to check for memory leaks
+parallelize matrix operations with OpenMP, MPI, OpenCL, CUDA, or CULA packages
+use C_Source revision to begin R integration
 
 References:
 
