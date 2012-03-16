@@ -126,14 +126,14 @@ double* array_pow(double d,double *A,int m,int n) {
 
 double matrx_det(double *A,int n) {
     double *lu;
-    lu = malloc(n*n*sizeof(double));
+    lu = (double *) malloc(n*n*sizeof(double));
     lu = tran(A,n,n); /*row major -> column major*/
-    int N=n;
-    int M=n;
-    int lda=n;
-    int ipiv[N];
-    int info;
-    int lwork=N*N;
+    ptrdiff_t N=n;
+    ptrdiff_t M=n;
+    ptrdiff_t lda=n;
+    ptrdiff_t ipiv[N];
+    ptrdiff_t info;
+    ptrdiff_t lwork=N*N;
     double work[lwork];
     dgetrf(&M,&N,lu,&lda,ipiv,&info);
     if(info!=0) {

@@ -28,6 +28,8 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     /* /////////////////// */
     /* convert matlab vals */
     /* /////////////////// */
+
+    /*TODO: these pointers may have to be transposed before non-symmetric arrays are properly consumed*/
 	
     initVh=mxGetPr(prhs[0]);
     initVp=mxGetPr(prhs[1]);
@@ -188,12 +190,13 @@ double funct(double *d1_d2) {
 
     A = tran(V,n,n); /*row major -> column major*/
     double *invV;
-    int N=n;
-    int M=n
-    int lda=n;
-    int ipiv[N];
-    int info;
-    int lwork=n*n;
+
+    ptrdiff_t N=n;
+    ptrdiff_t M=n;
+    ptrdiff_t lda=n;
+    ptrdiff_t ipiv[N];
+    ptrdiff_t info;
+    ptrdiff_t lwork=n*n;
     double work[lwork];
 
     dgetrf(&M,&N,A,&lda,ipiv,&info);
