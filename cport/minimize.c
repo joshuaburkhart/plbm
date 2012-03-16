@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "arraylib.h"
-//#include "mex.h"
+#include "mex.h"
 
 double initVh[]= {1.5488,1.2907,0,0.5163,0.7744,0.5163,1.0326,0.2581,0.2581,0.2581,1.0326,0.2581,1.2907,1.5488,0,0.5163,0.7744,0.5163,1.0326,0.2581,0.2581,0.2581,1.0326,0.2581,0,0,1.5488,0,0,0,0,0,0,0,0,0,0.5163,0.5163,0,1.5488,0.5163,0.7744,0.5163,0.2581,0.2581,0.2581,0.5163,0.2581,0.7744,0.7744,0,0.5163,1.5488,0.5163,0.7744,0.2581,0.2581,0.2581,0.7744,0.2581,0.5163,0.5163,0,0.7744,0.5163,1.5488,0.5163,0.2581,0.2581,0.2581,0.5163,0.2581,1.0326,1.0326,0,0.5163,0.7744,0.5163,1.5488,0.2581,0.2581,0.2581,1.2907,0.2581,0.2581,0.2581,0,0.2581,0.2581,0.2581,0.2581,1.5488,0.7744,0.7744,0.2581,0.5163,0.2581,0.2581,0,0.2581,0.2581,0.2581,0.2581,0.7744,1.5488,1.0326,0.2581,0.5163,0.2581,0.2581,0,0.2581,0.2581,0.2581,0.2581,0.7744,1.0326,1.5488,0.2581,0.5163,1.0326,1.0326,0,0.5163,0.7744,0.5163,1.2907,0.2581,0.2581,0.2581,1.5488,0.2581,0.2581,0.2581,0,0.2581,0.2581,0.2581,0.2581,0.5163,0.5163,0.5163,0.2581,1.5488};
 
@@ -20,12 +20,34 @@ double q=27;
 
 double funct(double *d1_d2);
 void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],double *ynewlo, double reqmin, double step[], int konvge, int kcount,int *icount, int *numres, int *ifault );
+void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]);
 
-/*
 void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
+    //expect phrs-> 0=initVh, 1=initVp, 2=n, 3=p, 4=q, 5=tau1, 6=tau2, 7=d1_d2
+    
+    //TODO: n, p, and q may not be necessary as they might already be included in dims of other vars..?
+    //http://cnx.org/content/m12348/latest/
 
-    //should grab all the globs from matlab, set vals, call nelmin on funct, and return results in matlab format
+    /////////////////////
+    //convert matlab vals
+    /////////////////////
+	
+    initVh=mxGetPr(prhs[0]);
+    initVp=mxGetPr(prhs[1]);
+    n=*mxGetPr(prhs[2]); // should be 1 x 1 matrix
+    //also try n=(int) mxGetScalar(prhs[2]);
+    p=*mxGetPr(prhs[3]); // should be 1 x 1 matrix
+    q=*mxGetPr(prhs[4]); // should be 1 x 1 matrix
+    tau1=mxGetPr(prhs[5]);
+    tau2=mxGetPr(prhs[6]);
+    
+    double *d1_d2=mxGetPr(prhs[7]);
 
+    //////////////////////
+    //call nelmin on funct
+    //////////////////////
+  
+    //TODO: convert these things to ternary
     double STEP[2];
     if(*(d1_d2)==0) {
         STEP[0]=0.00025;
@@ -37,23 +59,32 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     } else {
         STEP[1]=0.95 * *(d1_d2+1);
     }
-    double XMIN[2]; //coordinates of minimum value
-    double YNEWLO; //minimum value
+    double XMIN[2];         //coordinates of minimum value
+    double YNEWLO;          //minimum value
     double REQMIN = 0.0001; //termination variance limit
-    int KONVGE = 10; //frequency of convergence tests
-    int KCOUNT = 10000; //max number of iterations
-    int ICOUNT; //number of evaluations
-    int NUMRES; //number of restarts
-    int IFAULT; //error indicator
+    int KONVGE = 10;        //frequency of convergence tests
+    int KCOUNT = 10000;     //max number of iterations
+    int ICOUNT;             //number of evaluations
+    int NUMRES;             //number of restarts
+    int IFAULT;             //error indicator
+
     nelmin(funct,2,d1_d2,XMIN,&YNEWLO,REQMIN,STEP,KONVGE,KCOUNT,&ICOUNT,&NUMRES,&IFAULT);
+
+    /////////////////////////////////
+    //return results in matlab format
+    /////////////////////////////////
 
     printf("minimization coordinates: %f %f\n",*(XMIN),*(XMIN+1));
     printf("minimum value: %f\n",YNEWLO);
 
+    //expects colLen, rowLen, data_type
+    plhs[0]=mxCreateDoubleMatrix(3,1,mxREAL);
+    double *outArray = mxGetPr(plhs[0]);
+    
+
     free(d1_d2);
   return;
 }
-*/
 
 int main(int argc,char *argv[]) {
     double *d1_d2;
