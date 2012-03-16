@@ -38,6 +38,10 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     q=*mxGetPr(prhs[4]); /* should be 1 x 1 matrix */
     tau1=mxGetPr(prhs[5]);
     tau2=mxGetPr(prhs[6]);
+
+    mxPrintf("n: %f\n",n);
+    mxPrintf("p: %f\n",p);
+    mxPrintf("q: %f\n",q);
     
     double *d1_d2=mxGetPr(prhs[7]);
 
