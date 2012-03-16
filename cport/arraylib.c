@@ -127,7 +127,7 @@ double matrx_det(double *A,int n) {
     lu = malloc(n*n*sizeof(double));
     lu = tran(A,n,n); /*row major -> column major*/
     int N=n;
-    int lda=N;
+    int lda=n;
     int ipiv[N];
     int info;
     int lwork=N*N;
