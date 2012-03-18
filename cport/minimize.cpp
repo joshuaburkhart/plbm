@@ -35,8 +35,12 @@ double funct(double *d1_d2) {
     //double *D = matrx_sub(1.00,Cout,p,p);
     double Dout[p*p];
     matrx_sub(Dout,1.00,Cout,p,p);
-    double *E = array_mlt(Aout,p,p,Dout);
-    double *Vh = array_rdv(E,p,p,1.00 - d1*d1);
+    //double *E = array_mlt(Aout,p,p,Dout);
+    double Eout[p*p];
+    array_mlt(Eout,Aout,p,p,Dout);
+    //double *Vh = array_rdv(Eout,p,p,1.00 - d1*d1);
+    double Vhout[p*p];
+    array_rdv(Vhout,Eout,p,p,1.00 - d1*d1);
 
     /*Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);-------------------------------------*/
 
@@ -52,28 +56,34 @@ double funct(double *d1_d2) {
     //D = matrx_sub(1.00,Cout2,q,q);
     double Dout2[q*q];
     matrx_sub(Dout2,1.00,Cout2,q,q);
-    E = array_mlt(Aout2,q,q,Dout2);
-    double *Vp = array_rdv(E,q,q,1.00 - d2*d2);
+    //E = array_mlt(Aout2,q,q,Dout2);
+    double Eout2[q*q];
+    array_mlt(Eout2,Aout2,q,q,Dout2);
+    //double *Vp = array_rdv(Eout2,q,q,1.00 - d2*d2);
+    double Vpout[q*q];
+    array_rdv(Vpout,Eout2,q,q,1.00 - d2*d2);
 
     /*Vh=Vh./det(Vh)^(1/p);-----------------------------------*/
 
-    double dA = matrx_det(Vh,p);
+    double dA = matrx_det(Vhout,p);
     double dB = pow(dA,(1.00/((double) p)));
-    Vh = array_rdv(Vh,p,p,dB);
+    array_rdv(Vhout,Vhout,p,p,dB);
 
     /*Vp=Vp./det(Vp)^(1/q);-----------------------------------*/
 
-    dA = matrx_det(Vp,q);
+    dA = matrx_det(Vpout,q);
     dB = pow(dA,(1.00/((double) q)));
-    Vp = array_rdv(Vp,q,q,dB);
+    array_rdv(Vpout,Vpout,q,q,dB);
 
     /*V=kron(Vp,Vh);-----------------------------------*/
 
-    double *V = kron(Vp,q,q,Vh,p,p);
+    //double *V = kron(Vpout,q,q,Vhout,p,p);
+    double Vout[p*p*q*q];
+    kron(Vout,Vpout,q,q,Vhout,p,p);
 
     /*invV=V\eye(n);-----------------------------------*/
 
-    double *invV = matrx_inv(V,n);
+    double *invV = matrx_inv(Vout,n);
 
     /*U=ones(length(X),1);-----------------------------------*/
 
@@ -85,7 +95,7 @@ double funct(double *d1_d2) {
     double *B = matrx_mlt2(A,1.00,n,invV,n,n);
     double *C = matrx_mlt2(B,1.00,n,X,n,1.00);
     double *D = tran(U,n,1.00);
-    E = matrx_mlt2(D,1.00,n,invV,n,n);
+    double *E = matrx_mlt2(D,1.00,n,invV,n,n);
     double *F = matrx_mlt2(E,1.00,n,U,n,1.00);
     double b = *(C) / *(F); /*should be a 1 x 1 matrix*/
 
@@ -100,11 +110,10 @@ double funct(double *d1_d2) {
     C = matrx_mlt2(B,1.00,n,H,n,1.00);
     double MSE = *(C)/(((double) n) - 1.00);
 
-    //free(H);
     free(invV);
-    free(Vp);
-    free(V);
-    free(Vh);
+    //free(Vp);
+    //free(V);
+    //free(Vh);
     return MSE;
 }
 

@@ -38,7 +38,7 @@ double* matrx_inv(double *A,int n) {
 
 }
 
-double* array_rdv(double *A,int m,int n,double d) {
+void array_rdv(double out[],double *A,int m,int n,double d) {
 
     //double *diff;
     //diff=(double *) malloc(m*n*sizeof(double));
@@ -47,11 +47,13 @@ double* array_rdv(double *A,int m,int n,double d) {
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
             //*(diff+(i*n+j))=*(A+(i*n+j)) / d;
-            *(A+(i*n+j))=*(A+(i*n+j)) / d;
+            //*(A+(i*n+j))=*(A+(i*n+j)) / d;
+	       out[i*n+j] =*(A+(i*n+j)) / d;
         }
     }
     //return diff;
-    return A;
+    //return A;
+    return;
 }
 
 double* matrx_sub3(double *A,int m,int n,double d) {
@@ -140,18 +142,20 @@ void matrx_mlt(double out[],double d,double *A,int m,int n) {
     return;
 }
 
-double* array_mlt(double A[],int m,int n,double *B) {
+void array_mlt(double out[],double A[],int m,int n,double *B) {
 
-    double *pdct;
-    pdct=(double *) malloc(m*n*sizeof(double));
+    //double *pdct;
+    //pdct=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            *(pdct+(i*n+j))=A[i*n+j] * *(B+(i*n+j));
+            //*(pdct+(i*n+j))=A[i*n+j] * *(B+(i*n+j));
+	          out[i*n+j] =A[i*n+j] * *(B+(i*n+j));
         }
     }
-    return pdct;
+    //return pdct;
+    return;
 }
 
 void array_pow(double out[],double d,double *A,int m,int n) {
@@ -277,10 +281,10 @@ double* eye(int n) {
     return iden;
 }
 
-double* kron(double *A,int ma,int na,double *B,int mb,int nb) {
+void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
-    double* k;
-    k = (double *) malloc(ma*mb*na*nb*sizeof(double));
+    //double* k;
+    //k = (double *) malloc(ma*mb*na*nb*sizeof(double));
     int i;
     int j;
     int min_m = ma < mb ? ma : mb;
@@ -292,10 +296,12 @@ double* kron(double *A,int ma,int na,double *B,int mb,int nb) {
             int b_row = i%min_m;
             int b_col = j%min_n;
             double val=*(A+(a_row*na+a_col)) * *(B+(b_row*nb+b_col));
-            *(k+((i*na*nb)+j))=val;
+            //*(k+((i*na*nb)+j))=val;
+	        out[i*na*nb +j] =val;
         }
     }
-    return k;
+    //return k;
+    return;
 }
 
 double* tran(double *A,int m,int n) {
