@@ -22,20 +22,33 @@ double funct(double *d1_d2) {
     d2 = fabs(*(d1_d2+1));
 
     /*Vh=(d1.^tau1).*(1-d1.^(2*initVh))./(1-d1^2);--------------------------------------*/
-
-    double *Vh = array_rdv(array_mlt(array_pow(d1,tau1,p,p),p,p,matrx_sub(1,array_pow(d1,matrx_mlt(2,initVh,p,p),p,p),p,p)),p,p,1 - d1*d1);
+    double *A = array_pow(d1,tau1,p,p);
+    double *B = matrx_mlt(2,initVh,p,p);
+    double *C = array_pow(d1,B,p,p);
+    double *D = matrx_sub(1,C,p,p);
+    double *E = array_mlt(A,p,p,D);
+    double *Vh = array_rdv(E,p,p,1 - d1*d1);
 
     /*Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);-------------------------------------*/
 
-    double *Vp = array_rdv(array_mlt(array_pow(d2,tau2,q,q),q,q,matrx_sub(1,array_pow(d2,matrx_mlt(2,initVp,q,q),q,q),q,q)),q,q,1 - d2*d2);
+    A = array_pow(d2,tau2,q,q);
+    B = matrx_mlt(2,initVp,q,q);
+    C = array_pow(d2,B,q,q);
+    D = matrx_sub(1,C,q,q);
+    E = array_mlt(A,q,q,D);
+    double *Vp = array_rdv(E,q,q,1 - d2*d2);
 
     /*Vh=Vh./det(Vh)^(1/p);-----------------------------------*/
 
-    Vh = array_rdv(Vh,p,p,pow(matrx_det(Vh,p),(1/p)));
+    double dA = matrx_det(Vh,p);
+    double dB = pow(dA,(1/p));
+    Vh = array_rdv(Vh,p,p,dB);
 
     /*Vp=Vp./det(Vp)^(1/q);-----------------------------------*/
 
-    Vp = array_rdv(Vp,q,q,pow(matrx_det(Vp,q),(1/q)));
+    dA = matrx_det(Vp,q);
+    dB = pow(dA,(1/q));
+    Vp = array_rdv(Vp,q,q,dB);
 
     /*V=kron(Vp,Vh);-----------------------------------*/
 
@@ -43,33 +56,7 @@ double funct(double *d1_d2) {
 
     /*invV=V\eye(n);-----------------------------------*/
 
-    V = tran(V,n,n); /*row major -> column major*/
-
-    ptrdiff_t N=n;
-    ptrdiff_t M=n;
-    ptrdiff_t lda=n;
-    ptrdiff_t ipiv[N];
-    ptrdiff_t info;
-    ptrdiff_t lwork=n*n;
-    double work[lwork];
-
-    dgetrf(&M,&N,V,&lda,ipiv,&info);
-    if(info!=0) {
-        //printf("dgetrf returns info code %i ... inverse could not be calculated\n",info);
-        //printf("M:   %i\n",M);
-        //printf("N:   %i\n",N);
-        //printf("lda: %i\n",lda);
-        info=0;
-    }
-
-    dgetri(&N,V,&lda,ipiv,work,&lwork,&info);
-    if(info!=0) {
-        //printf("dgetri returns info code %i ... inverse could not be calculated\n",info);
-        //printf("N:   %i\n",N);
-        //printf("lda: %i\n",lda);
-    }
-
-    double *invV = tran(V,n,n); /*column major -> row major*/
+    double *invV = matrx_inv(V,n);
 
     /*U=ones(length(X),1);-----------------------------------*/
 
@@ -77,9 +64,13 @@ double funct(double *d1_d2) {
 
     /*b=(U'*invV*U)\(U'*invV*X);-----------------------------------*/
 
-    double *B = matrx_mlt2(tran(U,n,1),1,n,invV,n,n);
-
-    double b = *(matrx_mlt2(B,1,n,X,n,1)) / *(matrx_mlt2(B,1,n,U,n,1)); /*should be a 1 x 1 matrix*/
+    A = tran(U,n,1);
+    B = matrx_mlt2(A,1,n,invV,n,n);
+    C = matrx_mlt2(B,1,n,X,n,1);
+    D = tran(U,n,1);
+    E = matrx_mlt2(D,1,n,invV,n,n);
+    double *F = matrx_mlt2(E,1,n,U,n,1);
+    double b = *(C) / *(F); /*should be a 1 x 1 matrix*/
 
     /*H=X-b;-----------------------------------*/
 
@@ -87,13 +78,15 @@ double funct(double *d1_d2) {
 
     /*MSE=(H'*invV*H)/(n-1);-----------------------------------*/
 
-    double MSE = *(matrx_mlt2(matrx_mlt2(tran(H,n,1),1,n,invV,n,n),1,n,H,n,1))/(n -1);
+    A = tran(H,n,1);
+    B = matrx_mlt2(A,1,n,invV,n,n);
+    C = matrx_mlt2(B,1,n,H,n,1);
+    double MSE = *(C)/(n -1);
 
-    free(H);
+    //free(H);
     free(invV);
     free(Vp);
     free(V);
-    free(B);
     free(Vh);
     return MSE;
 }

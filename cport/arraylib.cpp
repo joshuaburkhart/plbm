@@ -5,65 +5,106 @@
 #include "./lib/lapack.h"
 #include "./lib/arraylib.h"
 
+double* matrx_inv(double *A,int n) {
+
+    A = tran(A,n,n); /*row major -> column major*/
+
+    ptrdiff_t N=n;
+    ptrdiff_t M=n;
+    ptrdiff_t lda=n;
+    ptrdiff_t ipiv[N];
+    ptrdiff_t info;
+    ptrdiff_t lwork=n*n;
+    double work[lwork];
+
+    dgetrf(&M,&N,A,&lda,ipiv,&info);
+    if(info!=0) {
+        //printf("dgetrf returns info code %i ... inverse could not be calculated\n",info);
+        //printf("M:   %i\n",M);
+        //printf("N:   %i\n",N);
+        //printf("lda: %i\n",lda);
+        info=0;
+    }
+
+    dgetri(&N,A,&lda,ipiv,work,&lwork,&info);
+    if(info!=0) {
+        //printf("dgetri returns info code %i ... inverse could not be calculated\n",info);
+        //printf("N:   %i\n",N);
+        //printf("lda: %i\n",lda);
+    }
+
+    A  = tran(A,n,n); /*column major -> row major*/
+    return A;
+
+}
+
 double* array_rdv(double *A,int m,int n,double d) {
 
-    double *diff;
-    diff=(double *) malloc(m*n*sizeof(double));
+    //double *diff;
+    //diff=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            *(diff+(i*n+j))=*(A+(i*n+j)) / d;
+            //*(diff+(i*n+j))=*(A+(i*n+j)) / d;
+            *(A+(i*n+j))=*(A+(i*n+j)) / d;
         }
     }
-    return diff;
+    //return diff;
+    return A;
 }
 
 double* matrx_sub3(double *A,int m,int n,double d) {
 
-    double *diff;
-    diff=(double *) malloc(m*n*sizeof(double));
+    //double *diff;
+    //diff=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            *(diff+(i*n+j))=*(A+(i*n+j)) - d;
+            //*(diff+(i*n+j))=*(A+(i*n+j)) - d;
+            *(A+(i*n+j))=*(A+(i*n+j)) - d;
         }
     }
-    return diff;
+    //return diff;
+    return A;
 }
 
 
 double* matrx_sub2(double *A,int m,int n,double *B) {
 
-    double *diff;
-    diff=(double *) malloc(m*n*sizeof(double));
+    //double *diff;
+    //diff=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            *(diff+(i*n+j))=*(A+(i*n+j)) - *(B+(i*n+j));
+            //*(diff+(i*n+j))=*(A+(i*n+j)) - *(B+(i*n+j));
+            *(A+(i*n+j))=*(A+(i*n+j)) - *(B+(i*n+j));
         }
     }
-    return diff;
+    //return diff;
+    return A;
 }
 
 double* matrx_sub(double d,double *A,int m,int n) {
 
-    double *diff;
-    diff=(double *) malloc(m*n*sizeof(double));
+    //double *diff;
+    //diff=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            *(diff+(i*n+j))=d - *(A+(i*n+j));
+            //*(diff+(i*n+j))=d - *(A+(i*n+j));
+            *(A+(i*n+j))=d - *(A+(i*n+j));
         }
     }
-    return diff;
+    //return diff;
 }
 
 double* matrx_mlt2(double *A,int ma,int na,double *B,int mb,int nb) {
 
+    //TODO: A and B are leaking here
     double *pdct;
     pdct=(double *) malloc(ma*nb*sizeof(double));
     int i;
@@ -89,7 +130,7 @@ double* matrx_mlt(double d,double *A,int m,int n) {
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            *(pdct+(i*n+j))=*(A+(i*n+j)) * d;
+            *(pdct+(i*n+j)) = *(A+(i*n+j)) * d;
         }
     }
     return pdct;
@@ -138,8 +179,8 @@ double matrx_det(double *A,int n) {
     if(info!=0) {
         //printf("dgetrf returns info code %i ... determinant cannot be calculated\n",info);
         //printf("M:   %i\n",M);
-	//printf("N:   %i\n",N);
-	//printf("lda: %i\n",lda);
+        //printf("N:   %i\n",N);
+        //printf("lda: %i\n",lda);
     }
     lu = tran(lu,n,n);
     double diag=1;

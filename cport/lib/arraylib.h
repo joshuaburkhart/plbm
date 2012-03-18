@@ -2,6 +2,7 @@
 double matrx_det(double *A,int n);
 static double det_l(double *A,int n);
 
+double* matrx_inv(double *A,int n);
 double* eye(int n);
 double* kron(double *A,int ma,int na,double *B,int mb,int nb);
 double* tran(double *A,int m,int n);
