@@ -78,6 +78,11 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     MSE[0]= YNEWLO;   
    
     //TODO: free allocated memory
+    free(initVh);
+    free(initVp);
+    free(X);
+    free(tau1);
+    free(tau2);
   return;
 }
 
