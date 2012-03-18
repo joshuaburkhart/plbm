@@ -41,6 +41,8 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     X=mxGetPr(prhs[5]);
     tau1=mxGetPr(prhs[6]);
     tau2=mxGetPr(prhs[7]);
+    
+    output(initVh,2,2);
 
     double *d1_d2=mxGetPr(prhs[8]);
 
