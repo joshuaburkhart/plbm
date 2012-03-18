@@ -24,12 +24,13 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     
     /*TODO: n, p, and q may not be necessary as they might already be included in dims of other vars..?*/
     /* http://cnx.org/content/m12348/latest/ */
+    /*TODO: n, p, and q are ints -> changing all the doubles may save memory*/
 
     /* /////////////////// */
     /* convert matlab vals */
     /* /////////////////// */
 
-    /*TODO: these pointers may have to be transposed before non-symmetric arrays are properly consumed*/
+    /*TODO: these pointers may have to be transposed before asymmetric arrays are properly consumed*/
 	
     initVh=mxGetPr(prhs[0]);
     initVp=mxGetPr(prhs[1]);
@@ -75,7 +76,8 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     est[0]= *(XMIN);
     est[1]= *(XMIN+1);
     MSE[0]= YNEWLO;   
-    
+   
+    //TODO: free allocated memory
   return;
 }
 
@@ -95,15 +97,11 @@ double funct(double *d1_d2) {
 
     /*Vh=Vh./det(Vh)^(1/p);-----------------------------------*/
 
-    double dtm = matrx_det(Vh,p);
-    double dtm21op = pow(dtm,(1/p));
-    Vh = array_rdv(Vh,p,p,dtm21op);
+    Vh = array_rdv(Vh,p,p,pow(matrx_det(Vh,p),(1/p)));
 
     /*Vp=Vp./det(Vp)^(1/q);-----------------------------------*/
 
-    dtm = matrx_det(Vp,q);
-    double dtm21oq = pow(dtm,(1/q));
-    Vp = array_rdv(Vp,q,q,dtm21oq);
+    Vp = array_rdv(Vp,q,q,pow(matrx_det(Vp,q),(1/q)));
 
     /*V=kron(Vp,Vh);-----------------------------------*/
 
@@ -111,8 +109,7 @@ double funct(double *d1_d2) {
 
     /*invV=V\eye(n);-----------------------------------*/
 
-    double *A = tran(V,n,n); /*row major -> column major*/
-    double *invV;
+    V = tran(V,n,n); /*row major -> column major*/
 
     ptrdiff_t N=n;
     ptrdiff_t M=n;
@@ -122,38 +119,33 @@ double funct(double *d1_d2) {
     ptrdiff_t lwork=n*n;
     double work[lwork];
 
-    dgetrf(&M,&N,A,&lda,ipiv,&info);
+    dgetrf(&M,&N,V,&lda,ipiv,&info);
     if(info!=0) {
         printf("dgetrf returns info code %i ... inverse could not be calculated\n",info);
         printf("M:   %i\n",M);
 	printf("N:   %i\n",N);
         printf("lda: %i\n",lda);
-    double *    info=0;
-    double *}
+        info=0;
+    }
 
-    dgetri(&N,A,&lda,ipiv,work,&lwork,&info);
+    dgetri(&N,V,&lda,ipiv,work,&lwork,&info);
     if(info!=0) {
         printf("dgetri returns info code %i ... inverse could not be calculated\n",info);
         printf("N:   %i\n",N);
         printf("lda: %i\n",lda);
     }
 
-    invV = tran(A,n,n); /*column major -> row major*/
+    double *invV = tran(V,n,n); /*column major -> row major*/
 
     /*U=ones(length(X),1);-----------------------------------*/
 
-    double *double *U = ones(n,1);
+    double *U = ones(n,1);
 
     /*b=(U'*invV*U)\(U'*invV*X);-----------------------------------*/
 
-    A = tran(U,n,1);
-    B = matrx_mlt2(A,1,n,invV,n,n);
-    C = matrx_mlt2(B,1,n,U,n,1);
-    D = matrx_mlt2(B,1,n,X,n,1);
+    double *B = matrx_mlt2(tran(U,n,1),1,n,invV,n,n);
 
-    double c = *(C); /*should be a 1 x 1 matrix*/
-    double d = *(D); /*should be a 1 x 1 matrix*/
-    double b = d/c;
+    double b = *(matrx_mlt2(B,1,n,X,n,1)) / *(matrx_mlt2(B,1,n,U,n,1)); /*should be a 1 x 1 matrix*/
 
     /*H=X-b;-----------------------------------*/
 
@@ -161,21 +153,13 @@ double funct(double *d1_d2) {
 
     /*MSE=(H'*invV*H)/(n-1);-----------------------------------*/
 
-    A = tran(H,n,1);
-    B = matrx_mlt2(A,1,n,invV,n,n);
-    C = matrx_mlt2(B,1,n,H,n,1);
-    c = *(C); /*should be a 1 x 1 matrix*/
-    double MSE = c/(n -1);
+    double MSE = *(matrx_mlt2(matrx_mlt2(tran(H,n,1),1,n,invV,n,n),1,n,H,n,1))/(n -1);
 
     free(H);
     free(invV);
     free(Vp);
     free(V);
-    free(A);
     free(B);
-    free(C);
-    free(D);
-    free(E);
     free(Vh);
     return MSE;
 }
