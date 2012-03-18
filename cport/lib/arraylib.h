@@ -1,5 +1,4 @@
 
-void output(double *matrix,int m,int n);
 double matrx_det(double *A,int n);
 static double det_l(double *A,int n);
 

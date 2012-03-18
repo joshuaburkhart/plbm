@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include "./lib/lapack.h"
 #include "./lib/arraylib.h"
-#include "./lib/mex.h"
 
 double* array_rdv(double *A,int m,int n,double d) {
 
@@ -137,10 +136,10 @@ double matrx_det(double *A,int n) {
     double work[lwork];
     dgetrf(&M,&N,lu,&lda,ipiv,&info);
     if(info!=0) {
-        printf("dgetrf returns info code %i ... determinant cannot be calculated\n",info);
-        printf("M:   %i\n",M);
-	printf("N:   %i\n",N);
-	printf("lda: %i\n",lda);
+        //printf("dgetrf returns info code %i ... determinant cannot be calculated\n",info);
+        //printf("M:   %i\n",M);
+	//printf("N:   %i\n",N);
+	//printf("lda: %i\n",lda);
     }
     lu = tran(lu,n,n);
     double diag=1;
@@ -264,16 +263,4 @@ double* tran(double *A,int m,int n) {
         }
     }
     return t;
-}
-
-void output(double *matrix,int m,int n) {
-
-    int i;
-    int j;
-    for(i=0; i<m; i++) {
-        for(j=0; j<n; j++) {
-            mexPrintf("%f ",*(matrix+(i*n+j)));
-        }
-        mexPrintf("\n");
-    }
 }
