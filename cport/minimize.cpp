@@ -5,15 +5,16 @@
 #include "./lib/lapack.h"
 #include "./lib/arraylib.h"
 #include "./lib/mex.h"
+#include "./lib/glob_decs.h"
 
-double *initVh;
-double *initVp;
-double *X;
-double *tau1;
-double *tau2;
-double n;
-double p;
-double q;
+extern double *initVh;
+extern double *initVp;
+extern double *X;
+extern double *tau1;
+extern double *tau2;
+extern double n;
+extern double p;
+extern double q;
 
 double funct(double *d1_d2);
 void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],double *ynewlo, double reqmin, double step[], int konvge, int kcount,int *icount, int *numres, int *ifault );
