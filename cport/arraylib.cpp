@@ -56,18 +56,18 @@ double* array_rdv(double *A,int m,int n,double d) {
 
 double* matrx_sub3(double *A,int m,int n,double d) {
 
-    //double *diff;
-    //diff=(double *) malloc(m*n*sizeof(double));
+    double *diff;
+    diff=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            //*(diff+(i*n+j))=*(A+(i*n+j)) - d;
-            *(A+(i*n+j))=*(A+(i*n+j)) - d;
+            *(diff+(i*n+j))=*(A+(i*n+j)) - d;
+            //*(A+(i*n+j))=*(A+(i*n+j)) - d;
         }
     }
-    //return diff;
-    return A;
+    return diff;
+    //return A;
 }
 
 
@@ -89,17 +89,17 @@ double* matrx_sub2(double *A,int m,int n,double *B) {
 
 double* matrx_sub(double d,double *A,int m,int n) {
 
-    //double *diff;
-    //diff=(double *) malloc(m*n*sizeof(double));
+    double *diff;
+    diff=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            //*(diff+(i*n+j))=d - *(A+(i*n+j));
-            *(A+(i*n+j))=d - *(A+(i*n+j));
+            *(diff+(i*n+j))=d - *(A+(i*n+j));
+            //*(A+(i*n+j))=d - *(A+(i*n+j));
         }
     }
-    //return diff;
+    return diff;
 }
 
 double* matrx_mlt2(double *A,int ma,int na,double *B,int mb,int nb) {
@@ -136,7 +136,7 @@ double* matrx_mlt(double d,double *A,int m,int n) {
     return pdct;
 }
 
-double* array_mlt(double *A,int m,int n,double *B) {
+double* array_mlt(double A[],int m,int n,double *B) {
 
     double *pdct;
     pdct=(double *) malloc(m*n*sizeof(double));
@@ -144,24 +144,26 @@ double* array_mlt(double *A,int m,int n,double *B) {
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            *(pdct+(i*n+j))=*(A+(i*n+j)) * *(B+(i*n+j));
+            *(pdct+(i*n+j))=A[i*n+j] * *(B+(i*n+j));
         }
     }
     return pdct;
 }
 
-double* array_pow(double d,double *A,int m,int n) {
+void array_pow(double out[],double d,double *A,int m,int n) {
 
-    double *pdct;
-    pdct=(double *) malloc(m*n*sizeof(double));
+    //double *pdct;
+    //pdct=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            *(pdct+(i*n+j))=pow(d,*(A+(i*n+j)));
+            //*(pdct+(i*n+j))=pow(d,*(A+(i*n+j)));
+	    out[i*n+j] = pow(d,*(A+(i*n+j)));
         }
     }
-    return pdct;
+    //return pdct;
+    return;
 }
 
 double matrx_det(double *A,int n) {

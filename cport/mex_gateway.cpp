@@ -12,9 +12,9 @@ double *initVp;
 double *X;
 double *tau1;
 double *tau2;
-double n;
-double p;
-double q;
+int n;
+int p;
+int q;
 
 void output(double *matrix,int m,int n);
 //void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]);

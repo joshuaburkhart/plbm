@@ -11,9 +11,9 @@ extern double *initVp;
 extern double *X;
 extern double *tau1;
 extern double *tau2;
-extern double n;
-extern double p;
-extern double q;
+extern int n;
+extern int p;
+extern int q;
 
 void output(double *matrix,int m,int n);
 
