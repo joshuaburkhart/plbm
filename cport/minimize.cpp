@@ -32,18 +32,16 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
 
     /*TODO: these pointers may have to be transposed before asymmetric arrays are properly consumed*/
 	
-    initVh=mxGetPr(prhs[0]);
-    initVp=mxGetPr(prhs[1]);
+    initVh=tran(mxGetPr(prhs[0]),p,p);
+    initVp=tran(mxGetPr(prhs[1]),q,q);
     n=*mxGetPr(prhs[2]); /* should be 1 x 1 matrix */
     /*also try n=(int) mxGetScalar(prhs[2]); */
     p=*mxGetPr(prhs[3]); /* should be 1 x 1 matrix */
     q=*mxGetPr(prhs[4]); /* should be 1 x 1 matrix */
-    X=mxGetPr(prhs[5]);
-    tau1=mxGetPr(prhs[6]);
-    tau2=mxGetPr(prhs[7]);
+    X=tran(mxGetPr(prhs[5]),n,1);
+    tau1=tran(mxGetPr(prhs[6]),p,p);
+    tau2=tran(mxGetPr(prhs[7]),q,q);
     
-    output(initVh,2,2);
-
     double *d1_d2=mxGetPr(prhs[8]);
 
     /* //////////////////// */
@@ -80,6 +78,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]){
     MSE[0]= YNEWLO;   
    
     //TODO: free allocated memory
+    free(d1_d2);
     free(initVh);
     free(initVp);
     free(X);
