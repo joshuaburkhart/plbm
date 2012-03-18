@@ -5,16 +5,16 @@
 #include "./lib/lapack.h"
 #include "./lib/arraylib.h"
 #include "./lib/mex.h"
-#include ".lib/minimize.h"
+#include "./lib/minimize.h"
 
-extern double *initVh;
-extern double *initVp;
-extern double *X;
-extern double *tau1;
-extern double *tau2;
-extern double n;
-extern double p;
-extern double q;
+double *initVh;
+double *initVp;
+double *X;
+double *tau1;
+double *tau2;
+double n;
+double p;
+double q;
 
 void output(double *matrix,int m,int n);
 //void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]);
