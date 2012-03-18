@@ -22,27 +22,37 @@ double funct(double *d1_d2) {
     d2 = fabs(*(d1_d2+1));
 
     /*Vh=(d1.^tau1).*(1-d1.^(2*initVh))./(1-d1^2);--------------------------------------*/
+
     //double *A = array_pow(d1,tau1,p,p);
     double Aout[p*p];
     array_pow(Aout,d1,tau1,p,p);
-    double *B = matrx_mlt(2.00,initVh,p,p);
+    //double *B = matrx_mlt(2.00,initVh,p,p);
+    double Bout[p*p];
+    matrx_mlt(Bout,2.00,initVh,p,p);
     //double *C = array_pow(d1,B,p,p);
     double Cout[p*p];
-    array_pow(Cout,d1,B,p,p);
-    double *D = matrx_sub(1.00,Cout,p,p);
-    double *E = array_mlt(Aout,p,p,D);
+    array_pow(Cout,d1,Bout,p,p);
+    //double *D = matrx_sub(1.00,Cout,p,p);
+    double Dout[p*p];
+    matrx_sub(Dout,1.00,Cout,p,p);
+    double *E = array_mlt(Aout,p,p,Dout);
     double *Vh = array_rdv(E,p,p,1.00 - d1*d1);
+
     /*Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);-------------------------------------*/
 
     //A = array_pow(d2,tau2,q,q);
     double Aout2[q*q];
     array_pow(Aout2,d2,tau2,q,q);
-    B = matrx_mlt(2.00,initVp,q,q);
+    //B = matrx_mlt(2.00,initVp,q,q);
+    double Bout2[q*q];
+    matrx_mlt(Bout2,2.00,initVp,q,q);
     //C = array_pow(d2,B,q,q);
     double Cout2[q*q];
-    array_pow(Cout2,d2,tau2,q,q);
-    D = matrx_sub(1.00,Cout2,q,q);
-    E = array_mlt(Aout2,q,q,D);
+    array_pow(Cout2,d2,Bout2,q,q);
+    //D = matrx_sub(1.00,Cout2,q,q);
+    double Dout2[q*q];
+    matrx_sub(Dout2,1.00,Cout2,q,q);
+    E = array_mlt(Aout2,q,q,Dout2);
     double *Vp = array_rdv(E,q,q,1.00 - d2*d2);
 
     /*Vh=Vh./det(Vh)^(1/p);-----------------------------------*/
@@ -72,9 +82,9 @@ double funct(double *d1_d2) {
     /*b=(U'*invV*U)\(U'*invV*X);-----------------------------------*/
 
     double *A = tran(U,n,1.00);
-    B = matrx_mlt2(A,1.00,n,invV,n,n);
+    double *B = matrx_mlt2(A,1.00,n,invV,n,n);
     double *C = matrx_mlt2(B,1.00,n,X,n,1.00);
-    D = tran(U,n,1.00);
+    double *D = tran(U,n,1.00);
     E = matrx_mlt2(D,1.00,n,invV,n,n);
     double *F = matrx_mlt2(E,1.00,n,U,n,1.00);
     double b = *(C) / *(F); /*should be a 1 x 1 matrix*/

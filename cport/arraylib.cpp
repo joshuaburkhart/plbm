@@ -87,19 +87,21 @@ double* matrx_sub2(double *A,int m,int n,double *B) {
     return A;
 }
 
-double* matrx_sub(double d,double *A,int m,int n) {
+void matrx_sub(double out[],double d,double *A,int m,int n) {
 
-    double *diff;
-    diff=(double *) malloc(m*n*sizeof(double));
+    //double *diff;
+    //diff=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            *(diff+(i*n+j))=d - *(A+(i*n+j));
+            //*(diff+(i*n+j))=d - *(A+(i*n+j));
+	          out[i*n+j] =d - *(A+(i*n+j));
             //*(A+(i*n+j))=d - *(A+(i*n+j));
         }
     }
-    return diff;
+    //return diff;
+    return;
 }
 
 double* matrx_mlt2(double *A,int ma,int na,double *B,int mb,int nb) {
@@ -122,18 +124,20 @@ double* matrx_mlt2(double *A,int ma,int na,double *B,int mb,int nb) {
     return pdct;
 }
 
-double* matrx_mlt(double d,double *A,int m,int n) {
+void matrx_mlt(double out[],double d,double *A,int m,int n) {
 
-    double *pdct;
-    pdct=(double *) malloc(m*n*sizeof(double));
+    //double *pdct;
+    //pdct=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            *(pdct+(i*n+j)) = *(A+(i*n+j)) * d;
+            //*(pdct+(i*n+j)) = *(A+(i*n+j)) * d;
+	          out[i*n+j]  = *(A+(i*n+j)) * d;
         }
     }
-    return pdct;
+    //return pdct;
+    return;
 }
 
 double* array_mlt(double A[],int m,int n,double *B) {
@@ -159,7 +163,7 @@ void array_pow(double out[],double d,double *A,int m,int n) {
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
             //*(pdct+(i*n+j))=pow(d,*(A+(i*n+j)));
-	    out[i*n+j] = pow(d,*(A+(i*n+j)));
+	          out[i*n+j] =pow(d,*(A+(i*n+j)));
         }
     }
     //return pdct;
