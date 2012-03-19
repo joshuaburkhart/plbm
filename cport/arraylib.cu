@@ -1,3 +1,8 @@
+/*
+distributed under the terms of the GNU General Public License
+Copyright 2012 Joshua Burkhart
+*/
+
 #include <cuda.h>
 #include <math.h>
 #include <string.h>

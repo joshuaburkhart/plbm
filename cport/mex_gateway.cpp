@@ -1,3 +1,8 @@
+/*
+distributed under the terms of the GNU General Public License
+Copyright 2012 Joshua Burkhart
+*/
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,3 +1,8 @@
+/*
+distributed under the terms of the GNU General Public License
+Copyright 2012 Joshua Burkhart
+*/
+
 double matrx_det(double *A,int n);
 static double det_l(double *A,int n);
 

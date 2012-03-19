@@ -1,3 +1,6 @@
+# distributed under the terms of the GNU General Public License
+# Copyright 2012 Joshua Burkhart
+
 DEFAULT_CXX = g++
 CUDA_CXX = nvcc
 MATLAB_CXX = mex
