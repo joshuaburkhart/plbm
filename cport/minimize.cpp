@@ -23,121 +23,94 @@ double funct(double *d1_d2) {
 
     /*Vh=(d1.^tau1).*(1-d1.^(2*initVh))./(1-d1^2);--------------------------------------*/
 
-    //double *A = array_pow(d1,tau1,p,p);
-    double Aout[p*p];
-    array_pow(Aout,d1,tau1,p,p);
-    //double *B = matrx_mlt(2.00,initVh,p,p);
-    double Bout[p*p];
-    matrx_mlt(Bout,2.00,initVh,p,p);
-    //double *C = array_pow(d1,B,p,p);
-    double Cout[p*p];
-    array_pow(Cout,d1,Bout,p,p);
-    //double *D = matrx_sub(1.00,Cout,p,p);
-    double Dout[p*p];
-    matrx_sub(Dout,1.00,Cout,p,p);
-    //double *E = array_mlt(Aout,p,p,Dout);
-    double Eout[p*p];
-    array_mlt(Eout,Aout,p,p,Dout);
-    //double *Vh = array_rdv(Eout,p,p,1.00 - d1*d1);
-    double Vhout[p*p];
-    array_rdv(Vhout,Eout,p,p,1.00 - d1*d1);
+    double A_PP[p*p];
+    matrx_mlt(A_PP,2.00,initVh,p,p);
+    array_pow(A_PP,d1,A_PP,p,p);
+    matrx_sub(A_PP,1.00,A_PP,p,p);
+    
+    double B_PP[p*p];
+    array_pow(B_PP,d1,tau1,p,p);
+
+    array_mlt(B_PP,B_PP,p,p,A_PP);
+    array_rdv(B_PP,B_PP,p,p,1.00 - d1*d1);
 
     /*Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);-------------------------------------*/
 
-    //A = array_pow(d2,tau2,q,q);
-    double Aout2[q*q];
-    array_pow(Aout2,d2,tau2,q,q);
-    //B = matrx_mlt(2.00,initVp,q,q);
-    double Bout2[q*q];
-    matrx_mlt(Bout2,2.00,initVp,q,q);
-    //C = array_pow(d2,B,q,q);
-    double Cout2[q*q];
-    array_pow(Cout2,d2,Bout2,q,q);
-    //D = matrx_sub(1.00,Cout2,q,q);
-    double Dout2[q*q];
-    matrx_sub(Dout2,1.00,Cout2,q,q);
-    //E = array_mlt(Aout2,q,q,Dout2);
-    double Eout2[q*q];
-    array_mlt(Eout2,Aout2,q,q,Dout2);
-    //double *Vp = array_rdv(Eout2,q,q,1.00 - d2*d2);
-    double Vpout[q*q];
-    array_rdv(Vpout,Eout2,q,q,1.00 - d2*d2);
+    double A_QQ[q*q];
+    matrx_mlt(A_QQ,2.00,initVp,q,q);
+    array_pow(A_QQ,d2,A_QQ,q,q);
+    matrx_sub(A_QQ,1.00,A_QQ,q,q);
+    
+    double B_QQ[q*q];
+    array_pow(B_QQ,d2,tau2,q,q);
+    
+    array_mlt(B_QQ,B_QQ,q,q,A_QQ);
+    array_rdv(B_QQ,B_QQ,q,q,1.00 - d2*d2);
 
     /*Vh=Vh./det(Vh)^(1/p);-----------------------------------*/
 
-    double dA = matrx_det(Vhout,p);
-    double dB = pow(dA,(1.00/((double) p)));
-    array_rdv(Vhout,Vhout,p,p,dB);
+    array_rdv(B_PP,B_PP,p,p,pow(matrx_det(B_PP,p),(1.00/((double) p))));
 
     /*Vp=Vp./det(Vp)^(1/q);-----------------------------------*/
 
-    dA = matrx_det(Vpout,q);
-    dB = pow(dA,(1.00/((double) q)));
-    array_rdv(Vpout,Vpout,q,q,dB);
+    array_rdv(B_QQ,B_QQ,q,q,pow(matrx_det(B_QQ,q),(1.00/((double) q))));
 
     /*V=kron(Vp,Vh);-----------------------------------*/
 
-    //double *V = kron(Vpout,q,q,Vhout,p,p);
-    double Vout[p*p*q*q];
-    kron(Vout,Vpout,q,q,Vhout,p,p);
+//requires foreign B_PP and B_QQ
+
+    double V_NN[n*n];
+    kron(V_NN,B_QQ,q,q,B_PP,p,p);
 
     /*invV=V\eye(n);-----------------------------------*/
 
-    //double *invV = matrx_inv(Vout,n);
-    double invV[n*n];
-    matrx_inv(invV,Vout,n);
+//requires foreign V_NN
+
+    matrx_inv(V_NN,V_NN,n); //saving memory by reusing name
 
     /*U=ones(length(X),1);-----------------------------------*/
 
-    //double *U = ones(n,1.00);
-    double Uout[n];
-    ones(Uout,n,1.00);
+//independent
+
+    double U_N[n];
+    ones(U_N,n,1.00);
 
     /*b=(U'*invV*U)\(U'*invV*X);-----------------------------------*/
 
-    //double *A = tran(U,n,1.00);
-    double Aout3[n];
-    tran(Aout3,Uout,n,1.00);
-    //double *B = matrx_mlt2(Aout3,1.00,n,invV,n,n);
-    double Bout3[n*n];
-    matrx_mlt2(Bout3,Aout3,1.00,n,invV,n,n);
-    //double *C = matrx_mlt2(B,1.00,n,X,n,1.00);
-    double Cout3[n];
-    matrx_mlt2(Cout3,Bout3,1.00,n,X,n,1.00);
-    //double *D = tran(U,n,1.00);
-    double Dout3[n];
-    tran(Dout3,Uout,n,1.00);
-    //double *E = matrx_mlt2(Dout3,1.00,n,invV,n,n);
-    double Eout3[n*n];
-    matrx_mlt2(Eout3,Dout3,1.00,n,invV,n,n);
-    //double *F = matrx_mlt2(E,1.00,n,Uout,n,1.00);
-    double Fout3[n*n];
-    matrx_mlt2(Fout3,Eout3,1.00,n,Uout,n,1.00);
-    double b = *(Cout3) / *(Fout3); /*should be a 1 x 1 matrix*/
+//requires foreign U_N and V_NN
+
+    double A_N[n];
+    double B_NN[n*n];
+    tran(A_N,U_N,n,1.00);
+    matrx_mlt2(B_NN,A_N,1.00,n,V_NN,n,n);
+    matrx_mlt2(A_N,B_NN,1.00,n,X,n,1.00);
+
+    double D_N[n];
+    double E_NN[n*n];
+    tran(D_N,U_N,n,1.00);
+    matrx_mlt2(E_NN,D_N,1.00,n,V_NN,n,n);
+    matrx_mlt2(D_N,E_NN,1.00,n,U_N,n,1.00);
+    
+    double b = A_N[0] / D_N[0];
 
     /*H=X-b;-----------------------------------*/
 
-    //double *H = matrx_sub3(X,n,1.00,b);
-    double Hout[n];
-    matrx_sub3(Hout,X,n,1.00,b);
+//requires foreign b
+
+    double H_N[n];
+    matrx_sub3(H_N,X,n,1.00,b);
 
     /*MSE=(H'*invV*H)/(n-1);-----------------------------------*/
 
-    //A = tran(H,n,1.00);
-    double Aout4[n];
-    tran(Aout4,Hout,n,1.00);
-    //double *B = matrx_mlt2(Aout4,1.00,n,invV,n,n);
-    double Bout4[n*n];
-    matrx_mlt2(Bout4,Aout4,1.00,n,invV,n,n);
-    //double *C = matrx_mlt2(B,1.00,n,H,n,1.00);
-    double Cout4[n*n];
-    matrx_mlt2(Cout4,Bout4,1.00,n,Hout,n,1.00);
-    double MSE = *(Cout4)/(((double) n) - 1.00);
+//requires foreign V_NN and H_N
 
-    //free(invV);
-    //free(Vp);
-    //free(V);
-    //free(Vh);
+    double N2[n];
+    double NxN[n*n];
+    tran(N2,H_N,n,1.00);
+    matrx_mlt2(NxN,N2,1.00,n,V_NN,n,n);
+    matrx_mlt2(NxN,NxN,1.00,n,H_N,n,1.00);
+    double MSE = NxN[0] / (((double) n) - 1);
+
     return MSE;
 }
 

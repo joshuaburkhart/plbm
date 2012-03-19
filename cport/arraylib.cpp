@@ -7,7 +7,6 @@
 
 void matrx_inv(double out[],double *A,int n) {
 
-    //A = tran(A,n,n); /*row major -> column major*/
     tran(out,A,n,n);
 
     ptrdiff_t N=n;
@@ -34,85 +33,48 @@ void matrx_inv(double out[],double *A,int n) {
         //printf("lda: %i\n",lda);
     }
 
-    //A  = tran(A,n,n); /*column major -> row major*/
     tran(out,out,n,n);
     return;
 }
 
 void array_rdv(double out[],double *A,int m,int n,double d) {
 
-    //double *diff;
-    //diff=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            //*(diff+(i*n+j))=*(A+(i*n+j)) / d;
-            //*(A+(i*n+j))=*(A+(i*n+j)) / d;
 	       out[i*n+j] =*(A+(i*n+j)) / d;
         }
     }
-    //return diff;
-    //return A;
     return;
 }
 
 void matrx_sub3(double out[],double *A,int m,int n,double d) {
 
-    //double *diff;
-    //diff=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            //*(diff+(i*n+j))=*(A+(i*n+j)) - d;
-               //*(A+(i*n+j))=*(A+(i*n+j)) - d;
 	          out[i*n+j] =*(A+(i*n+j)) - d;
         }
     }
-    //return diff;
-    //return A;
     return;
 }
 
-
-/*double* matrx_sub2(double *A,int m,int n,double *B) {
-
-    //double *diff;
-    //diff=(double *) malloc(m*n*sizeof(double));
-    int i;
-    int j;
-    for(i=0; i<m; i++) {
-        for(j=0; j<n; j++) {
-            //*(diff+(i*n+j))=*(A+(i*n+j)) - *(B+(i*n+j));
-            *(A+(i*n+j))=*(A+(i*n+j)) - *(B+(i*n+j));
-        }
-    }
-    //return diff;
-    return A;
-}*/
-
 void matrx_sub(double out[],double d,double *A,int m,int n) {
 
-    //double *diff;
-    //diff=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            //*(diff+(i*n+j))=d - *(A+(i*n+j));
 	          out[i*n+j] =d - *(A+(i*n+j));
-            //*(A+(i*n+j))=d - *(A+(i*n+j));
         }
     }
-    //return diff;
     return;
 }
 
 void matrx_mlt2(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
-    //double *pdct;
-    //pdct=(double *) malloc(ma*nb*sizeof(double));
     int i;
     int j;
     int k;
@@ -122,66 +84,49 @@ void matrx_mlt2(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
             for(k=0; k<na; k++) {
                 sum+=*(A+(i*na+k)) * *(B+(j+k*nb));
             }
-            //*(pdct+(i*nb+j))=sum;
 	          out[i*nb+j] =sum;
         }
     }
-    //return pdct;
     return;
 }
 
 void matrx_mlt(double out[],double d,double *A,int m,int n) {
 
-    //double *pdct;
-    //pdct=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            //*(pdct+(i*n+j)) = *(A+(i*n+j)) * d;
 	          out[i*n+j]  = *(A+(i*n+j)) * d;
         }
     }
-    //return pdct;
     return;
 }
 
 void array_mlt(double out[],double A[],int m,int n,double *B) {
 
-    //double *pdct;
-    //pdct=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            //*(pdct+(i*n+j))=A[i*n+j] * *(B+(i*n+j));
 	          out[i*n+j] =A[i*n+j] * *(B+(i*n+j));
         }
     }
-    //return pdct;
     return;
 }
 
 void array_pow(double out[],double d,double *A,int m,int n) {
 
-    //double *pdct;
-    //pdct=(double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            //*(pdct+(i*n+j))=pow(d,*(A+(i*n+j)));
 	          out[i*n+j] =pow(d,*(A+(i*n+j)));
         }
     }
-    //return pdct;
     return;
 }
 
 double matrx_det(double *A,int n) {
-    double *lu;
-    lu = (double *) malloc(n*n*sizeof(double));
-    //lu = tran(A,n,n); /*row major -> column major*/
     double luout[n*n];
     tran(luout,A,n,n);
     ptrdiff_t N=n;
@@ -198,38 +143,29 @@ double matrx_det(double *A,int n) {
         //printf("N:   %i\n",N);
         //printf("lda: %i\n",lda);
     }
-    //lu = tran(lu,n,n);
     double luout2[n*n];
     tran(luout2,luout,n,n);
     double diag=1;
     int i;
     for(i = 0; i < n; i++) {
-        //double multiplier =  *(lu + (i * n + i));
 	  double multiplier =   luout2[i * n + i];
         diag *= multiplier;
     }
     for(i = 0; i < n; i++) {
-        //*(lu + (i *  n + i)) = 1;
 	   luout2[i *  n + i]  = 1;
         int j;
         for(j = i+1; j < n; j++) {
-            //*(lu + ( i *  n + j)) = 0;
                 luout2[i *  n + j]  = 0;
         }
     }
     double dtm=det_l(luout2,n);
-    //free(lu);
     return(dtm * diag);
 }
 
 static double det_l(double *A,int n) {
     int i, j, k;
-    double **m;
+    double m[n][n];
     double det = 1;
-    m = (double **) malloc(n*sizeof(double *));
-    for ( i = 0; i < n; i++ ) {
-        m[i] = (double *) malloc(n*sizeof(double));
-    }
     for ( i = 0; i < n; i++ ) {
         for ( j = 0; j < n; j++ ) {
             m[i][j] = *(A+(i*n+j));
@@ -262,42 +198,20 @@ static double det_l(double *A,int n) {
             }
         }
     }
-    for ( i = 0; i < n; i++ ) {
-        free(m[i]);
-    }
-    free(m);
     return det;
 }
 
 void ones(double out[],int m,int n) {
 
-    //double *o;
-    //o = (double *) malloc(m*n*sizeof(double));
     int i;
     for(i=0; i<m*n; i++) {
-        //*(o+i)=1;
 	  out[i]=1;
     }
-    //return o;
     return;
 }
 
-/*double* eye(int n) {
-
-    double *iden;
-    iden = (double *) malloc(n * n * sizeof(double));
-    memset(iden,0,n*n*sizeof(double));
-    int i;
-    for(i=0; i<n; i++) {
-        *(iden+(i*n+i))=1;
-    }
-    return iden;
-}*/
-
 void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
-    //double* k;
-    //k = (double *) malloc(ma*mb*na*nb*sizeof(double));
     int i;
     int j;
     int min_m = ma < mb ? ma : mb;
@@ -309,26 +223,20 @@ void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
             int b_row = i%min_m;
             int b_col = j%min_n;
             double val=*(A+(a_row*na+a_col)) * *(B+(b_row*nb+b_col));
-            //*(k+((i*na*nb)+j))=val;
 	        out[i*na*nb +j]=val;
         }
     }
-    //return k;
     return;
 }
 
 void tran(double out[],double *A,int m,int n) {
 
-    //double* t;
-    //t = (double *) malloc(m*n*sizeof(double));
     int i;
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-            //*(t+(i+j*m))=*(A+(i*n+j));
 	       out[i+j*m] =*(A+(i*n+j));
         }
     }
-    //return t;
     return;
 }
