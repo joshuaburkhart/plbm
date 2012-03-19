@@ -39,7 +39,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]) {
     //initVh=tran(mxGetPr(prhs[0]),p,p);
     tran(initVh,mxGetPr(prhs[0]),p,p);
     //initVp=tran(mxGetPr(prhs[1]),q,q);
-    tran(initVp,mxGetPr(prhs[1],p,p);
+    tran(initVp,mxGetPr(prhs[1]),p,p);
     //X=tran(mxGetPr(prhs[5]),1,n);
     tran(X,mxGetPr(prhs[5]),1,n);
     //tau1=tran(mxGetPr(prhs[6]),p,p);
