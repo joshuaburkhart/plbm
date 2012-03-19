@@ -31,7 +31,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]) {
     /* /////////////////// */
 
     /*TODO: these pointers may have to be transposed before asymmetric arrays are properly consumed*/
-
+ 
     n=*mxGetPr(prhs[2]); /* should be 1 x 1 matrix */
     /*also try n=(int) mxGetScalar(prhs[2]); */
     p=*mxGetPr(prhs[3]); /* should be 1 x 1 matrix */
@@ -39,7 +39,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]) {
     //initVh=tran(mxGetPr(prhs[0]),p,p);
     initVh=mxGetPr(prhs[0]);
     //initVp=tran(mxGetPr(prhs[1]),q,q);
-    initVp=mxGetPr(prhs[1]),q,q);
+    initVp=mxGetPr(prhs[1]);
     //X=tran(mxGetPr(prhs[5]),1,n);
     X=mxGetPr(prhs[5]);
     //tau1=tran(mxGetPr(prhs[6]),p,p);
