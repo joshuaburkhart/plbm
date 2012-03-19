@@ -798,6 +798,7 @@ double funct(double *d1_d2) {
     return B_NN[0] / ((double) n - 1);
 }
 
+//reference: http://people.sc.fsu.edu/~jburkardt/cpp_src/asa047/asa047.html
 void nelmin(double fn(double x[]),int n,double start[],double xmin[],double *ynewlo,double reqmin,double step[],int konvge,int kcount,int *icount,int *numres,int *ifault) {
 
     double ccoeff = 0.5;
