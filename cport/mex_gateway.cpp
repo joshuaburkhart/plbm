@@ -36,11 +36,16 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]) {
     /*also try n=(int) mxGetScalar(prhs[2]); */
     p=*mxGetPr(prhs[3]); /* should be 1 x 1 matrix */
     q=*mxGetPr(prhs[4]); /* should be 1 x 1 matrix */
-    initVh=tran(mxGetPr(prhs[0]),p,p);
-    initVp=tran(mxGetPr(prhs[1]),q,q);
-    X=tran(mxGetPr(prhs[5]),1,n);
-    tau1=tran(mxGetPr(prhs[6]),p,p);
-    tau2=tran(mxGetPr(prhs[7]),q,q);
+    //initVh=tran(mxGetPr(prhs[0]),p,p);
+    tran(initVh,mxGetPr(prhs[0]),p,p);
+    //initVp=tran(mxGetPr(prhs[1]),q,q);
+    tran(initVp,mxGetPr(prhs[1],p,p);
+    //X=tran(mxGetPr(prhs[5]),1,n);
+    tran(X,mxGetPr(prhs[5]),1,n);
+    //tau1=tran(mxGetPr(prhs[6]),p,p);
+    tran(tau1,mxGetPr(prhs[6]),p,p);
+    //tau2=tran(mxGetPr(prhs[7]),q,q);
+    tran(tau2,mxGetPr(prhs[7]),q,q);
 
     double *d1_d2=mxGetPr(prhs[8]);
 
