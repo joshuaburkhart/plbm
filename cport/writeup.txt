@@ -35,9 +35,8 @@ MSE=
 
 Next Steps:
 
-address all 'TODO' statements in source code
-optimize memory allocations
-use performance analysis tools to check for memory leaks
+consider replacing doubles with smaller datatype
+port entire program to c++
 parallelize matrix operations with OpenMP, MPI, OpenCL, CUDA, or CULA packages
 use C_Source revision to begin R integration
 
