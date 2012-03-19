@@ -205,15 +205,9 @@ void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
     int min_m = ma < mb ? ma : mb;
     int min_n = na < nb ? na : nb;
-    #pragma omp parallel for
     for(int i=0; i<ma*mb; i++) {
         for(int j=0; j<na*nb; j++) {
-            int a_row = i/min_m;
-            int a_col = j/min_n;
-            int b_row = i%min_m;
-            int b_col = j%min_n;
-            double val=*(A+(a_row*na+a_col)) * *(B+(b_row*nb+b_col));
-            out[i*na*nb +j]=val;
+            out[i*na*nb +j]=*(A+(i/min_m*na+j/min_n)) * *(B+(i%min_m*nb+j%min_n));
         }
     }
     return;
@@ -221,7 +215,6 @@ void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
 void tran(double out[],double *A,int m,int n) {
 
-    #pragma omp parallel for
     for(int i=0; i<m; i++) {
         for(int j=0; j<n; j++) {
             out[i+j*m] =*(A+(i*n+j));
