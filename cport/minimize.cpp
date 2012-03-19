@@ -27,7 +27,7 @@ double funct(double *d1_d2) {
     matrx_mlt(A_PP,2.00,initVh,p,p);
     array_pow(A_PP,d1,A_PP,p,p);
     matrx_sub(A_PP,1.00,A_PP,p,p);
-    
+
     double B_PP[p*p];
     array_pow(B_PP,d1,tau1,p,p);
 
@@ -40,10 +40,10 @@ double funct(double *d1_d2) {
     matrx_mlt(A_QQ,2.00,initVp,q,q);
     array_pow(A_QQ,d2,A_QQ,q,q);
     matrx_sub(A_QQ,1.00,A_QQ,q,q);
-    
+
     double B_QQ[q*q];
     array_pow(B_QQ,d2,tau2,q,q);
-    
+
     array_mlt(B_QQ,B_QQ,q,q,A_QQ);
     array_rdv(B_QQ,B_QQ,q,q,1.00 - d2*d2);
 
@@ -85,7 +85,7 @@ double funct(double *d1_d2) {
     matrx_mlt2(B_NN,B_N,1.00,n,V_NN,n,n);
     matrx_mlt2(B_N,B_NN,1.00,n,X,n,1.00);
     matrx_mlt2(A_N,B_NN,1.00,n,A_N,n,1.00);
-    
+
     /*H=X-b;-----------------------------------*/
 
 //requires foreign B_N and A_N
@@ -103,7 +103,7 @@ double funct(double *d1_d2) {
     return B_NN[0] / ((double) n - 1);
 }
 
-void nelmin(double fn(double x[]),int n,double start[],double xmin[],double *ynewlo,double reqmin,double step[],int konvge,int kcount,int *icount,int *numres,int *ifault){
+void nelmin(double fn(double x[]),int n,double start[],double xmin[],double *ynewlo,double reqmin,double step[],int konvge,int kcount,int *icount,int *numres,int *ifault) {
 
     double ccoeff = 0.5;
     double del;

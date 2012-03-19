@@ -43,7 +43,7 @@ void array_rdv(double out[],double *A,int m,int n,double d) {
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-	       out[i*n+j] =*(A+(i*n+j)) / d;
+            out[i*n+j] =*(A+(i*n+j)) / d;
         }
     }
     return;
@@ -55,7 +55,7 @@ void matrx_sub3(double out[],double *A,int m,int n,double d) {
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-	          out[i*n+j] =*(A+(i*n+j)) - d;
+            out[i*n+j] =*(A+(i*n+j)) - d;
         }
     }
     return;
@@ -67,7 +67,7 @@ void matrx_sub(double out[],double d,double *A,int m,int n) {
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-	          out[i*n+j] =d - *(A+(i*n+j));
+            out[i*n+j] =d - *(A+(i*n+j));
         }
     }
     return;
@@ -84,7 +84,7 @@ void matrx_mlt2(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
             for(k=0; k<na; k++) {
                 sum+=*(A+(i*na+k)) * *(B+(j+k*nb));
             }
-	          out[i*nb+j] =sum;
+            out[i*nb+j] =sum;
         }
     }
     return;
@@ -96,7 +96,7 @@ void matrx_mlt(double out[],double d,double *A,int m,int n) {
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-	          out[i*n+j]  = *(A+(i*n+j)) * d;
+            out[i*n+j]  = *(A+(i*n+j)) * d;
         }
     }
     return;
@@ -108,7 +108,7 @@ void array_mlt(double out[],double A[],int m,int n,double *B) {
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-	          out[i*n+j] =A[i*n+j] * *(B+(i*n+j));
+            out[i*n+j] =A[i*n+j] * *(B+(i*n+j));
         }
     }
     return;
@@ -120,7 +120,7 @@ void array_pow(double out[],double d,double *A,int m,int n) {
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-	          out[i*n+j] =pow(d,*(A+(i*n+j)));
+            out[i*n+j] =pow(d,*(A+(i*n+j)));
         }
     }
     return;
@@ -148,14 +148,14 @@ double matrx_det(double *A,int n) {
     double diag=1;
     int i;
     for(i = 0; i < n; i++) {
-	  double multiplier =   luout2[i * n + i];
+        double multiplier =   luout2[i * n + i];
         diag *= multiplier;
     }
     for(i = 0; i < n; i++) {
-	   luout2[i *  n + i]  = 1;
+        luout2[i *  n + i]  = 1;
         int j;
         for(j = i+1; j < n; j++) {
-                luout2[i *  n + j]  = 0;
+            luout2[i *  n + j]  = 0;
         }
     }
     double dtm=det_l(luout2,n);
@@ -205,7 +205,7 @@ void ones(double out[],int m,int n) {
 
     int i;
     for(i=0; i<m*n; i++) {
-	  out[i]=1;
+        out[i]=1;
     }
     return;
 }
@@ -223,7 +223,7 @@ void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
             int b_row = i%min_m;
             int b_col = j%min_n;
             double val=*(A+(a_row*na+a_col)) * *(B+(b_row*nb+b_col));
-	        out[i*na*nb +j]=val;
+            out[i*na*nb +j]=val;
         }
     }
     return;
@@ -235,7 +235,7 @@ void tran(double out[],double *A,int m,int n) {
     int j;
     for(i=0; i<m; i++) {
         for(j=0; j<n; j++) {
-	       out[i+j*m] =*(A+(i*n+j));
+            out[i+j*m] =*(A+(i*n+j));
         }
     }
     return;

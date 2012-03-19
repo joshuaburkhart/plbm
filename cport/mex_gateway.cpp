@@ -31,7 +31,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]) {
     /* /////////////////// */
 
     /*TODO: these pointers may have to be transposed before asymmetric arrays are properly consumed*/
- 
+
     n=*mxGetPr(prhs[2]); /* should be 1 x 1 matrix */
     /*also try n=(int) mxGetScalar(prhs[2]); */
     p=*mxGetPr(prhs[3]); /* should be 1 x 1 matrix */
