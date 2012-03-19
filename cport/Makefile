@@ -6,7 +6,7 @@ default: glob_init.cpp arraylib.cpp minimize.cpp main.cpp
 
 matlab: mex_gateway.cpp arraylib.cpp minimize.cpp
 	bash -c "module load matlab && \
-	$(MATLAB_CXX) mex_gateway.cpp minimize.cpp arraylib.cpp -f ./mexopts.sh"
+	$(MATLAB_CXX) minimize.cpp mex_gateway.cpp arraylib.cpp -f ./mexopts.sh"
 
 clean:
-	rm -rf *.out *.o *.orig
+	rm -rf *.out *.o *.orig *.mexa64
