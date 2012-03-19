@@ -2,7 +2,7 @@ DEFAULT_CXX = g++
 MATLAB_CXX = mex
 
 default: glob_init.cpp arraylib.cpp minimize.cpp main.cpp
-	$(DEFAULT_CXX) main.cpp minimize.cpp arraylib.cpp glob_init.cpp -lm -llapack -lblas
+	$(DEFAULT_CXX) main.cpp minimize.cpp arraylib.cpp glob_init.cpp -lm -llapack -lblas -fopenmp
 
 matlab: mex_gateway.cpp arraylib.cpp minimize.cpp
 	bash -c "module load matlab && \

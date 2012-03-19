@@ -39,10 +39,9 @@ void matrx_inv(double out[],double *A,int n) {
 
 void array_rdv(double out[],double *A,int m,int n,double d) {
 
-    int i;
-    int j;
-    for(i=0; i<m; i++) {
-        for(j=0; j<n; j++) {
+    #pragma omp parallel for
+    for(int i=0; i<m; i++) {
+        for(int j=0; j<n; j++) {
             out[i*n+j] =*(A+(i*n+j)) / d;
         }
     }
@@ -51,10 +50,9 @@ void array_rdv(double out[],double *A,int m,int n,double d) {
 
 void matrx_sub3(double out[],double *A,int m,int n,double d) {
 
-    int i;
-    int j;
-    for(i=0; i<m; i++) {
-        for(j=0; j<n; j++) {
+    #pragma omp parallel for
+    for(int i=0; i<m; i++) {
+        for(int j=0; j<n; j++) {
             out[i*n+j] =*(A+(i*n+j)) - d;
         }
     }
@@ -63,10 +61,9 @@ void matrx_sub3(double out[],double *A,int m,int n,double d) {
 
 void matrx_sub(double out[],double d,double *A,int m,int n) {
 
-    int i;
-    int j;
-    for(i=0; i<m; i++) {
-        for(j=0; j<n; j++) {
+    #pragma omp parallel for
+    for(int i=0; i<m; i++) {
+        for(int j=0; j<n; j++) {
             out[i*n+j] =d - *(A+(i*n+j));
         }
     }
@@ -75,13 +72,11 @@ void matrx_sub(double out[],double d,double *A,int m,int n) {
 
 void matrx_mlt2(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
-    int i;
-    int j;
-    int k;
-    for(i=0; i<ma; i++) {
-        for(j=0; j<nb; j++) {
+    #pragma omp parallel for
+    for(int i=0; i<ma; i++) {
+        for(int j=0; j<nb; j++) {
             double sum=0;
-            for(k=0; k<na; k++) {
+            for(int k=0; k<na; k++) {
                 sum+=*(A+(i*na+k)) * *(B+(j+k*nb));
             }
             out[i*nb+j] =sum;
@@ -92,10 +87,9 @@ void matrx_mlt2(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
 void matrx_mlt(double out[],double d,double *A,int m,int n) {
 
-    int i;
-    int j;
-    for(i=0; i<m; i++) {
-        for(j=0; j<n; j++) {
+    #pragma omp parallel for
+    for(int i=0; i<m; i++) {
+        for(int j=0; j<n; j++) {
             out[i*n+j]  = *(A+(i*n+j)) * d;
         }
     }
@@ -104,10 +98,9 @@ void matrx_mlt(double out[],double d,double *A,int m,int n) {
 
 void array_mlt(double out[],double A[],int m,int n,double *B) {
 
-    int i;
-    int j;
-    for(i=0; i<m; i++) {
-        for(j=0; j<n; j++) {
+    #pragma omp parallel for
+    for(int i=0; i<m; i++) {
+        for(int j=0; j<n; j++) {
             out[i*n+j] =A[i*n+j] * *(B+(i*n+j));
         }
     }
@@ -116,10 +109,9 @@ void array_mlt(double out[],double A[],int m,int n,double *B) {
 
 void array_pow(double out[],double d,double *A,int m,int n) {
 
-    int i;
-    int j;
-    for(i=0; i<m; i++) {
-        for(j=0; j<n; j++) {
+    #pragma omp parallel for
+    for(int i=0; i<m; i++) {
+        for(int j=0; j<n; j++) {
             out[i*n+j] =pow(d,*(A+(i*n+j)));
         }
     }
@@ -133,7 +125,7 @@ double matrx_det(double *A,int n) {
     ptrdiff_t M=n;
     ptrdiff_t lda=n;
     ptrdiff_t ipiv[N];
-    ptrdiff_t info;
+    ptrdiff_t info=0;
     ptrdiff_t lwork=N*N;
     double work[lwork];
     dgetrf(&M,&N,luout,&lda,ipiv,&info);
@@ -146,15 +138,13 @@ double matrx_det(double *A,int n) {
     double luout2[n*n];
     tran(luout2,luout,n,n);
     double diag=1;
-    int i;
-    for(i = 0; i < n; i++) {
-        double multiplier =   luout2[i * n + i];
-        diag *= multiplier;
+    for(int i = 0; i < n; i++) {
+        diag *= luout2[i * n + i];
     }
-    for(i = 0; i < n; i++) {
+    #pragma omp parallel for
+    for(int i = 0; i < n; i++) {
         luout2[i *  n + i]  = 1;
-        int j;
-        for(j = i+1; j < n; j++) {
+        for(int j = i+1; j < n; j++) {
             luout2[i *  n + j]  = 0;
         }
     }
@@ -166,9 +156,10 @@ static double det_l(double *A,int n) {
     int i, j, k;
     double m[n][n];
     double det = 1;
-    for ( i = 0; i < n; i++ ) {
-        for ( j = 0; j < n; j++ ) {
-            m[i][j] = *(A+(i*n+j));
+    #pragma omp parallel for
+    for (int x = 0; x < n; x++ ) {
+        for (int y = 0; y < n; y++ ) {
+            m[x][y] = *(A+(x*n+y));
         }
     }
     for ( k = 0; k < n; k++ ) {
@@ -203,8 +194,8 @@ static double det_l(double *A,int n) {
 
 void ones(double out[],int m,int n) {
 
-    int i;
-    for(i=0; i<m*n; i++) {
+    #pragma omp parallel for
+    for(int i=0; i<m*n; i++) {
         out[i]=1;
     }
     return;
@@ -212,12 +203,11 @@ void ones(double out[],int m,int n) {
 
 void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
-    int i;
-    int j;
     int min_m = ma < mb ? ma : mb;
     int min_n = na < nb ? na : nb;
-    for(i=0; i<ma*mb; i++) {
-        for(j=0; j<na*nb; j++) {
+    #pragma omp parallel for
+    for(int i=0; i<ma*mb; i++) {
+        for(int j=0; j<na*nb; j++) {
             int a_row = i/min_m;
             int a_col = j/min_n;
             int b_row = i%min_m;
@@ -231,10 +221,9 @@ void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
 void tran(double out[],double *A,int m,int n) {
 
-    int i;
-    int j;
-    for(i=0; i<m; i++) {
-        for(j=0; j<n; j++) {
+    #pragma omp parallel for
+    for(int i=0; i<m; i++) {
+        for(int j=0; j<n; j++) {
             out[i+j*m] =*(A+(i*n+j));
         }
     }

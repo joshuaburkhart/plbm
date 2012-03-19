@@ -117,7 +117,7 @@
             CXX='g++'
             CXXFLAGS='-ansi -D_GNU_SOURCE'
             CXXFLAGS="$CXXFLAGS -fPIC -fno-omit-frame-pointer -pthread"
-            CXXLIBS="$RPATH $MLIBS -lm -llapack -lblas"
+            CXXLIBS="$RPATH $MLIBS -lm -llapack -lblas -fopenmp"
             CXXOPTIMFLAGS='-O3 -DNDEBUG'
             CXXDEBUGFLAGS='-g'
 #
