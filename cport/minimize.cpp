@@ -59,7 +59,8 @@ double funct(double *d1_d2) {
 
 //requires foreign B_PP and B_QQ
 
-    double V_NN[n*n];
+    double *V_NN;
+    V_NN = (double *) malloc(n*n*sizeof(double));
     kron(V_NN,B_QQ,q,q,B_PP,p,p);
 
     /*invV=V\eye(n);-----------------------------------*/
@@ -100,6 +101,7 @@ double funct(double *d1_d2) {
     matrx_mlt2(B_NN,A_N,1.00,n,V_NN,n,n);
     matrx_mlt2(B_NN,B_NN,1.00,n,B_N,n,1.00);
 
+    free(V_NN);
     return B_NN[0] / ((double) n - 1);
 }
 
