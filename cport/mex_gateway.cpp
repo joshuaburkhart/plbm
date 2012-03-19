@@ -84,11 +84,11 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[]) {
 
     //TODO: free allocated memory ?
     //free(d1_d2);
-    free(initVh);
-    free(initVp);
-    free(X);
-    free(tau1);
-    free(tau2);
+    //free(initVh);
+    //free(initVp);
+    //free(X);
+    //free(tau1);
+    //free(tau2);
     return;
 }
 
