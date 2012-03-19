@@ -269,6 +269,7 @@ sys	0m0.592s
 
 Next Steps:
 
+consider transposition analysis / cache hit rate
 consider replacing doubles with smaller datatype
 port entire program to c++
 parallelize matrix operations with OpenMP, MPI, OpenCL, CUDA, or CULA packages
