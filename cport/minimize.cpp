@@ -72,49 +72,38 @@ double funct(double *d1_d2) {
 
 //independent
 
-    double U_N[n];
-    ones(U_N,n,1.00);
+    double A_N[n];
+    ones(A_N,n,1.00);
 
     /*b=(U'*invV*U)\(U'*invV*X);-----------------------------------*/
 
-//requires foreign U_N and V_NN
+//requires foreign A_N and V_NN
 
-    double A_N[n];
+    double B_N[n];
     double B_NN[n*n];
-    tran(A_N,U_N,n,1.00);
-    matrx_mlt2(B_NN,A_N,1.00,n,V_NN,n,n);
-    matrx_mlt2(A_N,B_NN,1.00,n,X,n,1.00);
-
-    double D_N[n];
-    double E_NN[n*n];
-    tran(D_N,U_N,n,1.00);
-    matrx_mlt2(E_NN,D_N,1.00,n,V_NN,n,n);
-    matrx_mlt2(D_N,E_NN,1.00,n,U_N,n,1.00);
+    tran(B_N,A_N,n,1.00);
+    matrx_mlt2(B_NN,B_N,1.00,n,V_NN,n,n);
+    matrx_mlt2(B_N,B_NN,1.00,n,X,n,1.00);
+    matrx_mlt2(A_N,B_NN,1.00,n,A_N,n,1.00);
     
-    double b = A_N[0] / D_N[0];
-
     /*H=X-b;-----------------------------------*/
 
-//requires foreign b
+//requires foreign B_N and A_N
 
-    double H_N[n];
-    matrx_sub3(H_N,X,n,1.00,b);
+    matrx_sub3(B_N,X,n,1.00,B_N[0] / A_N[0]);
 
     /*MSE=(H'*invV*H)/(n-1);-----------------------------------*/
 
-//requires foreign V_NN and H_N
+//requires foreign V_NN and B_N
 
-    double N2[n];
-    double NxN[n*n];
-    tran(N2,H_N,n,1.00);
-    matrx_mlt2(NxN,N2,1.00,n,V_NN,n,n);
-    matrx_mlt2(NxN,NxN,1.00,n,H_N,n,1.00);
-    double MSE = NxN[0] / (((double) n) - 1);
+    tran(A_N,B_N,n,1.00);
+    matrx_mlt2(B_NN,A_N,1.00,n,V_NN,n,n);
+    matrx_mlt2(B_NN,B_NN,1.00,n,B_N,n,1.00);
 
-    return MSE;
+    return B_NN[0] / ((double) n - 1);
 }
 
-void nelmin ( double fn ( double x[] ), int n, double start[], double xmin[],double *ynewlo, double reqmin, double step[], int konvge, int kcount,int *icount, int *numres, int *ifault ) {
+void nelmin(double fn(double x[]),int n,double start[],double xmin[],double *ynewlo,double reqmin,double step[],int konvge,int kcount,int *icount,int *numres,int *ifault){
 
     double ccoeff = 0.5;
     double del;
