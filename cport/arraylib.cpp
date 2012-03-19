@@ -13,7 +13,7 @@ void matrx_inv(double out[],double *A,int n) {
     ptrdiff_t M=n;
     ptrdiff_t lda=n;
     ptrdiff_t ipiv[N];
-    ptrdiff_t info;
+    ptrdiff_t info=0;
     ptrdiff_t lwork=n*n;
     double work[lwork];
 
