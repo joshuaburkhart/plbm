@@ -118,7 +118,7 @@
             CXXFLAGS='-ansi -D_GNU_SOURCE'
             CXXFLAGS="$CXXFLAGS -fPIC -fno-omit-frame-pointer -pthread"
             CXXLIBS="$RPATH $MLIBS -lm -llapack -lblas"
-            CXXOPTIMFLAGS='-Ofast -DNDEBUG'
+            CXXOPTIMFLAGS='-O3 -DNDEBUG'
             CXXDEBUGFLAGS='-g'
 #
             # FortrankeyName: gfortran
