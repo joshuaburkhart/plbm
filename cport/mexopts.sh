@@ -105,7 +105,7 @@
             CFLAGS='-ansi -D_GNU_SOURCE'
             CFLAGS="$CFLAGS  -fexceptions"
             CFLAGS="$CFLAGS -fPIC -fno-omit-frame-pointer -pthread"
-            CLIBS="$RPATH $MLIBS -lm -llapack -lblas"
+            CLIBS="$RPATH $MLIBS -lm"
             COPTIMFLAGS='-O -DNDEBUG'
             CDEBUGFLAGS='-g'
             CLIBS="$CLIBS -lstdc++"
@@ -118,7 +118,7 @@
             CXXFLAGS='-ansi -D_GNU_SOURCE'
             CXXFLAGS="$CXXFLAGS -fPIC -fno-omit-frame-pointer -pthread"
             CXXLIBS="$RPATH $MLIBS -lm -llapack -lblas"
-            CXXOPTIMFLAGS='-O -DNDEBUG'
+            CXXOPTIMFLAGS='-Ofast -DNDEBUG'
             CXXDEBUGFLAGS='-g'
 #
             # FortrankeyName: gfortran
