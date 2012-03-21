@@ -24,24 +24,34 @@ function [est,MSE] = runIGfunctpar(initVh, initVp, n, p, q, X, tau1, tau2, threa
     Vp=Vp./det(Vp)^(1/q);
     
 
-gselect(thread_id);
 
 % GPU computation:
-gVp = gsingle(Vp);
-gVh = gsingle(Vh);
-gV=kron(gVp,gVh);
-ginvV=inv(gV);
+    gselect(thread_id);
+    gVp = gsingle(Vp);
+    gVh = gsingle(Vh);
+    gV=kron(gVp,gVh);
+    ginvV=inv(gV);
+    % compute the phylogenetic mean (eq. A.2)
+    gX = single(X);
+    gU=gones(length(X),1);
+    gb=(gU'*ginvV*gU)\(gU'*ginvV*gX);
+    % compute the phylogenetic MSE (eq. A.2)
+    gH=gX-gb;
+    gMSE=(gH'*ginvV*gH)/(n-1);
+    y = single(gMSE);
+
+%% non-GPU implementation:
+%    V=kron(Vp,Vh);
+%    invV=inv(V);
+%    % compute the phylogenetic mean (eq. A.2)
+%    U=ones(length(X),1);
+%    b=(U'*invV*U)\(U'*invV*X);
+%    % compute the phylogenetic MSE (eq. A.2)
+%    H=X-b;
+%    MSE=(H'*invV*H)/(n-1);
+%    y = MSE;
 
 
-% compute the phylogenetic mean (eq. A.2)
-gX = single(X);
-gU=gones(length(X),1);
-gb=(gU'*ginvV*gU)\(gU'*ginvV*gX);
-% compute the phylogenetic MSE (eq. A.2)
-gH=gX-gb;
-gMSE=(gH'*ginvV*gH)/(n-1);
-
-y = single(gMSE);
 
 
   end

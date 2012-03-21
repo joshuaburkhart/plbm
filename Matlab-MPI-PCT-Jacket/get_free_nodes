@@ -1,0 +1,118 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+# Example Usages:
+#  python get_free_nodes.py gpu
+#  python get_free_nodes.py fatnodes
+#  python get_free_nodes.py generic
+#  python get_free_nodes.py any
+#  python get_free_nodes.py  (get's all free nodes)
+
+# If there's a command line argument, set it.  Otherwise, set to 'any'
+try:
+    if sys.argv[1]:
+        node_type = sys.argv[1]
+except:
+    node_type = 'any'
+
+os.system("pbsnodes -a > nodesfile.txt")
+f = open("nodesfile.txt", "r")
+freeNode = 1
+gpuNode = 0
+fatNode = 0
+genNode = 0
+longgenNode = 0
+longgpuNode = 0
+longfatNode = 0
+
+node = []
+state = 'free'
+
+for line in f.readlines():
+    line = line.strip();
+    if line:
+        node.append(line)
+    else:
+        nodeName = node[0]
+        for ll in node:
+            firstWord = ll.split(' ', 1)[0]
+            if firstWord == 'state':
+                state = ll.split('=')[1].strip()
+
+            if firstWord == 'jobs' or state != 'free':
+                freeNode = 0
+           
+            #if firstWord == 'gpus':
+            #    gpuNum = ll.split(' = ', 1)[1]
+            #    if gpuNum == '3':
+            #        gpuNode = 1
+            #else:
+            #    gpuNode = 0
+
+            if firstWord == 'properties':
+                try:
+                    node_types = ll.split(',')
+                except:
+                    node_types = ll.split(' = ')[1]
+
+                try:
+                    if node_types.index('generic'):
+                        genNode = 1 
+                except ValueError:
+                    genNode = 0
+
+                try:
+                    if node_types.index('fatnodes'):
+                        fatNode = 1 
+                except ValueError:
+                    fatNode = 0
+               
+                try:
+                    if node_types.index('gpunodes'):
+                        gpuNode = 1 
+                except ValueError:
+                    gpuNode = 0
+
+                try:
+                    if node_types.index('longgpu'):
+                        if nodeName != 'cn26':
+                            longgpuNode = 1 
+                        else:
+                            longgpuNode = 0 
+                except ValueError:
+                    longgpuNode = 0
+
+        if node_type == 'gpu': 
+            if freeNode and gpuNode:
+                print nodeName
+        elif node_type == 'gpuonly':
+            if freeNode and gpuNode and not longgpuNode:
+                print nodeName
+        elif node_type == 'longgpu':
+            if freeNode and longgpuNode:
+                print nodeName
+        elif node_type == 'fatnodes':
+            if freeNode and fatNode:
+                print nodeName
+        elif node_type == 'generic':
+            if freeNode and genNode:
+                print nodeName
+        elif node_type == 'any':
+            if freeNode:
+                print nodeName
+        else:
+            print 'ERROR: bad node type'
+            exit(1)
+
+        node = []
+        freeNode = 1
+        gpuNode = 0
+        fatNode = 0
+        genNode = 0
+        longgpuNode = 0
+        state = "free";
+
+f.close()
+

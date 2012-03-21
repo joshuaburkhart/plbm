@@ -1,0 +1,96 @@
+=======
+README:
+=======
+
+For the C/C++/CUDA code, see the writeup.txt file in the cport directory.
+
+The parallel Matlab code is in the Matlab-MPI-PCT-Jacket directory.
+It includes a Matlab data file called pblm_workspace.mat that contains the 
+"bootlist" result for the large dataset (plantphyno01000_3 and bactphyno01000_3).
+The analysis section of the code (that shows the plots) was moved to the file, 
+analyze_bootlist.m.  Note that the "dtrue" value will be different for other data-
+sets.  
+
+================================
+To use the Matlab code on Aciss:
+================================
+
+1) MatlabMPI must be on your Matlab path.  I did this by creating a document 
+   in my user folder:
+      $ vi ~/Documents/MATLAB/startup.m
+   and adding the MatlabMPI path by placing this line in startup.m:
+      addpath /usr/local/packages/MatlabMPI/1.2/src/
+
+   Make sure it works by starting Matlab and typing:
+         "help MatlabMPI".  
+   You should see a long list of method explanations.
+   (This might be easier to do in the future, the admins are thinking of creating
+    a MatlabMPI module that will do this for you).
+
+2) Jacket must be on your path (if you have a license, or are using the trial).
+
+   -> This is done by placing this line in that same startup.m file:
+        addpath /home11/ozog/usr/local/jacket/jacket/engine
+
+   Make sure it works by logging into an ACISS gpu node, starting Matlab and 
+   typing:
+        "ginfo"
+   You should see something like this:
+      Jacket v2.0 (build 0ae6cf5) by AccelerEyes (64-bit Linux)
+      License Type: Designated Computer (/home11/ozog/usr/local/jacket/jacket/engine/jlicense.dat)
+      License expires in 7 days.
+      Addons: MGL16, JMC, SDK, DLA, SLA
+      CUDA toolkit 4.0, driver 285.05.32
+      GPU1 Tesla M2070, 5376 MB, Compute 2.0 (single,double) (in use)
+      GPU2 Tesla M2070, 5376 MB, Compute 2.0 (single,double)
+      GPU3 Tesla M2070, 5376 MB, Compute 2.0 (single,double)
+      Memory Usage: 5306 MB free (5376 MB total)
+
+   I don't think this will work unless you are using your own license (and it 
+   definitely won't work after March 26, 2012).  I do think UO should get a 
+   Jacket license, and I'm trying to convince the right people that this is a 
+   good academic investment.
+
+2) We created a PBS launch script for launching a large Matlab PBLM job across ACISS.
+
+   -> First you must find out which nodes are available.  There is a script in the
+      Matlab-MPI-PCT-Jacket directory calle "get_free_nodes".  Use this to find 
+      free gpu, longgpu, or generic nodes by doing something like this:
+
+        $ get_freenodes gpu
+        $ get_freenodes longgpu
+        $ get_freenodes generic 
+
+   -> Then you must place these node names appropriately in both the launch_job.m 
+      and launch_job.sh files. It should be pretty self explanatory, but let us know
+      if you are using this code and having trouble with that.  You can see that 
+      I tried to automate this, but it I couldn't get it working for whatever reason.
+  
+   -> You must also change WORK_DIR in launch_job.sh to the directory in which
+      the program and data files live.
+
+   -> launch the job by typing this:
+
+        $ qsub -q <queue> launch_job.sh
+
+      where <queue> is something like gpu, longgpu, fatnodes, or generic
+
+   -> NOTE:  You don't HAVE to use the gpus and you don't HAVE to use only 3 threads
+             per node.  This would involve deleting the Jacket calls in runIGfunctpar.m by
+             commenting out the GPU section and uncommenting the non-GPU section. 
+             Then in the Phyllosphere_Bootstrapno01000_3.m program, simply change
+                    "matlabpool open 3"
+             to
+                    "matlabpool open <num_threads>"
+
+             where <num_threads is something like 12 for gpu and generic nodes, 
+             or 8, 16, or 32 for fatnodes. Then you need to change all the occurences of
+             ":ppn=3" in launch_job.sh to ":ppn=<num_threads>" and it should work (this
+             is what you would have to do with the really large dataset).
+
+
+FINAL NOTE:
+It's tough (if not impossible) to test how this will work from within YOUR environment, 
+so issues could arise when setting up this program (especially because we are using 
+external code, MatabMPI and Jacket).  Therefore, don't hesitate to ask 
+us questions about using the program.
