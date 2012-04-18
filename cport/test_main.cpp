@@ -21,14 +21,14 @@ extern int p;
 extern int q;
 
 void output(double *matrix,int m,int n);
-void test_funct(double d1, double d2, double correct_return);
+void test_funct(double d1, double d2, double correct_return, double epsilon);
 
 int main(int argc,char *argv[]) {
         //test each arraylib function with several values
 
     //test funct with several values
 
-    test_funct(.5, .5, 0.0101);
+    test_funct(.5, .5, 0.0101290635, 0.00000001);
 
     //test nelmin with several values
 
@@ -64,7 +64,7 @@ int main(int argc,char *argv[]) {
     return 0;
 }
 
-void test_funct(double d1, double d2, double correct_return){
+void test_funct(double d1, double d2, double correct_return, double epsilon){
     
     double *d1_d2;
     d1_d2 = (double *) malloc(2 * sizeof(double));
@@ -73,7 +73,8 @@ void test_funct(double d1, double d2, double correct_return){
     *(d1_d2+1) = d2;
 
     double mse=funct(d1_d2);
-    if(mse==0.0101){
+    double error = mse - correct_return;
+    if( (error * error) < epsilon ){
 	    printf("PASSED");
     }else{
 	    printf("* FAILED");

@@ -8,7 +8,6 @@ MATLAB_CXX = mex
 default: glob_init.cpp arraylib.cpp minimize.cpp main.cpp
 	bash -c "\
 	module load gcc & \
-	module load mpi-tor/openmpi-1.5.4_gcc-4.5.3 & \
 	$(DEFAULT_CXX) -O3 main.cpp minimize.cpp arraylib.cpp glob_init.cpp -lm -llapack -lblas -fopenmp"
 
 cuda: glob_init.cpp arraylib.cu minimize.cpp main.cpp
@@ -25,7 +24,6 @@ matlab: mex_gateway.cpp arraylib.cpp minimize.cpp
 test: glob_init.cpp arraylib.cpp minimize.cpp main.cpp
 	bash -c "\
 	module load gcc & \
-	module load mpi-tor/openmpi-1.5.4_gcc-4.5.3 & \
 	$(DEFAULT_CXX) test_main.cpp minimize.cpp arraylib.cpp glob_init.cpp -lm -llapack -lblas -fopenmp"
 
 test_cuda: glob_init.cpp arraylib.cu minimize.cpp main.cpp
