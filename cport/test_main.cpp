@@ -28,7 +28,17 @@ int main(int argc,char *argv[]) {
 
     //test funct with several values
 
-    test_funct(.5, .5, 0.0101290635, 0.00000001);
+    double epsilon=0.00000001;
+
+    test_funct(0.5, 0.5, 0.0101290635, epsilon);
+    test_funct(0.0, 0.5, 0.0116081347, epsilon);
+    test_funct(0.5, 0.0, 0.0098632064, epsilon);
+    test_funct(1.0, 0.5, NAN, epsilon);
+    test_funct(0.5, 1.0, NAN, epsilon);
+    test_funct(0.0, 0.0, 0.0109859425, epsilon);
+    test_funct(1.0, 1.0, NAN, epsilon);
+    test_funct(0.75, 0.75, 0.0106599215, epsilon);
+    test_funct(0.25, 0.25, 0.0100825613, epsilon);
 
     //test nelmin with several values
 
@@ -74,10 +84,10 @@ void test_funct(double d1, double d2, double correct_return, double epsilon){
 
     double mse=funct(d1_d2);
     double error = mse - correct_return;
-    if( (error * error) < epsilon ){
-	    printf("PASSED");
+    if( isnan(mse) && isnan(correct_return) || (error * error) < epsilon ){
+	    printf("* PASSED");
     }else{
-	    printf("* FAILED");
+	    printf("X FAILED");
     }
     printf(" -> funct()\n");
     printf("\t%f returned\n",mse);
