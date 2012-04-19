@@ -13,7 +13,7 @@ default: glob_init.cpp arraylib.cpp minimize.cpp main.cpp
 cuda: glob_init.cpp arraylib.cu minimize.cpp main.cpp
 	bash -c "\
 	module load gcc/4.3.6 && \
-	module load cuda/4.1 && \
+	module load cuda && \
 	$(CUDA_CXX) -O3 main.cpp minimize.cpp arraylib.cu glob_init.cpp -lm -llapack -lblas"
 
 matlab: mex_gateway.cpp arraylib.cpp minimize.cpp
@@ -29,7 +29,7 @@ test: glob_init.cpp arraylib.cpp minimize.cpp main.cpp
 test_cuda: glob_init.cpp arraylib.cu minimize.cpp main.cpp
 	bash -c "\
 	module load gcc/4.3.6 && \
-	module load cuda/4.1 && \
+	module load cuda && \
 	$(CUDA_CXX) test_main.cpp minimize.cpp arraylib.cu glob_init.cpp -lm -llapack -lblas"
 
 clean:
