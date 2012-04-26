@@ -23,10 +23,10 @@ extern int q;
 void output(double *matrix,int m,int n);
 
 int main(int argc,char *argv[]) {
-    if(argc!=3){
-	printf("No arguments supplied\n");
-	printf("Usage: a.out .5 .5\n");
-	return 1;
+    if(argc!=3) {
+        printf("No arguments supplied\n");
+        printf("Usage: a.out .5 .5\n");
+        return 1;
     }
     double *d1_d2;
     d1_d2 = (double *) malloc(2 * sizeof(double));
