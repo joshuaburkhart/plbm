@@ -20,37 +20,46 @@ extern int n;
 extern int p;
 extern int q;
 
+int all_passed = 1;
+
 void output(double *matrix,int m,int n);
 void test_funct(double d1, double d2, double correct_return, double epsilon);
+void test_vh_calculation(double d1, double d2, double correct_return[], int correct_size, double epsilon);
 
 int main(int argc,char *argv[]) {
+
+    printf("\n\ttesting...\n\n");
+    double epsilon=0.00000001;
+
     //test each arraylib function with several values
 
     /*Vh=(d1.^tau1).*(1-d1.^(2*initVh))./(1-d1^2);--------------------------------------*/
 
-    double A_PP[p*p];
-    matrx_mlt(A_PP,2.00,initVh,p,p);
-    array_pow(A_PP,d1,A_PP,p,p);
-    matrx_sub(A_PP,1.00,A_PP,p,p);
+    double expect_vh_5_5[]= {1.1776,0.7765,0,0.1629,0.3000,0.1629,0.4960,0.0670,0.0670,0.0670,0.4960,0.0670,0.7765,1.1776,0,0.1629,0.3000,0.1629,0.4960,0.0670,0.0670,0.0670,0.4960,0.0670,0,0,1.1776,0,0,0,0,0,0,0,0,0,0.1629,0.1629,0,1.1776,0.1629 ,0.3000 ,0.1629,0.0670,0.0670,0.0670,0.1629,0.0670,0.3000,0.3000,0,0.1629,1.1776 ,0.1629 ,0.3000,0.0670,0.0670,0.0670,0.3000,0.0670,0.1629,0.1629,0,0.3000,0.1629 ,1.1776 ,0.1629,0.0670,0.0670,0.0670,0.1629,0.0670,0.4960,0.4960,0,0.1629,0.3000 ,0.1629 ,1.1776,0.0670,0.0670,0.0670,0.7765,0.0670,0.0670,0.0670,0,0.0670,0.0670 ,0.0670 ,0.0670,1.1776,0.3000,0.3000,0.0670,0.1629,0.0670,0.0670,0,0.0670,0.0670 ,0.0670 ,0.0670,0.3000,1.1776,0.4960,0.0670,0.1629,0.0670,0.0670,0,0.0670,0.0670 ,0.0670 ,0.0670,0.3000,0.4960,1.1776,0.0670,0.1629,0.4960,0.4960,0,0.1629,0.3000 ,0.1629 ,0.7765,0.0670,0.0670,0.0670,1.1776,0.0670,0.0670,0.0670,0,0.0670,0.0670 ,0.0670 ,0.0670,0.1629,0.1629,0.1629,0.0670,1.1776};
+    int expect_vh_5_5_size = sizeof(expect_vh_5_5) / sizeof(double);
+    test_vh_calculation(0.5,0.5,expect_vh_5_5,expect_vh_5_5_size,epsilon);
+    
+    double expect_vh_0_5[]= {1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1};
+    int expect_vh_0_5_size = sizeof(expect_vh_0_5) / sizeof(double);
+    test_vh_calculation(0.0,0.5,expect_vh_0_5,expect_vh_0_5_size,epsilon);
+    
+    double expect_vh_5_0[]= {1.1776,0.7765,0,0.1629,0.3000,0.1629,0.4960,0.0670,0.0670,0.0670,0.4960,0.0670,0.7765,1.1776,0,0.1629,0.3000,0.1629,0.4960,0.0670,0.0670,0.0670,0.4960,0.0670,0,0,1.1776,0,0,0,0,0,0,0,0,0,0.1629,0.1629,0,1.1776,0.1629,0.3000,0.1629,0.0670,0.0670,0.0670,0.1629,0.0670,0.3000,0.3000,0,0.1629,1.1776,0.1629,0.3000,0.0670,0.0670,0.0670,0.3000,0.0670,0.1629,0.1629,0,0.3000,0.1629,1.1776,0.1629,0.0670,0.0670,0.0670,0.1629,0.0670,0.4960,0.4960,0,0.1629,0.3000,0.1629,1.1776,0.0670,0.0670,0.0670,0.7765,0.0670,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,1.1776,0.3000,0.3000,0.0670,0.1629,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,0.3000,1.1776,0.4960,0.0670,0.1629,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,0.3000,0.4960,1.1776,0.0670,0.1629,0.4960,0.4960,0,0.1629,0.3000,0.1629,0.7765,0.0670,0.0670,0.0670,1.1776,0.0670,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,0.1629,0.1629,0.1629,0.0670,1.1776};
+    int expect_vh_5_0_size = sizeof(expect_vh_5_0) / sizeof(double);
+    test_vh_calculation(0.5,0.0,expect_vh_5_0,expect_vh_5_0_size,epsilon);
+    
+    double expect_vh_1_5[]= {NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN};
+    int expect_vh_1_5_size = sizeof(expect_vh_1_5) / sizeof(double);
+    test_vh_calculation(1.0,0.5,expect_vh_1_5,expect_vh_1_5_size,epsilon);
 
-    double B_PP[p*p];
-    array_pow(B_PP,d1,tau1,p,p);
+    double expect_vh_5_1[]= {1.1776,0.7765,0,0.1629,0.3000,0.1629,0.4960,0.0670,0.0670,0.0670,0.4960,0.0670,0.7765,1.1776,0,0.1629,0.3000,0.1629,0.4960,0.0670,0.0670,0.0670,0.4960,0.0670,0,0,1.1776,0,0,0,0,0,0,0,0,0,0.1629,0.1629,0,1.1776,0.1629,0.3000,0.1629,0.0670,0.0670,0.0670,0.1629,0.0670,0.3000,0.3000,0,0.1629,1.1776,0.1629,0.3000,0.0670,0.0670,0.0670,0.3000,0.0670,0.1629,0.1629,0,0.3000,0.1629,1.1776,0.1629,0.0670,0.0670,0.0670,0.1629,0.0670,0.4960,0.4960,0,0.1629,0.3000,0.1629,1.1776,0.0670,0.0670,0.0670,0.7765,0.0670,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,1.1776,0.3000,0.3000,0.0670,0.1629,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,0.3000,1.1776,0.4960,0.0670,0.1629,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,0.3000,0.4960,1.1776,0.0670,0.1629,0.4960,0.4960,0,0.1629,0.3000,0.1629,0.7765,0.0670,0.0670,0.0670,1.1776,0.0670,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,0.1629,0.1629,0.1629,0.0670,1.1776};
+    int expect_vh_5_1_size = sizeof(expect_vh_5_1) / sizeof(double);
+    test_vh_calculation(0.5,1.0,expect_vh_5_1,expect_vh_5_1_size,epsilon);
 
-    array_mlt(B_PP,B_PP,p,p,A_PP);
-    array_rdv(B_PP,B_PP,p,p,1.00 - d1*d1);
+    double expect_vh_0_0[]= {1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1};
+    int expect_vh_0_0_size = sizeof(expect_vh_0_0) / sizeof(double);
+    test_vh_calculation(0.0,0.0,expect_vh_0_0,expect_vh_0_0_size,epsilon);
 
-    double output = {1.1776,0.7765,0,0.1629,0.3000,0.1629,0.4960,0.0670,0.0670,0.0670,0.4960,0.0670,0.7765,1.1776,0,0.1629,0.3000,0.1629,0.4960,0.0670,0.0670,0.0670,  0.4960  ,  0.0670
-                     0 ,        0  ,  1.1776 ,        0  ,       0 ,        0 ,        0  ,       0 ,        0  ,       0  ,       0 ,        0
-                     0.1629  ,  0.1629  ,       0 ,   1.1776  ,  0.1629 ,   0.3000 ,   0.1629  ,  0.0670 ,   0.0670  ,  0.0670  ,  0.1629 ,   0.0670
-                     0.3000   , 0.3000  ,       0 ,   0.1629  ,  1.1776 ,   0.1629 ,   0.3000  ,  0.0670 ,   0.0670  ,  0.0670  ,  0.3000 ,   0.0670
-                     0.1629   , 0.1629  ,       0 ,   0.3000  ,  0.1629 ,   1.1776 ,   0.1629  ,  0.0670 ,   0.0670  ,  0.0670  ,  0.1629 ,   0.0670
-                     0.4960   , 0.4960  ,       0 ,   0.1629  ,  0.3000 ,   0.1629 ,   1.1776  ,  0.0670 ,   0.0670  ,  0.0670  ,  0.7765 ,   0.0670
-                     0.0670   , 0.0670  ,       0 ,   0.0670  ,  0.0670 ,   0.0670 ,   0.0670  ,  1.1776 ,   0.3000  ,  0.3000  ,  0.0670 ,   0.1629
-                     0.0670   , 0.0670  ,       0 ,   0.0670  ,  0.0670 ,   0.0670 ,   0.0670  ,  0.3000 ,   1.1776  ,  0.4960  ,  0.0670 ,   0.1629
-                     0.0670   , 0.0670  ,       0 ,   0.0670  ,  0.0670 ,   0.0670 ,   0.0670  ,  0.3000 ,   0.4960  ,  1.1776  ,  0.0670 ,   0.1629
-                     0.4960   , 0.4960  ,       0 ,   0.1629  ,  0.3000 ,   0.1629 ,   0.7765  ,  0.0670 ,   0.0670  ,  0.0670  ,  1.1776 ,   0.0670
-                     0.0670   , 0.0670  ,       0 ,   0.0670  ,  0.0670 ,   0.0670 ,   0.0670  ,  0.1629 ,   0.1629  ,  0.1629  ,  0.0670 ,   1.1776
-                    }
+
 
                     /*Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);-------------------------------------*/
                     /*
@@ -113,8 +122,7 @@ int main(int argc,char *argv[]) {
 
                     //test funct with several values
 
-                    double epsilon=0.00000001;
-
+                    
     test_funct(0.5, 0.5, 0.0101290635, epsilon);
     test_funct(0.0, 0.5, 0.0116081347, epsilon);
     test_funct(0.5, 0.0, 0.0098632064, epsilon);
@@ -154,6 +162,11 @@ int main(int argc,char *argv[]) {
 
     printf("est=\n  %f  %f\n",*(XMIN),*(XMIN+1));
     printf("MSE=\n  %f\n",YNEWLO);
+    if(all_passed == 1){
+      printf("***Congratulations! No tests FAILED, all PASSED!***\n");
+    } else {
+      printf("XXX One or more tests FAILED\n");
+    }
 
     free(d1_d2);
     return 0;
@@ -172,16 +185,59 @@ void test_funct(double d1, double d2, double correct_return, double epsilon) {
     if( isnan(mse) && isnan(correct_return) || (error * error) < epsilon ) {
         printf("* PASSED");
     } else {
+        all_passed = 0;
         printf("X FAILED");
     }
-    printf(" -> funct()\n");
-    printf("\t%f returned\n",mse);
-    printf("\t%f correct\n",correct_return);
+    printf(" -> funct()");
+    printf(" -> d1 = %f",d1);
+    printf(" -> d2 = %f",d2);
+    printf(" -> %f returned",mse);
+    printf(" -> %f correct\n",correct_return);
 
     free(d1_d2);
 }
 
-void test_vh_calculation(double d1, double d2, double *correct_return[], double epsilon) {
+void test_vh_calculation(double d1, double d2, double correct_return[], int correct_size, double epsilon) {
+
+    double A_PP[p*p];
+    matrx_mlt(A_PP,2.00,initVh,p,p);
+    array_pow(A_PP,d1,A_PP,p,p);
+    matrx_sub(A_PP,1.00,A_PP,p,p);
+
+    double B_PP[p*p];
+    array_pow(B_PP,d1,tau1,p,p);
+
+    array_mlt(B_PP,B_PP,p,p,A_PP);
+    array_rdv(B_PP,B_PP,p,p,1.00 - d1*d1);
+   
+    double vh_size = sizeof(B_PP) / sizeof(double);
+
+    if(vh_size == correct_size){
+      for(int i=0; i <correct_size; i++){
+        double actual = B_PP[i];
+        double expect = correct_return[i];
+        double error = actual - expect;
+        if( isnan(actual) && isnan(expect) || (error * error) < epsilon ) {
+            printf("* PASSED");
+        } else {
+            all_passed = 0;
+            printf("X FAILED");
+        }
+        printf(" -> test_vh_calculation at %i",i);
+        printf(" -> d1 = %f",d1);
+        printf(" -> d2 = %f",d2);
+        printf(" -> %f returned",actual);
+        printf(" -> %f correct\n",expect);
+      }
+    } else {
+      all_passed = 0;
+      printf("X FAILED");
+      printf(" -> test_vh_calculation() -- size");
+      printf(" -> d1 = %f",d1);
+      printf(" -> d2 = %f",d2);
+      printf(" -> %f returned",vh_size);
+      printf(" -> %f correct\n",correct_size);
+    }
 
 }
 
