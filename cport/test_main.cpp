@@ -59,6 +59,16 @@ int main(int argc,char *argv[]) {
     int expect_vh_0_0_size = sizeof(expect_vh_0_0) / sizeof(double);
     test_vh_calculation(0.0,0.0,expect_vh_0_0,expect_vh_0_0_size,epsilon);
 
+    double expect_vh_1_1[]= {NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN};
+    int expect_vh_1_1_size = sizeof(expect_vh_1_1) / sizeof(double);
+    test_vh_calculation(1.0,1.0,expect_vh_1_1,expect_vh_1_1_size,epsilon);
+
+    double expect_vh_75_75[]= {1.3482,1.0327,0,0.3243,0.5263,0.3243,0.7607,0.1501,0.1501,0.1501,0.7607,0.1501,1.0327,1.3482,0,0.3243,0.5263,0.3243,0.7607,0.1501,0.1501,0.1501,0.7607,0.1501,0,0,1.3482,0,0,0,0,0,0,0,0,0,0.3243,0.3243,0,1.3482,0.3243,0.5263,0.3243,0.1501,0.1501,0.1501,0.3243,0.1501,0.5263,0.5263,0,0.3243,1.3482,0.3243,0.5263,0.1501,0.1501,0.1501,0.5263,0.1501,0.3243,0.3243,0,0.5263,0.3243,1.3482,0.3243,0.1501,0.1501,0.1501,0.3243,0.1501,0.7607,0.7607,0,0.3243,0.5263,0.3243,1.3482,0.1501,0.1501,0.1501,1.0327,0.1501,0.1501,0.1501,0,0.1501,0.1501,0.1501,0.1501,1.3482,0.5263,0.5263,0.1501,0.3243,0.1501,0.1501,0,0.1501,0.1501,0.1501,0.1501,0.5263,1.3482,0.7607,0.1501,0.3243,0.1501,0.1501,0,0.1501,0.1501,0.1501,0.1501,0.5263,0.7607,1.3482,0.1501,0.3243,0.7607,0.7607,0,0.3243,0.5263,0.3243,1.0327,0.1501,0.1501,0.1501,1.3482,0.1501,0.1501,0.1501,0,0.1501,0.1501,0.1501,0.1501,0.3243,0.3243,0.3243,0.1501,1.3482};
+    int expect_vh_75_75_size = sizeof(expect_vh_75_75) / sizeof(double);
+    test_vh_calculation(0.75,0.75,expect_vh_75_75,expect_vh_75_75_size,epsilon);
+
+
+
 
 
                     /*Vp=(d2.^tau2).*(1-d2.^(2*initVp))./(1-d2^2);-------------------------------------*/
@@ -163,7 +173,7 @@ int main(int argc,char *argv[]) {
     printf("est=\n  %f  %f\n",*(XMIN),*(XMIN+1));
     printf("MSE=\n  %f\n",YNEWLO);
     if(all_passed == 1){
-      printf("***Congratulations! No tests FAILED, all PASSED!***\n");
+      printf("*** Congratulations! No tests FAILED, all PASSED!\n");
     } else {
       printf("XXX One or more tests FAILED\n");
     }
