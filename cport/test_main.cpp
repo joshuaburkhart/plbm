@@ -26,12 +26,58 @@ void output(double *matrix,int m,int n);
 void test_funct(double d1, double d2, double correct_return, double epsilon);
 void test_vh_calculation(double d1, double d2, double correct_return[], int correct_size, double epsilon);
 void test_vp_calculation(double d1, double d2, double correct_return[], int correct_size, double epsilon);
+void test_vh_rdv_calculation(double io_vh[], double correct_return[], int correct_size, double epsilon);
+void test_matrx_det(double A[],double expect,int size, double epsilon);
+
 
 int main(int argc,char *argv[]) {
 
     printf("\n\ttesting...\n\n");
     double epsilon=0.00000001;
 
+    //test arraylib functions
+  
+    double n2[]={1,2,3,4};
+    double expect=-2;
+    test_matrx_det(n2,expect,2,epsilon); 
+    
+    double p3[]={1,2,3,9};
+    expect=3;
+    test_matrx_det(p3,expect,2,epsilon); 
+
+    double p0[]={0,123.0000,3.3000,-6.0000,0,0,-4.0000,-9.0000,0.3000,0,123.0000,234.0000,345.0000,456.0000,567.0000,2.0000,-3.0000,-4.0000,-5.0000,-7.0000,0,0,0,0,0};
+    expect=0;
+    test_matrx_det(p0,expect,5,epsilon); 
+
+    double p74193[]={5.0000,1.0000,3.3000,-6.0000,5.0000,5.0000,4.0000,9.0000,0.3000,9.0000,1.0000,2.0000,4.0000,4.0000,5.0000,9.0000,3.0000,3.0000,3.0000,-7.0000,4.0000,4.0000,6.0000,4.0000,1.0000};
+    expect=741.93;
+    test_matrx_det(p74193,expect,5,epsilon); 
+
+    double p02[]={1,2,3,4,5,2,3,4,5,6,3,4,5,6,7,4,5,6,7,8,5,6,7,8,9};
+    expect=0;
+    test_matrx_det(p02,expect,5,epsilon); 
+
+    double n216[]={-1,2,-3,4,5,2,-3,4,5,6,-3,4,5,6,7,4,5,6,7,8,5,6,7,8,9};
+    expect=-216;
+    test_matrx_det(n216,expect,5,epsilon); 
+
+    double n0[]={-1,2,-3,4,5,6,2,-3,4,5,6,7,-3,4,5,6,7,8,4,5,6,7,8,9,5,6,7,8,9,10,6,7,8,9,10,11};
+    expect=0;
+    test_matrx_det(n0,expect,6,epsilon); 
+
+    /*static double det_l(double *A,int n); 
+    void matrx_inv(double out[],double *A,int n); 
+    void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb);
+    void tran(double out[],double *A,int m,int n); 
+    void ones(double out[],int m,int n); 
+    void array_pow(double out[],double d,double *A,int m,int n); 
+    void array_mlt(double out[],double A[],int m,int n,double *B);
+    void matrx_mlt(double out[],double d,double *A,int m,int n); 
+    void matrx_mlt2(double out[],double *A,int ma,int na,double *B,int mb,int nb);
+    void matrx_sub(double out[],double d,double *A,int m,int n); 
+    void matrx_sub3(double out[],double *A,int m,int n,double d); 
+    void array_rdv(double out[],double *A,int m,int n,double d);  
+    */
     //test funct steps with several values
 
     /*Vh=(d1.^tau1).*(1-d1.^(2*initVh))./(1-d1^2);--------------------------------------*/
@@ -111,9 +157,43 @@ int main(int argc,char *argv[]) {
     test_vp_calculation(0.25,0.25,expect_vp_25_25,expect_vp_25_25_size,epsilon);
 
     /*Vh=Vh./det(Vh)^(1/p);-----------------------------------*/
-    /*
-        array_rdv(B_PP,B_PP,p,p,pow(matrx_det(B_PP,p),(1.00/((double) p))));
-    */
+            
+    double expect_vh_rdv_5_5[]={1.1842,0.7808,0,0.1638,0.3016,0.1638,0.4988,0.0674,0.0674,0.0674,0.4988,0.0674,0.7808,1.1842,0,0.1638,0.3016,0.1638,0.4988,0.0674,0.0674,0.0674,0.4988,0.0674,0,0,1.1842,0,0,0,0,0,0,0,0,0,0.1638,0.1638,0,1.1842,0.1638,0.3016,0.1638,0.0674,0.0674,0.0674,0.1638,0.0674,0.3016,0.3016,0,0.1638,1.1842,0.1638,0.3016,0.0674,0.0674,0.0674,0.3016,0.0674,0.1638,0.1638,0,0.3016,0.1638,1.1842,0.1638,0.0674,0.0674,0.0674,0.1638,0.0674,0.4988,0.4988,0,0.1638,0.3016,0.1638,1.1842,0.0674,0.0674,0.0674,0.7808,0.0674,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,1.1842,0.3016,0.3016,0.0674,0.1638,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,0.3016,1.1842,0.4988,0.0674,0.1638,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,0.3016,0.4988,1.1842,0.0674,0.1638,0.4988,0.4988,0,0.1638,0.3016,0.1638,0.7808,0.0674,0.0674,0.0674,1.1842,0.0674,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,0.1638,0.1638,0.1638,0.0674,1.1842};
+    int expect_vh_rdv_5_5_size = sizeof(expect_vh_rdv_5_5) / sizeof(double);
+    test_vh_rdv_calculation(expect_vh_5_5,expect_vh_rdv_5_5,expect_vh_rdv_5_5_size,epsilon);
+/*     
+    double expect_vh_rdv_0_5[]={1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1};
+    int expect_vh_rdv_5_5 = sizeof(expect_vh_rdv_5_5) / sizeof(double);
+    test_vh_rdv_calculation(expect_vh_5_5,expect_vh_rdv_5_5,expect_vh_rdv_5_5_size,epsilon);
+     
+    double expect_vh_rdv_5_0[]={1.1842,0.7808,0,0.1638,0.3016,0.1638,0.4988,0.0674,0.0674,0.0674,0.4988,0.0674,0.7808,1.1842,0,0.1638,0.3016,0.1638,0.4988,0.0674,0.0674,0.0674,0.4988,0.0674,0,0,1.1842,0,0,0,0,0,0,0,0,0,0.1638,0.1638,0,1.1842,0.1638,0.3016,0.1638,0.0674,0.0674,0.0674,0.1638,0.0674,0.3016,0.3016,0,0.1638,1.1842,0.1638,0.3016,0.0674,0.0674,0.0674,0.3016,0.0674,0.1638,0.1638,0,0.3016,0.1638,1.1842,0.1638,0.0674,0.0674,0.0674,0.1638,0.0674,0.4988,0.4988,0,0.1638,0.3016,0.1638,1.1842,0.0674,0.0674,0.0674,0.7808,0.0674,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,1.1842,0.3016,0.3016,0.0674,0.1638,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,0.3016,1.1842,0.4988,0.0674,0.1638,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,0.3016,0.4988,1.1842,0.0674,0.1638,0.4988,0.4988,0,0.1638,0.3016,0.1638,0.7808,0.0674,0.0674,0.0674,1.1842,0.0674,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,0.1638,0.1638,0.1638,0.0674,1.1842};
+    int expect_vh_rdv_5_5 = sizeof(expect_vh_rdv_5_5) / sizeof(double);
+    test_vh_rdv_calculation(expect_vh_5_5,expect_vh_rdv_5_5,expect_vh_rdv_5_5_size,epsilon);
+     
+    double expect_vh_rdv_1_5[]={NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN};
+    int expect_vh_rdv_5_5 = sizeof(expect_vh_rdv_5_5) / sizeof(double);
+    test_vh_rdv_calculation(expect_vh_5_5,expect_vh_rdv_5_5,expect_vh_rdv_5_5_size,epsilon);
+     
+    double expect_vh_rdv_5_1[]={1.1842,0.7808,0,0.1638,0.3016,0.1638,0.4988,0.0674,0.0674,0.0674,0.4988,0.0674,0.7808,1.1842,0,0.1638,0.3016,0.1638,0.4988,0.0674,0.0674,0.0674,0.4988,0.0674,0,0,1.1842,0,0,0,0,0,0,0,0,0,0.1638,0.1638,0,1.1842,0.1638,0.3016,0.1638,0.0674,0.0674,0.0674,0.1638,0.0674,0.3016,0.3016,0,0.1638,1.1842,0.1638,0.3016,0.0674,0.0674,0.0674,0.3016,0.0674,0.1638,0.1638,0,0.3016,0.1638,1.1842,0.1638,0.0674,0.0674,0.0674,0.1638,0.0674,0.4988,0.4988,0,0.1638,0.3016,0.1638,1.1842,0.0674,0.0674,0.0674,0.7808,0.0674,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,1.1842,0.3016,0.3016,0.0674,0.1638,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,0.3016,1.1842,0.4988,0.0674,0.1638,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,0.3016,0.4988,1.1842,0.0674,0.1638,0.4988,0.4988,0,0.1638,0.3016,0.1638,0.7808,0.0674,0.0674,0.0674,1.1842,0.0674,0.0674,0.0674,0,0.0674,0.0674,0.0674,0.0674,0.1638,0.1638,0.1638,0.0674,1.1842};
+    int expect_vh_rdv_5_5 = sizeof(expect_vh_rdv_5_5) / sizeof(double);
+    test_vh_rdv_calculation(expect_vh_5_5,expect_vh_rdv_5_5,expect_vh_rdv_5_5_size,epsilon);
+     
+    double expect_vh_rdv_0_0[]={1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1};
+    int expect_vh_rdv_5_5 = sizeof(expect_vh_rdv_5_5) / sizeof(double);
+    test_vh_rdv_calculation(expect_vh_5_5,expect_vh_rdv_5_5,expect_vh_rdv_5_5_size,epsilon);
+     
+    double expect_vh_rdv_1_1[]={NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN};
+    int expect_vh_rdv_5_5 = sizeof(expect_vh_rdv_5_5) / sizeof(double);
+    test_vh_rdv_calculation(expect_vh_5_5,expect_vh_rdv_5_5,expect_vh_rdv_5_5_size,epsilon);
+     
+    double expect_vh_rdv_75_75[]={1.3495,1.0337,0,0.3246,0.5268,0.3246,0.7615,0.1503,0.1503,0.1503,0.7615,0.1503,1.0337,1.3495,0,0.3246,0.5268,0.3246,0.7615,0.1503,0.1503,0.1503,0.7615,0.1503,0,0,1.3495,0,0,0,0,0,0,0,0,0,0.3246,0.3246,0,1.3495,0.3246,0.5268,0.3246,0.1503,0.1503,0.1503,0.3246,0.1503,0.5268,0.5268,0,0.3246,1.3495,0.3246,0.5268,0.1503,0.1503,0.1503,0.5268,0.1503,0.3246,0.3246,0,0.5268,0.3246,1.3495,0.3246,0.1503,0.1503,0.1503,0.3246,0.1503,0.7615,0.7615,0,0.3246,0.5268,0.3246,1.3495,0.1503,0.1503,0.1503,1.0337,0.1503,0.1503,0.1503,0,0.1503,0.1503,0.1503,0.1503,1.3495,0.5268,0.5268,0.1503,0.3246,0.1503,0.1503,0,0.1503,0.1503,0.1503,0.1503,0.5268,1.3495,0.7615,0.1503,0.3246,0.1503,0.1503,0,0.1503,0.1503,0.1503,0.1503,0.5268,0.7615,1.3495,0.1503,0.3246,0.7615,0.7615,0,0.3246,0.5268,0.3246,1.0337,0.1503,0.1503,0.1503,1.3495,0.1503,0.1503,0.1503,0,0.1503,0.1503,0.1503,0.1503,0.3246,0.3246,0.3246,0.1503,1.3495};
+    int expect_vh_rdv_5_5 = sizeof(expect_vh_rdv_5_5) / sizeof(double);
+    test_vh_rdv_calculation(expect_vh_5_5,expect_vh_rdv_5_5,expect_vh_rdv_5_5_size,epsilon);
+     
+    double expect_vh_rdv_25_25[]={1.0645,0.5128,0,0.0469,0.1113,0.0469,0.2432,0.0154,0.0154,0.0154,0.2432,0.0154,0.5128,1.0645,0,0.0469,0.1113,0.0469,0.2432,0.0154,0.0154,0.0154,0.2432,0.0154,0,0,1.0645,0,0,0,0,0,0,0,0,0,0.0469,0.0469,0,1.0645,0.0469,0.1113,0.0469,0.0154,0.0154,0.0154,0.0469,0.0154,0.1113,0.1113,0,0.0469,1.0645,0.0469,0.1113,0.0154,0.0154,0.0154,0.1113,0.0154,0.0469,0.0469,0,0.1113,0.0469,1.0645,0.0469,0.0154,0.0154,0.0154,0.0469,0.0154,0.2432,0.2432,0,0.0469,0.1113,0.0469,1.0645,0.0154,0.0154,0.0154,0.5128,0.0154,0.0154,0.0154,0,0.0154,0.0154,0.0154,0.0154,1.0645,0.1113,0.1113,0.0154,0.0469,0.0154,0.0154,0,0.0154,0.0154,0.0154,0.0154,0.1113,1.0645,0.2432,0.0154,0.0469,0.0154,0.0154,0,0.0154,0.0154,0.0154,0.0154,0.1113,0.2432,1.0645,0.0154,0.0469,0.2432,0.2432,0,0.0469,0.1113,0.0469,0.5128,0.0154,0.0154,0.0154,1.0645,0.0154,0.0154,0.0154,0,0.0154,0.0154,0.0154,0.0154,0.0469,0.0469,0.0469,0.0154,1.0645};
+    int expect_vh_rdv_5_5 = sizeof(expect_vh_rdv_5_5) / sizeof(double);
+    test_vh_rdv_calculation(expect_vh_5_5,expect_vh_rdv_5_5,expect_vh_rdv_5_5_size,epsilon);
+*/            
     /*Vp=Vp./det(Vp)^(1/q);-----------------------------------*/
     /*
         array_rdv(B_QQ,B_QQ,q,q,pow(matrx_det(B_QQ,q),(1.00/((double) q))));
@@ -317,6 +397,41 @@ void test_vp_calculation(double d1, double d2, double correct_return[], int corr
       printf(" -> %f returned",vp_size);
       printf(" -> %i correct\n",correct_size);
   }
+}
+
+void test_matrx_det(double A[], double expect, int size, double epsilon){
+
+  double actual = matrx_det(A,size);
+  double error = actual - expect;
+  if( isnan(actual) && isnan(expect) || (error * error) < epsilon ) {
+    printf("* PASSED");
+  } else {
+    all_passed = 0;
+    printf("X FAILED");
+  }
+  printf(" -> test_matrx_det");
+  printf(" -> %f returned",actual);
+  printf(" -> %f correct\n",expect);
+}
+
+void test_vh_rdv_calculation(double io_vh[], double correct_return[], int correct_size, double epsilon){
+
+  array_rdv(io_vh,io_vh,p,p,pow(matrx_det(io_vh,p),(1.00/((double) p))));
+
+    for(int i=0; i <correct_size; i++) {
+        double actual = io_vh[i];
+        double expect = correct_return[i];
+        double error = actual - expect;
+        if( isnan(actual) && isnan(expect) || (error * error) < epsilon ) {
+            printf("* PASSED");
+        } else {
+            all_passed = 0;
+            printf("X FAILED");
+        }
+        printf(" -> test_vp_rdv_calculation at %i",i);
+        printf(" -> %f returned",actual);
+        printf(" -> %f correct\n",expect);
+    }
 }
 
 void output(double *matrix,int m,int n) {
