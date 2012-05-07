@@ -34,36 +34,54 @@ int main(int argc,char *argv[]) {
 
     printf("\n\ttesting...\n\n");
     double epsilon=0.00000001;
+    double big_epsilon=0.0005;
 
     //test arraylib functions
   
-    double n2[]={1,2,3,4};
-    double expect=-2;
-    test_matrx_det(n2,expect,2,epsilon); 
-    
-    double p3[]={1,2,3,9};
-    expect=3;
-    test_matrx_det(p3,expect,2,epsilon); 
+    double det_test_input_1[]={1.1776,0.7765,0,0.1629,0.3000,0.1629,0.4960,0.0670,0.0670,0.0670,0.4960,0.0670,0.7765,1.1776,0,0.1629,0.3000,0.1629,0.4960,0.0670,0.0670,0.0670,0.4960,0.0670,0,0,1.1776,0,0,0,0,0,0,0,0,0,0.1629,0.1629,0,1.1776,0.1629,0.3000,0.1629,0.0670,0.0670,0.0670,0.1629,0.0670,0.3000,0.3000,0,0.1629,1.1776,0.1629,0.3000,0.0670,0.0670,0.0670,0.3000,0.0670,0.1629,0.1629,0,0.3000,0.1629,1.1776,0.1629,0.0670,0.0670,0.0670,0.1629,0.0670,0.4960,0.4960,0,0.1629,0.3000,0.1629,1.1776,0.0670,0.0670,0.0670,0.7765,0.0670,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,1.1776,0.3000,0.3000,0.0670,0.1629,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,0.3000,1.1776,0.4960,0.0670,0.1629,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,0.3000,0.4960,1.1776,0.0670,0.1629,0.4960,0.4960,0,0.1629,0.3000,0.1629,0.7765,0.0670,0.0670,0.0670,1.1776,0.0670,0.0670,0.0670,0,0.0670,0.0670,0.0670,0.0670,0.1629,0.1629,0.1629,0.0670,1.1776};
+    double expect_1=0.9351;
+    int length_on_side_1 = sqrt(sizeof(det_test_input_1) / sizeof(double));
+    test_matrx_det(det_test_input_1,expect_1,length_on_side,big_epsilon); 
+   
+    double det_test_input_2[]={1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1};
+    double expect_2=1;
+    int length_on_side_2 = sqrt(sizeof(det_test_input_2) / sizeof(double));
+    test_matrx_det(det_test_input_2,expect_2,length_on_side_2,big_epsilon);
+ 
+    double det_test_input_3[]={NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN};
+    double expect_3=NAN;
+    int length_on_side_3 = sqrt(sizeof(det_test_input_3) / sizeof(double));
+    test_matrx_det(det_test_input_3,expect_3,length_on_side_3,big_epsilon);
 
-    double p0[]={0,123.0000,3.3000,-6.0000,0,0,-4.0000,-9.0000,0.3000,0,123.0000,234.0000,345.0000,456.0000,567.0000,2.0000,-3.0000,-4.0000,-5.0000,-7.0000,0,0,0,0,0};
-    expect=0;
-    test_matrx_det(p0,expect,5,epsilon); 
+    double det_test_input_4[]={1.3482,1.0327,0,0.3243,0.5263,0.3243,0.7607,0.1501,0.1501,0.1501,0.7607,0.1501,1.0327,1.3482,0,0.3243,0.5263,0.3243,0.7607,0.1501,0.1501,0.1501,0.7607,0.1501,0,0,1.3482,0,0,0,0,0,0,0,0,0,0.3243,0.3243,0,1.3482,0.3243,0.5263,0.3243,0.1501,0.1501,0.1501,0.3243,0.1501,0.5263,0.5263,0,0.3243,1.3482,0.3243,0.5263,0.1501,0.1501,0.1501,0.5263,0.1501,0.3243,0.3243,0,0.5263,0.3243,1.3482,0.3243,0.1501,0.1501,0.1501,0.3243,0.1501,0.7607,0.7607,0,0.3243,0.5263,0.3243,1.3482,0.1501,0.1501,0.1501,1.0327,0.1501,0.1501,0.1501,0,0.1501,0.1501,0.1501,0.1501,1.3482,0.5263,0.5263,0.1501,0.3243,0.1501,0.1501,0,0.1501,0.1501,0.1501,0.1501,0.5263,1.3482,0.7607,0.1501,0.3243,0.1501,0.1501,0,0.1501,0.1501,0.1501,0.1501,0.5263,0.7607,1.3482,0.1501,0.3243,0.7607,0.7607,0,0.3243,0.5263,0.3243,1.0327,0.1501,0.1501,0.1501,1.3482,0.1501,0.1501,0.1501,0,0.1501,0.1501,0.1501,0.1501,0.3243,0.3243,0.3243,0.1501,1.3482};
+    double expect_4=0.9884;
+    int length_on_side_4 = sqrt(sizeof(det_test_input_4) / sizeof(double));
+    test_matrx_det(det_test_input_4,expect_4,length_on_side_4,big_epsilon);
 
-    double p74193[]={5.0000,1.0000,3.3000,-6.0000,5.0000,5.0000,4.0000,9.0000,0.3000,9.0000,1.0000,2.0000,4.0000,4.0000,5.0000,9.0000,3.0000,3.0000,3.0000,-7.0000,4.0000,4.0000,6.0000,4.0000,1.0000};
-    expect=741.93;
-    test_matrx_det(p74193,expect,5,epsilon); 
+    double det_test_input_5[]={1.0521,0.5069,0,0.0464,0.1100,0.0464,0.2403,0.0152,0.0152,0.0152,0.2403,0.0152,0.5069,1.0521,0,0.0464,0.1100,0.0464,0.2403,0.0152,0.0152,0.0152,0.2403,0.0152,0,0,1.0521,0,0,0,0,0,0,0,0,0,0.0464,0.0464,0,1.0521,0.0464,0.1100,0.0464,0.0152,0.0152,0.0152,0.0464,0.0152,0.1100,0.1100,0,0.0464,1.0521,0.0464,0.1100,0.0152,0.0152,0.0152,0.1100,0.0152,0.0464,0.0464,0,0.1100,0.0464,1.0521,0.0464,0.0152,0.0152,0.0152,0.0464,0.0152,0.2403,0.2403,0,0.0464,0.1100,0.0464,1.0521,0.0152,0.0152,0.0152,0.5069,0.0152,0.0152,0.0152,0,0.0152,0.0152,0.0152,0.0152,1.0521,0.1100,0.1100,0.0152,0.0464,0.0152,0.0152,0,0.0152,0.0152,0.0152,0.0152,0.1100,1.0521,0.2403,0.0152,0.0464,0.0152,0.0152,0,0.0152,0.0152,0.0152,0.0152,0.1100,0.2403,1.0521,0.0152,0.0464,0.2403,0.2403,0,0.0464,0.1100,0.0464,0.5069,0.0152,0.0152,0.0152,1.0521,0.0152,0.0152,0.0152,0,0.0152,0.0152,0.0152,0.0152,0.0464,0.0464,0.0464,0.0152,1.0521};
+    double expect_5=0.8688;
+    int length_on_side_5 = sqrt(sizeof(det_test_input_5) / sizeof(double));
+    test_matrx_det(det_test_input_5,expect_5,length_on_side_5,big_epsilon);
 
-    double p02[]={1,2,3,4,5,2,3,4,5,6,3,4,5,6,7,4,5,6,7,8,5,6,7,8,9};
-    expect=0;
-    test_matrx_det(p02,expect,5,epsilon); 
+    double det_test_input_6[]={};
+    double expect_6=;
+    int length_on_side_6 = sqrt(sizeof(det_test_input_6) / sizeof(double));
+    test_matrx_det(det_test_input_6,expect_6,length_on_side_6,big_epsilon);
 
-    double n216[]={-1,2,-3,4,5,2,-3,4,5,6,-3,4,5,6,7,4,5,6,7,8,5,6,7,8,9};
-    expect=-216;
-    test_matrx_det(n216,expect,5,epsilon); 
+    double det_test_input_7[]={};
+    double expect_7=;
+    int length_on_side_7 = sqrt(sizeof(det_test_input_7) / sizeof(double));
+    test_matrx_det(det_test_input_7,expect_7,length_on_side_7,big_epsilon);
 
-    double n0[]={-1,2,-3,4,5,6,2,-3,4,5,6,7,-3,4,5,6,7,8,4,5,6,7,8,9,5,6,7,8,9,10,6,7,8,9,10,11};
-    expect=0;
-    test_matrx_det(n0,expect,6,epsilon); 
+    double det_test_input_8[]={};
+    double expect_8=;
+    int length_on_side_8 = sqrt(sizeof(det_test_input_8) / sizeof(double));
+    test_matrx_det(det_test_input_8,expect_8,length_on_side_8,big_epsilon);
+
+    double det_test_input_9[]={};
+    double expect_9=;
+    int length_on_side_9 = sqrt(sizeof(det_test_input_9) / sizeof(double));
+    test_matrx_det(det_test_input_9,expect_9,length_on_side_9,big_epsilon);
 
     /*static double det_l(double *A,int n); 
     void matrx_inv(double out[],double *A,int n); 
