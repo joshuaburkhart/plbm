@@ -31,6 +31,8 @@ void test_matrx_det(double A[],double expect,int size, double epsilon);
 void test_matrx_inv(double io[], double correct_return[], int correct_size, double epsilon);
 void test_matrx_mlt(double io[], double correct_return[], double d, double m, double n, double epsilon);
 void test_array_pow(double io[],double correct_return[], double d,double m,double n, double epsilon);
+void test_matrx_sub(double io[],double correct_return[], double d,double m,double n,double epsilon);
+void test_array_amlt(double io[],double correct_return[], double b[],double m,double n,double epsilon);
 
 
 int main(int argc,char *argv[]) {
@@ -158,7 +160,21 @@ int main(int argc,char *argv[]) {
     test_array_pow(pow_test_input_5,pow_expect_5,pow_test_input_d_5,pow_length_on_side_5,pow_length_on_side_5,epsilon);
 
 //matrx_sub
+
+    double sub_test_input_1[]={1,2,3,4};
+    double sub_test_input_d_1=5;
+    double sub_expect_1[]={4,3,2,1};
+    int sub_length_on_side_1= sqrt(sizeof(sub_test_input_1) / sizeof(double));
+    test_matrx_sub(sub_test_input_1,sub_expect_1,sub_test_input_d_1,sub_length_on_side_1,sub_length_on_side_1,epsilon);
+
 //array_mlt
+
+    double amlt_test_input_1[]={1,2,3,4};
+    double amlt_test_input_b_1[]={5,5,5,5};
+    double amlt_expect_1[]={5,10,15,20};
+    int amlt_length_on_side_1= sqrt(sizeof(amlt_test_input_1) / sizeof(double));
+    test_array_amlt(amlt_test_input_1,amlt_expect_1,amlt_test_input_b_1,amlt_length_on_side_1,amlt_length_on_side_1,epsilon);
+
 //array_rdv
 //kron
 //trans
@@ -596,4 +612,42 @@ void test_array_pow(double io[],double correct_return[], double d,double m,doubl
     }
 }
 
+void test_matrx_sub(double io[],double correct_return[], double d,double m,double n,double epsilon){
+  
+    matrx_sub(io,d,io,m,n);
 
+    for(int i=0; i <m * n; i++) {
+        double actual = io[i];
+        double expect = correct_return[i];
+        double error = actual - expect;
+        if( isnan(actual) && isnan(expect) || (error * error) < epsilon ) {
+            printf("* PASSED");
+        } else {
+            all_passed = 0;
+            printf("X FAILED");
+        }
+        printf(" -> test_matrx_sub at %i",i);
+        printf(" -> %f returned",actual);
+        printf(" -> %f correct\n",expect);
+    }
+}
+
+void test_array_amlt(double io[],double correct_return[],double b[],double m,double n,double epsilon){
+  
+    array_mlt(io,io,m,n,b);
+
+    for(int i=0; i <m * n; i++) {
+        double actual = io[i];
+        double expect = correct_return[i];
+        double error = actual - expect;
+        if( isnan(actual) && isnan(expect) || (error * error) < epsilon ) {
+            printf("* PASSED");
+        } else {
+            all_passed = 0;
+            printf("X FAILED");
+        }
+        printf(" -> test_array_amlt at %i",i);
+        printf(" -> %f returned",actual);
+        printf(" -> %f correct\n",expect);
+    }
+}

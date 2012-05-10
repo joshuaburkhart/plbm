@@ -101,7 +101,7 @@ void matrx_mlt(double out[],double d,double *A,int m,int n) {
     return;
 }
 
-void array_mlt(double out[],double A[],int m,int n,double *B) {
+void array_mlt(double out[],double A[],int m,int n,double B[]) {
 
     #pragma omp parallel for
     for(int i=0; i<m; i++) {

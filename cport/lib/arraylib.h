@@ -11,7 +11,7 @@ void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb);
 void tran(double out[],double *A,int m,int n);
 void ones(double out[],int m,int n);
 void array_pow(double out[],double d,double *A,int m,int n);
-void array_mlt(double out[],double A[],int m,int n,double *B);
+void array_mlt(double out[],double A[],int m,int n,double B[]);
 void matrx_mlt(double out[],double d,double *A,int m,int n);
 void matrx_mlt2(double out[],double *A,int ma,int na,double *B,int mb,int nb);
 void matrx_sub(double out[],double d,double *A,int m,int n);
