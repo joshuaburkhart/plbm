@@ -220,9 +220,13 @@ void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
 void tran(double out[],double *A,int m,int n) {
 
+double tmp;
+
     for(int i=0; i<m; i++) {
-        for(int j=0; j<n; j++) {
-            out[i+j*m] =*(A+(i*n+j));
+        for(int j=i; j<n; j++) {
+           tmp = *(A+(i*m + j));
+           out[i*m + j] = *(A+(j*n +i));  
+           out[j*n + i] = tmp;
         }
     }
     return;
