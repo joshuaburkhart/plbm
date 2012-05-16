@@ -33,6 +33,8 @@ void test_matrx_mlt(double io[], double correct_return[], double d, double m, do
 void test_array_pow(double io[],double correct_return[], double d,double m,double n, double epsilon);
 void test_matrx_sub(double io[],double correct_return[], double d,double m,double n,double epsilon);
 void test_array_amlt(double io[],double correct_return[], double b[],double m,double n,double epsilon);
+void test_array_rdv(double io[],double correct_return[],double d,double m,double n,double epsilon);
+void test_kron(double io[],double correct_return[],double b[],double ma,double na,double mb,double nb,double epsilon);
 
 
 int main(int argc,char *argv[]) {
@@ -176,7 +178,22 @@ int main(int argc,char *argv[]) {
     test_array_amlt(amlt_test_input_1,amlt_expect_1,amlt_test_input_b_1,amlt_length_on_side_1,amlt_length_on_side_1,epsilon);
 
 //array_rdv
+
+    double ardv_test_input_1[]={1,2,3,4};
+    double ardv_test_input_d_1=4;
+    double ardv_expect_1[]={0.25,0.5,0.75,1.0};
+    int ardv_length_on_side_1= sqrt(sizeof(ardv_test_input_1) / sizeof(double));
+    test_array_rdv(ardv_test_input_1,ardv_expect_1,ardv_test_input_d_1,ardv_length_on_side_1,ardv_length_on_side_1,epsilon);
+
 //kron
+
+    double kron_test_input_1[]={1,2,3,4};
+    double kron_test_input_b_1[]={3};
+    double kron_expect_1[]={3,6,9,12};
+    int kron_length_on_side_a_1= sqrt(sizeof(kron_test_input_1) / sizeof(double));
+    int kron_length_on_side_b_1= sqrt(sizeof(kron_test_input_b_1) / sizeof(double));
+    test_kron(kron_test_input_1,kron_expect_1,kron_test_input_b_1,kron_length_on_side_a_1,kron_length_on_side_a_1,kron_length_on_side_b_1,kron_length_on_side_b_1,epsilon);
+
 //trans
 //matrx_inv
 //ones
@@ -647,6 +664,49 @@ void test_array_amlt(double io[],double correct_return[],double b[],double m,dou
             printf("X FAILED");
         }
         printf(" -> test_array_amlt at %i",i);
+        printf(" -> %f returned",actual);
+        printf(" -> %f correct\n",expect);
+    }
+}
+
+void test_array_rdv(double io[],double correct_return[],double d,double m,double n,double epsilon){
+
+ array_rdv(io,io,m,n,d);
+
+    for(int i=0; i <m * n; i++) {
+        double actual = io[i];
+        double expect = correct_return[i];
+        double error = actual - expect;
+        if( isnan(actual) && isnan(expect) || (error * error) < epsilon ) {
+            printf("* PASSED");
+        } else {
+            all_passed = 0;
+            printf("X FAILED");
+        }
+        printf(" -> test_array_rdv at %i",i);
+        printf(" -> %f returned",actual);
+        printf(" -> %f correct\n",expect);
+    }
+}
+
+void test_kron(double io[],double correct_return[],double b[],double ma,double na,double mb,double nb,double epsilon){
+
+ kron(io,io,ma,na,b,mb,nb);
+
+    int m = ma * mb;
+    int n = na * nb;
+
+    for(int i=0; i <m * n; i++) {
+        double actual = io[i];
+        double expect = correct_return[i];
+        double error = actual - expect;
+        if( isnan(actual) && isnan(expect) || (error * error) < epsilon ) {
+            printf("* PASSED");
+        } else {
+            all_passed = 0;
+            printf("X FAILED");
+        }
+        printf(" -> test_kron at %i",i);
         printf(" -> %f returned",actual);
         printf(" -> %f correct\n",expect);
     }
