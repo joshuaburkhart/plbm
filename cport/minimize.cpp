@@ -746,32 +746,44 @@ double funct(double *d1_d2) {
 
     /*Vp=Vp./det(Vp)^(1/q);-----------------------------------*/
 
+//!!!!!!!!!!!!!testing________!!!!!!!!!
+printf("d1: %f, d2: %f, detVp: %f\n",d1,d2,matrx_det(B_QQ,q));
+
     array_rdv(B_QQ,B_QQ,q,q,pow(matrx_det(B_QQ,q),(1.00/((double) q))));
 
     /*V=kron(Vp,Vh);-----------------------------------*/
 
-//requires foreign B_PP and B_QQ
+      //requires foreign B_PP and B_QQ
 
     double *V_NN;
     V_NN = (double *) malloc(n*n*sizeof(double));
     kron(V_NN,B_QQ,q,q,B_PP,p,p);
 
+
+//!!!!!!!!!testing!!!!!!!!____
+printf("d1: %f, d2: %f, kron: {",d1,d2);
+
+for(int i = 0; i < n; i++){
+ printf(" %f,",V_NN[i*i]);
+}
+printf("}\n");
+
     /*invV=V\eye(n);-----------------------------------*/
 
-//requires foreign V_NN
+      //requires foreign V_NN
 
     matrx_inv(V_NN,V_NN,n); //saving memory by reusing name
 
     /*U=ones(length(X),1);-----------------------------------*/
 
-//independent
+      //independent
 
     double A_N[n];
     ones(A_N,n,1.00);
 
     /*b=(U'*invV*U)\(U'*invV*X);-----------------------------------*/
 
-//requires foreign A_N and V_NN
+      //requires foreign A_N and V_NN
 
     double B_N[n];
     double B_NN[n*n];
@@ -780,15 +792,18 @@ double funct(double *d1_d2) {
     matrx_mlt2(B_N,B_NN,1.00,n,X,n,1.00);
     matrx_mlt2(A_N,B_NN,1.00,n,A_N,n,1.00);
 
+//!!!!!!!!!!!!!!!!!!!!------testing!!!!!!!!
+    printf("d1: %f, d2: %f, b: %f\n",d1,d2,B_N[0] / A_N[0]);
+
     /*H=X-b;-----------------------------------*/
 
-//requires foreign B_N and A_N
+      //requires foreign B_N and A_N
 
     matrx_sub3(B_N,X,n,1.00,B_N[0] / A_N[0]);
 
     /*MSE=(H'*invV*H)/(n-1);-----------------------------------*/
 
-//requires foreign V_NN and B_N
+      //requires foreign V_NN and B_N
 
     tran(A_N,B_N,n,1.00);
     matrx_mlt2(B_NN,A_N,1.00,n,V_NN,n,n);
