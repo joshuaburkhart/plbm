@@ -160,6 +160,10 @@ int main(int argc,char *argv[]) {
     int matrx_inv_length_on_side_1= sqrt(sizeof(matrx_inv_test_input_1) / sizeof(double));
     test_matrx_inv_(matrx_inv_test_input_1,matrx_inv_expect_1,matrx_inv_length_on_side_1,epsilon);
 
+    double matrx_inv_test_input_2[]={8,1,6,3,5,7,4,9,2};
+    double matrx_inv_expect_2[]={0.1472,-0.1444,0.0639,-0.0611,0.0222,0.1056,-0.0194,0.1889,-0.1028};
+    int matrx_inv_length_on_side_2= sqrt(sizeof(matrx_inv_test_input_2) / sizeof(double));
+    test_matrx_inv_(matrx_inv_test_input_2,matrx_inv_expect_2,matrx_inv_length_on_side_2,epsilon);
 //ones
 
     double ones_test_input_1[]={0,0,0,0,0,0,0,0,0,0};
@@ -387,6 +391,7 @@ int main(int argc,char *argv[]) {
         matrx_mlt2(B_NN,B_N,1.00,n,V_NN,n,n);
         matrx_mlt2(B_N,B_NN,1.00,n,X,n,1.00);
         matrx_mlt2(A_N,B_NN,1.00,n,A_N,n,1.00);
+
     */
     /*H=X-b;-----------------------------------*/
     /*
@@ -441,8 +446,8 @@ int main(int argc,char *argv[]) {
     /* print results to screen */
     /* /////////////////////// */
 
-    printf("est=\n  %f  %f\n",*(XMIN),*(XMIN+1));
-    printf("MSE=\n  %f\n",YNEWLO);
+    printf("est=  %f  %f\n",*(XMIN),*(XMIN+1));
+    printf("MSE=  %f\n",YNEWLO);
     if(all_passed == 1) {
         printf("*** Congratulations! No tests FAILED, all PASSED!\n");
     } else {
