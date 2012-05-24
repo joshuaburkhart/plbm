@@ -82,7 +82,7 @@ void matrx_mlt2(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
         for(int j=0; j<nb; j++) {
             double sum=0;
             for(int k=0; k<na; k++) {
-                sum+=*(A+(i*na+k)) * *(B+(j+k*nb));
+                sum += *(A+(i*na+k)) * *(B+(j+k*nb));
             }
             out[i*nb+j] =sum;
         }
@@ -201,7 +201,7 @@ void ones(double out[],int m,int n) {
 
     #pragma omp parallel for
     for(int i=0; i<m*n; i++) {
-        out[i]=1;
+        out[i]=1.0;
     }
     return;
 }
@@ -220,14 +220,17 @@ void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
 void tran(double out[],double *A,int m,int n) {
 
-double tmp;
+double tmp[m*n];
 
     for(int i=0; i<m; i++) {
-        for(int j=i; j<n; j++) {
-           tmp = *(A+(i*m + j));
-           out[i*m + j] = *(A+(j*n +i));  
-           out[j*n + i] = tmp;
+        for(int j=0; j<n; j++) {
+		tmp[j*m + i] = *(A+(i*n + j));
         }
     }
+
+for(int i=0;i <(m*n); i++){
+out[i] = tmp[i];
+}
+
     return;
 }

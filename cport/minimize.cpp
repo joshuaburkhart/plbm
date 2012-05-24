@@ -756,6 +756,13 @@ license from a particular copyright holder is reinstated (a)
 		for(int i = 0; i < q*q; i++){
 			printf(" %f,",B_QQ[i]);
 		}
+		printf("\n");
+		//!!!!!!!testing______________!!!!!!!!!!
+		printf("d1: %f, d2: %f, p: %i, Vh: {",d1,d2,p);
+		for(int i = 0; i < p*p; i++){
+			printf(" %f,",B_PP[i]);
+		}
+		printf("\n");
 
 		/*V=kron(Vp,Vh);-----------------------------------*/
 
@@ -765,20 +772,26 @@ license from a particular copyright holder is reinstated (a)
 		V_NN = (double *) malloc(n*n*sizeof(double));
 		kron(V_NN,B_QQ,q,q,B_PP,p,p);
 
-
-		//!!!!!!!!!testing!!!!!!!!____
-		printf("d1: %f, d2: %f, kron: {",d1,d2);
-
-		for(int i = 0; i < n; i++){
-			printf(" %f,",V_NN[i*i]);
+		//!!!!!!!testing______________!!!!!!!!!!
+		printf("d1: %f, d2: %f, n: %i, kron: {",d1,d2,n);
+		for(int i = 0; i < n*n; i++){
+			printf(" %f,",V_NN[i]);
 		}
-		printf("}\n");
+		printf("\n");
 
 		/*invV=V\eye(n);-----------------------------------*/
 
 		//requires foreign V_NN
 
 		matrx_inv(V_NN,V_NN,n); //saving memory by reusing name
+
+		//!!!!!!!testing______________!!!!!!!!!!-> right here
+		printf("d1: %f, d2: %f, n: %i, invV: {",d1,d2,n);
+		for(int i = 0; i < n*n; i++){
+			printf(" %f,",V_NN[i]);
+		}
+		printf("\n");
+
 
 		/*U=ones(length(X),1);-----------------------------------*/
 
@@ -787,19 +800,43 @@ license from a particular copyright holder is reinstated (a)
 		double A_N[n];
 		ones(A_N,n,1.00);
 
+		//!!!!!!!testing______________!!!!!!!!!! -> right here
+		printf("d1: %f, d2: %f, n: %i, ones: {",d1,d2,n);
+		for(int i = 0; i < n; i++){
+			printf(" %f,",A_N[i]);
+		}
+		printf("\n");
+
 		/*b=(U'*invV*U)\(U'*invV*X);-----------------------------------*/
 
 		//requires foreign A_N and V_NN
 
 		double B_N[n];
-		double B_NN[n*n];
+		double C_N[n];
 		tran(B_N,A_N,n,1.00);
-		matrx_mlt2(B_NN,B_N,1.00,n,V_NN,n,n);
-		matrx_mlt2(B_N,B_NN,1.00,n,X,n,1.00);
-		matrx_mlt2(A_N,B_NN,1.00,n,A_N,n,1.00);
+	
+		//!!!!!!!testing______________!!!!!!!!!!-> wrong here
+		printf("d1: %f, d2: %f, n: %i, Ut: {",d1,d2,n);
+		for(int i = 0; i < n; i++){
+			printf(" %f,",B_N[i]);
+		}
+		printf("\n");
+
+		matrx_mlt2(C_N,B_N,1.00,n,V_NN,n,n);
+		//!!!!!!!testing______________!!!!!!!!!!
+		printf("d1: %f, d2: %f, n: %i, Bt: {",d1,d2,n);
+		for(int i = 0; i < n; i++){
+			printf(" %f,",C_N[i]);
+		}
+		printf("\n");
+
+		matrx_mlt2(B_N,C_N,1.00,n,X,n,1.00);
+		matrx_mlt2(A_N,C_N,1.00,n,A_N,n,1.00);
 
 		//!!!!!!!!!!!!!!!!!!!!------testing!!!!!!!!
 		printf("d1: %f, d2: %f, b: %f\n",d1,d2,B_N[0] / A_N[0]);
+
+		//exit(0);
 
 		/*H=X-b;-----------------------------------*/
 
@@ -812,11 +849,11 @@ license from a particular copyright holder is reinstated (a)
 		//requires foreign V_NN and B_N
 
 		tran(A_N,B_N,n,1.00);
-		matrx_mlt2(B_NN,A_N,1.00,n,V_NN,n,n);
-		matrx_mlt2(B_NN,B_NN,1.00,n,B_N,n,1.00);
+		matrx_mlt2(C_N,A_N,1.00,n,V_NN,n,n);
+		matrx_mlt2(C_N,C_N,1.00,n,B_N,n,1.00);
 
 		free(V_NN);
-		return B_NN[0] / ((double) n - 1);
+		return C_N[0] / ((double) n - 1);
 	}
 
 //reference: http://people.sc.fsu.edu/~jburkardt/cpp_src/asa047/asa047.html

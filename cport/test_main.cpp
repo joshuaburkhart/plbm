@@ -153,6 +153,12 @@ int main(int argc,char *argv[]) {
 	int tran_length_on_side_1= sqrt(sizeof(tran_test_input_1) / sizeof(double));
 	test_tran(tran_test_input_1,tran_expect_1,tran_length_on_side_1,tran_length_on_side_1,epsilon);
 
+        double tran_test_input_2[]={1,2,3,4,5,6,7,8};
+	double tran_expect_2[]={1,2,3,4,5,6,7,8};
+	int tran_num_rows_2=8;
+	int tran_num_cols_2=1;
+	test_tran(tran_test_input_2,tran_expect_2,tran_num_rows_2,tran_num_cols_2,epsilon);
+
 	//matrx_inv
 
 	double matrx_inv_test_input_1[]={2,3,4,5,6,7,8,9,0};
@@ -164,6 +170,7 @@ int main(int argc,char *argv[]) {
 	double matrx_inv_expect_2[]={0.1472,-0.1444,0.0639,-0.0611,0.0222,0.1056,-0.0194,0.1889,-0.1028};
 	int matrx_inv_length_on_side_2= sqrt(sizeof(matrx_inv_test_input_2) / sizeof(double));
 	test_matrx_inv_(matrx_inv_test_input_2,matrx_inv_expect_2,matrx_inv_length_on_side_2,epsilon);
+
 	//ones
 
 	double ones_test_input_1[]={0,0,0,0,0,0,0,0,0,0};
@@ -745,7 +752,7 @@ void test_tran(double io[],double correct_return[],double m,double n,double epsi
 
 	tran(io,io,m,n);
 
-	for(int i=0; i <m * n; i++) {
+	for(int i=0; i <(m * n); i++) {
 		double actual = io[i];
 		double expect = correct_return[i];
 		double error = actual - expect;
