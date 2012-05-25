@@ -255,6 +255,21 @@ int main(int argc,char *argv[]) {
 	int length_on_side_11 = sqrt(sizeof(det_test_input_11) / sizeof(double));
 	test_matrx_det(det_test_input_11,expect_11,length_on_side_11,big_epsilon);
 
+	double det_test_input_12[]={3,0,6,1};
+	double expect_12=3;
+	int length_on_side_12 = sqrt(sizeof(det_test_input_12) / sizeof(double));
+	test_matrx_det(det_test_input_12,expect_12,length_on_side_12,big_epsilon);
+
+	double det_test_input_13[]={3,0,0,1};
+	double expect_13=3;
+	int length_on_side_13 = sqrt(sizeof(det_test_input_13) / sizeof(double));
+	test_matrx_det(det_test_input_13,expect_13,length_on_side_13,big_epsilon);
+
+	double det_test_input_14[]={3,0,4,0,1,0,4,0,0};
+	double expect_14=-16;
+	int length_on_side_14 = sqrt(sizeof(det_test_input_14) / sizeof(double));
+	test_matrx_det(det_test_input_14,expect_14,length_on_side_14,big_epsilon);
+
 	//test funct steps with several values
 
 	/*Vh=(d1.^tau1).*(1-d1.^(2*initVh))./(1-d1^2);--------------------------------------*/
@@ -595,7 +610,12 @@ void test_matrx_det(double A[], double expect, int size, double epsilon){
 
 void test_vh_rdv_calculation(double io_vh[], double correct_return[], int correct_size, double epsilon){
 
-	array_rdv(io_vh,io_vh,p,p,pow(matrx_det(io_vh,p),(1.00/((double) p))));
+	double detrm = matrx_det(io_vh,p);
+	double odp = (1.00/(double) p);
+
+	printf("test_vh_rdv matrx_det is %f ",detrm);
+
+	array_rdv(io_vh,io_vh,p,p,pow(detrm,odp));
 
 	for(int i=0; i <correct_size; i++) {
 		double actual = io_vh[i];
@@ -607,7 +627,7 @@ void test_vh_rdv_calculation(double io_vh[], double correct_return[], int correc
 			all_passed = 0;
 			printf("X FAILED");
 		}
-		printf(" -> test_vp_rdv_calculation at %i",i);
+		printf(" -> test_vh_rdv_calculation at %i",i);
 		printf(" -> %f returned",actual);
 		printf(" -> %f correct\n",expect);
 	}

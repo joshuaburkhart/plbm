@@ -746,23 +746,7 @@ license from a particular copyright holder is reinstated (a)
 
 		/*Vp=Vp./det(Vp)^(1/q);-----------------------------------*/
 
-		//!!!!!!!!!!!!!testing________!!!!!!!!!
-		printf("d1: %f, d2: %f, detVp: %f\n",d1,d2,matrx_det(B_QQ,q));
-
 		array_rdv(B_QQ,B_QQ,q,q,pow(matrx_det(B_QQ,q),(1.00/((double) q))));
-
-		//!!!!!!!testing______________!!!!!!!!!!
-		printf("d1: %f, d2: %f, Vp: {",d1,d2);
-		for(int i = 0; i < q*q; i++){
-			printf(" %f,",B_QQ[i]);
-		}
-		printf("\n");
-		//!!!!!!!testing______________!!!!!!!!!!
-		printf("d1: %f, d2: %f, p: %i, Vh: {",d1,d2,p);
-		for(int i = 0; i < p*p; i++){
-			printf(" %f,",B_PP[i]);
-		}
-		printf("\n");
 
 		/*V=kron(Vp,Vh);-----------------------------------*/
 
