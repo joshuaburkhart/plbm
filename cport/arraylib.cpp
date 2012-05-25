@@ -110,6 +110,7 @@ void array_pow(double out[],double d,double *A,int m,int n) {
 double matrx_det(double *A,int n) {
 
 	double B[n*n];
+
 #pragma omp parallel for
 	for(int i=0; i < n*n; i++){
 		B[i] = *(A+i);
@@ -120,13 +121,15 @@ double matrx_det(double *A,int n) {
 	for(int i=0;i<n;i++){   
 		for(int j=0;j<n;j++){   
 			mult= *(B+(j*n +i)) / *(B+(i*n +i));
-			if(i==j) continue;
+			if(i!=j){
 #pragma omp parallel for
-			for(int k=0;k<n;k++){   
-				*(B+(j*n +k)) = *(B+(j*n +k)) - (*(B+(i*n +k)) * mult);
-			}
+				for(int k=0;k<n;k++){   
+					*(B+(j*n +k)) = *(B+(j*n +k)) - (*(B+(i*n +k)) * mult);
+				}
+			}	
 		}
 	}
+
 	for(int i=0;i<n;i++){
 		deter *= *(B+(i*n +i));
 	}   
@@ -146,6 +149,7 @@ void kron(double out[],double *A,int ma,int na,double *B,int mb,int nb) {
 
 	int min_m = ma < mb ? ma : mb;
 	int min_n = na < nb ? na : nb;
+
 #pragma omp parallel for
 	for(int i=0; i<ma*mb; i++) {
 		for(int j=0; j<na*nb; j++) {
