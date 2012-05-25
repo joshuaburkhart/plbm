@@ -161,13 +161,13 @@ int main(int argc,char *argv[]) {
 
 	//matrx_inv
 
-	double matrx_inv_test_input_1[]={2,3,4,5,6,7,8,9,0};
-	double matrx_inv_expect_1[]={-2.1,1.2,-0.1,1.8667,-1.0667,0.2,-0.1,0.2,-0.1};
+	double matrx_inv_test_input_1[]={1,2,2,3};
+	double matrx_inv_expect_1[]={-3,2,2,-1};
 	int matrx_inv_length_on_side_1= sqrt(sizeof(matrx_inv_test_input_1) / sizeof(double));
 	test_matrx_inv_(matrx_inv_test_input_1,matrx_inv_expect_1,matrx_inv_length_on_side_1,epsilon);
 
-	double matrx_inv_test_input_2[]={8,1,6,3,5,7,4,9,2};
-	double matrx_inv_expect_2[]={0.1472,-0.1444,0.0639,-0.0611,0.0222,0.1056,-0.0194,0.1889,-0.1028};
+	double matrx_inv_test_input_2[]={-1.0000,0.5000,0,-0.4000,0.5000,1.0000,1.0000,1.0000,0,1.0000,1.0000,1.0000,-0.4000,1.0000,1.0000,9.0000};
+	double matrx_inv_expect_2[]={0.0000,2.0000,-2.0000,-0.0000,2.0000,4.0800,-4.1800,0.1000,-2.0000,-4.1800,5.4050,-0.2250,-0.0000,0.1000,-0.2250,0.1250};
 	int matrx_inv_length_on_side_2= sqrt(sizeof(matrx_inv_test_input_2) / sizeof(double));
 	test_matrx_inv_(matrx_inv_test_input_2,matrx_inv_expect_2,matrx_inv_length_on_side_2,epsilon);
 
