@@ -75,7 +75,8 @@ load plantphyno01000_3.txt /ascii
 load bactphyno01000_3.txt /ascii
 load Ano01000_3.txt /ascii
 
-matlabpool open 3
+%matlabpool open 3
+matlabpool open 32
 
 %Assign matricies
 Vh=plantphyno01000_3(1:end,1:end);
@@ -214,8 +215,8 @@ d1_d2=[d1 d2]
 				guessd=dtrue + [0 .1];
 				%[est MSE]=fminsearch('IGfunct',guessd,options);
         t = getCurrentTask(); 
-        [est, MSE]=runIGfunctpar(initVh,initVp,n,p,q,X,tau1,tau2, t.ID, options, guessd);
-
+        %[est, MSE]=runIGfunctpar(initVh,initVp,n,p,q,X,tau1,tau2, t.ID, options, guessd);
+		[est MSE]=mex_gateway(initVh,initVp,n,p,q,X,tau1,tau2,guessd);
 				% Collect estimates and MSE into bootlist
 				bootlist(i,:) = [abs(est) MSE];		
 			end
