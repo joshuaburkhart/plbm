@@ -76,7 +76,7 @@ load bactphyno01000_3.txt /ascii
 load Ano01000_3.txt /ascii
 
 %matlabpool open 3
-matlabpool open 32
+matlabpool open 12
 
 %Assign matricies
 Vh=plantphyno01000_3(1:end,1:end);
