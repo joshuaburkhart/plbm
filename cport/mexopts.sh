@@ -114,7 +114,7 @@
             # C++keyManufacturer: GNU
             # C++keyLanguage: C++
             # C++keyVersion: 
-            CXX='g++'
+            CXX='/usr/local/packages/gcc/4.5.3/bin/g++'
             CXXFLAGS='-ansi -D_GNU_SOURCE'
             CXXFLAGS="$CXXFLAGS -fPIC -fno-omit-frame-pointer -pthread"
             CXXLIBS="$RPATH $MLIBS -lm -llapack -lblas -fopenmp"
